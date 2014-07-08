@@ -1,0 +1,904 @@
+﻿/* =====================================================
+ *
+ * NTConfig_Paladin.ntl , a character base setting, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTConfig_Paladin.ntl, 一個聖騎人物的基礎設置, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權  
+ * 自本次寫的所有代碼以GPL許可  
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+var NTConfig_UseRedemptionHP;
+var NTConfig_UseRedemptionMP;
+
+function NT_LoadConfig()
+{
+	//-----------------------------------------------------------------------------------------------------
+
+	NTConfig_Script.push("ConfigCheck.ntj"); 			// 這必須註釋掉用於防止未配置的遊戲角色執行BOT。
+
+	//------------------------------------------------------------------------------>>
+	// Clone Hunter Options.
+	//------------------------------------------------------------------------------>>
+
+	//NTConfig_Script.push("NTCloneHunter.ntj");
+		NTConfig_HotIP	= [32]; 						// Add IP's last octet seperated by commas.
+		NTConfig_SaySomethingNoob = "Hot IP Found";		// Anti DC message during game.
+		NTConfig_JustAHunter = true; 					// Used if only hunting IP's, set true to idle in town (Make sure this is the only script pushed).
+		NTConfig_AvoidRD = 180;							// Time in seconds to wait in town to avoid R/D before creating next game (NTConfig_JustAHunter must be true).
+
+	//------------------------------------------------------------------------------
+	// Aura Stacking
+	//		Note: There are no failsafes, these are heavy beta. For manually enhanced play ONLY.
+	//		(Gear WILL be dropped.)
+	//------------------------------------------------------------------------------
+	//NTConfig_Script.push("NTAuraStacking.ntj"); 		// THIS IS NOT SAFE, WE ARE NOT RESPONSIBLE FOR LOST GEAR!!!!
+		NTConfig_ArmorStack 	= 0;					// Stacks armor aura the # of times, 0 to disable
+		NTConfig_HelmStack 		= 0;					// Stacks helm aura the # of times, 0 to disable
+		NTConfig_WeaponStack 	= 0;					// Stacks weapon aura the # of times, 0 to disable
+
+	//-------------------------------------------------------------------------------
+	// 		Level announcerr  等級提昇祝賀詞
+	//-------------------------------------------------------------------------------
+	NTConfig_Announcer = false;							// Run the level announcer
+	NTConfig_LevelMin = 50;							// Lowest level to announce a level up
+	NTConfig_Output = "恭喜提昇至等級";					// What to say on level up
+	NTConfig_LogIt = true;
+
+	//------------------------------------------------------------------------------
+	// Leech, Leech Fighter & Team Botting Settings 團戰
+	//------------------------------------------------------------------------------
+
+	NTConfig_Leader = "config me";						// 團戰領隊角色名稱. (不是設成自己角色名稱.)
+	NTConfig_PartyOnlyLeader = false;					// 只加入領隊的組隊要求 (NTConfig_Leader)? (如果設成 true, 底下 NTConfig_PublicMode 必須設定為 false).
+	NTConfig_PartyMaxTime = 20;						// Time in seconds the leecher has to party with leader before exiting game
+	NTConfig_LeechBo = true; 							// 使用團隊[戰嚎/戰指] Set false to disable BO & BC cast by leecher.
+	NTConfig_LeechExitDelay = 1000;						// 延遲幾毫秒退出團戰遊戲. (避免同時退出造成崩潰)
+
+	//NTConfig_Script.push("NTLeechCows.ntj");			// 牛關 (領隊必須執行 NTCow.ntj )Leech fighter cow script.  Must run leader with NTCow.ntj
+		NTConfig_WaitForCowPortal = 240;					// 領隊開啟牛關紅門之前等待幾秒時間
+
+	//NTConfig_Script.push("NTTravLeader.ntj");			// 催凡克 (領隊) Trav Leader
+		LeechTrav_TakeTp =  "打開團戰傳送點";				// Message from leader signifying you to take portal. (Must be different than Diablo & Baal tp messages.)
+	//NTConfig_Script.push("NTTravLeech.ntj");			// 催凡克 (跟團) Trav Leecher (NTConfig_Leader must be configured above).
+		NTConfig_TakeTpTravincal = "打開團戰傳送點";			// This must match leaders LeechTrav_TakeTp & must be different than Diablo & Baal tp messages.
+
+	//NTConfig_Script.push("NTUniversalDiabloLeech.ntj");	// 破壞神 (NTConfig_Leader must be configured above).
+		NTConfig_LeechChaos = 2;							// 手動打怪 0 = Portal Leecher, 跟跑 1 = Leech follow, 跟打 2 = Leech Fighter  (leech portals).
+		NTConfig_followDelay = 8000;					// Delay in milliseconds to enter follow portal
+		ChaosLocx = 7763; ChaosLocy = 5267;				//  跟班吸經驗躲避位置 Hide location for Passive leecher alternate 備用點: ChaosLocx = 7767; ChaosLocy = 5263;
+		NTConfig_TakeTpDiablo =  "打開入口傳送點, 可以的話請幫忙清除小妖! Hot TP.";			// 領隊要求加入戰局的訊息 (Must be different than Baal & Trav tp messages.)
+		NTConfig_UseChatCommandPortal = true;			// Use portal after TakeTpDiablo message? (False will attempt taking first TP made by leader, ignores TakeTpDiablo.)
+	//NTConfig_Script.push("NTUniversalBaalLeech.ntj");	// 巴爾團戰
+		NTConfig_LeechBaal = 1; 											// 1 = Leech Fighter (傳送), 2 = Leech Fighter (步行), 3 = Passive Leecher (跟班吸經驗).
+		NTConfig_TakeTpBaal = "打開傳送點, 可以的話請幫忙清除小妖!";				// Message from leader signifying you to take portal. (Must be different than Diablo & Trav tp messages.)
+		NTConfig_LeechPrecast = false; 					// 使用團隊戰指/戰嚎 Do you want your leecher to precast?
+		NTConfig_TeleEachWaveHelper = false;       // 每波怪出現時使用傳送功能 (讓傭兵回來打怪) Teleport bot before each wave to keep merc close (not position based yet)?
+		leechpos = [15114, 5069];						// X,Y coord for leechers to stand (跟班吸經驗站立位置). 備用點: [15118, 5003]
+		NTConfig_LeechHydra = 0; 							// 避開第三波火舌 0 = Don't Move, 1 = Right Side, 2 = Left Side. (Use left side if you have a leecher grabing xp shrines. (Settings Below))
+		NTConfig_FollowtoWorldStone = true;				// 跟進巴爾房 Go down to Baal in WS Chamber after waves?
+		NTConfig_WaitAtPassiveSPotForBaal = false;		// 攻打巴爾前等待跟班進場 leech fighters will wait at passive leech spot for baal to enter WS Chamber.  Helpful if you having problems with baal bugging and not entering portal
+		NTConfig_GrabShrine = "";				// Use shrine & return to act 5 portal Area (Leaders hot tp message is very effective, also must be different than Diablo & Trav tp messages).
+		_FindXPArea = [];								// Area ID's, (2, 3, 4, 5, 6, 7). Set array empty "[]" to leech without grabbing shrines.
+		NTConfig_ClearAroundShrine = false;				// Clear around shrine before going back to town?
+
+	//NTConfig_Script.push("NTHelper.ntj");														// 
+		NTConfig_DoNotFollowAreas = [34, 35, 36, 107, 128, 129, 130, 124, 100, 101, 102];		// Won't take a WP or TP to these areas
+		NTConfig_DoNotAttackAreas = [34, 35, 36, 107, 128, 129, 130, 124, 100, 101, 102];		// Won't attack in these areas
+		NTConfig_AllowCommands = false;															// Allows leader to issue commands such as 'exit', 'town', 'follow', etc.  'follow' is ON by default.
+		NTConfig_PortalAtLeechersCorpses = true;												// Make a TP at players corpses when they die near you
+			NTConfig_MessageDeadPlayers = false;												// Send a msg to those players when they die
+			NTConfig_DeadPlayerMsg = "My tp for your corpse";									// The actual message to send
+		NTConfig_GreetPlayers = false;															// Greet players who join your party
+			NTConfig_GreetMsg = "Hello, %name%!";												// The message to send
+		NTConfig_HelperHumor = false;															// 0.3% chance to say a silly phrase and skip doing the command you issued.
+		NTConfig_Quest_Cain				= false;												// true/false to do quests when using rush commands
+		NTConfig_Quest_Radament			= false;												// true/false to do quests when using rush commands
+		NTConfig_Quest_Izual			= false;												// true/false to do quests when using rush commands
+		NTConfig_Quest_Tome				= false;												// true/false to do quests when using rush commands
+		NTConfig_Quest_Shenk			= false;												// true/false to do quests when using rush commands
+		NTConfig_Quest_Anya				= false;												// true/false to do quests when using rush commands
+		NTConfig_Quest_Ancients			= false;												// true/false to do quests when using rush commands
+		NTConfig_Quest_Baal				= false;												// true/false to do quests when using rush commands
+		NTConfig_TpHarem				= false;												// true/false to tp at harem after duriel
+		NTConfig_KillCouncils			= false;												// true/false to kill all counsel members
+		NTConfig_ClearCS 				= false;												// true/false to clear CS when doing diablo quest
+		NTConfig_CSDodge 				= false;												// dodge in CS
+		// 聖騎專用技能
+		NTConfig_UsePaliAura = 0; 								// 設定使用的靈氣技能 Set to the skill # of the aura you want to use.
+		NTConfig_LeechHolyBoltBaal = false;				// 使用聖光彈 Use Holy bolt attack sequence?
+		NTConfig_LeechWalkAround = false;				// 移動位置如果聖光彈阻止你走動 Will cause you char to move slightly if Holy Bolt is being blocked.
+
+	//------------------------------------------------------------------------------
+	// Boss Configuration  任務關卡
+	//------------------------------------------------------------------------------
+
+	//------------------------------------------------------------------------------
+	// Act 1 Scripts 
+	//------------------------------------------------------------------------------
+	// 0: xxxxxxx only	0 : Don't Clear		1:Clear All			2 : Clear While Skipping	-1 : Disable				0: Chest Only
+	// 0:只殺主BOSS	0 : 不清除區域	1:清除該區域	2 : 清除該區域頭目怪	-1 : 不去該區域	0: 只開寶箱
+	// true = 確定		false = 不做
+	//------------------------------------------------------------------------------
+	
+	//NTConfig_Script.push("NTBloodMoor.ntj");	//屍體發火 邪惡洞窟 - 鮮血荒地
+		NTConfig_ClearBloodMoor = false; 			// 清除鮮血荒地? Clears Blood Moor
+		NTConfig_DenOfEvil = true;						// 屍體發火 Clears Den of Evil
+		NTConfig_ClearDenTwice = true;				// 清除兩次以確定任務完成 Clears Den twice, good for getting quest
+	//NTConfig_Script.push("NTColdPlains.ntj");			//冰冷烏鴉 畢須博須 - 冰冷之原
+		NTConfig_ClearColdPlains = 0; 					// 畢須博須 0 : Bishibosh Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearCPCaves = 0;						// 冰冷烏鴉 0 : Cold Crow Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_CPSpecialChest = true; 				// 清除地下二層? Set to true to grab Cave level 2 chest, false if not
+	//NTConfig_Script.push("NTBurialGrounds.ntj");		//血鳥 墓地 大陵寢 冰冷之原-埋骨之地
+		NTConfig_ClearBurialGrounds = 0;				// 血鳥 0 : Blood Raven only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearMausoleum = 1; 		 			// 大陵寢 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearCrypt = 1;							//  墓地 0 : Bonebreaker only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTStonyField.ntj");	// 石塊曠野
+		NTConfig_ClearStony = 0;			 				// 尼拉卡修 0 : Rakanishy only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearTristram = 2;						// 格里斯瓦得 - 崔斯特瑞姆 0 : Don't Clear, 1 : Clear All, 2 : Griswold only
+	//NTConfig_Script.push("NTUndergroundPassage.ntj");	// 地底通道  石塊曠野-黑暗深林
+		NTConfig_ClearPassageLevel1 = 0;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearPassageLevel2 = false;		// 通道二層 Set true to clear Underground Passage Level 2, false if not.
+	//NTConfig_Script.push("NTDarkWood.ntj");	// 樹頭木拳 - 黑暗森林
+		NTConfig_ClearDarkWood = 0; 					// 樹頭木拳 0 : Treehead Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTBlackMarsh.ntj");	// 女伯爵 高塔地牢/洞窟 黑色荒地
+		NTConfig_ClearBlackMarsh = 0;					// 黑色荒地 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearForgotten = 0;						// 女伯爵 0 : Countess Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearTheHole = -1;						// 黑色荒地洞窟 0 : Snag chests only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTTamoeHighland.ntj");		// 泰摩高地 地洞
+		NTConfig_ClearTamoe = 0;							// 泰摩高地 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearTamoePit = -1; 					// 地洞 0 : Chest Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTOuterCloister.ntj");	// 外側回廊
+		NTConfig_ClearOCloister = 0; 						// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTBarracks.ntj");		// 鐵匠 外側回廊-軍營
+		NTConfig_ClearBarracks = 0;						// 0 : Smith Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTJail.ntj");    			// 監牢 Will only clear Jail Level 1 due to pathing issues
+		NTConfig_ClearJail = 0;								// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTInnerCloister.ntj");	// 內側回廊-大教堂
+		NTConfig_ClearInnerCloister = 0;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearCathedral = 0;						// 骨灰 0 : Boneash Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTCatacombs.ntj");	// 安達利爾
+		NTConfig_ClearAllCatacombs = 0;				// 0 : Andy only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_PositionAndy = 0;						// 攻擊地點 右側0 : right wall, 左側1 : left wall, 面對面2 : very close, 3 : 躲開安達攻擊andy dodge, 4 : 安達攻擊範圍之外 out of andy range
+		NTConfig_ClearAndarielThrone = false;	// 殺死安達之後是否清光周圍區域 Set to true to clear the throne room after Andy, false if not
+
+	//NTConfig_Script.push("NTMooMooFarm.ntj"); // 秘密母牛關卡 There are currently NO options for this script, still working on it
+		NTConfig_CowKingChicken = 95;  					// 偵測母牛血量 設定0不偵測 percentage of king's hp if below this the bot will close d2.  Set to 0 to dissable.  Note that this has a limited range will NOT help in pubs
+		NTConfig_OpenCowChest = true;					// 是否開箱子或撬開石塊
+
+	//------------------------------------------------------------------------------
+	// Act 2 Scripts
+	//------------------------------------------------------------------------------
+
+	//NTConfig_Script.push("NTSewersRad.ntj");	// 羅達門特 - 下水道第三層
+		NTConfig_RadSewerStairs = true; 				// true:從城鎮開始走 false:使用傳點 Set to true to start from town stairs, false to start from the WayPoint
+		NTConfig_ClearRadSewers = 0;					// 羅達門特0 : Radament only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTRockyWaste.ntj");	// 爬行的容貌 - 碎石荒地-石製古墓第二層
+		NTConfig_WalkFromGohlein = true;			//  true:從城鎮開始走 false:使用傳點 Set to true to walk from town, false uses WP
+		NTConfig_ClearRockyWaste = 0;					// 碎石荒地 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearStonyTomb = 0;					// 石製古墓 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTDryHills.ntj");		// 瘋狂血腥女巫 - 乾燥高地-死亡神殿第三層
+		NTConfig_ClearDryHills = 0;						// 乾燥高地 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearHallsofDead = 0;					// 死亡神殿 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTFarOasis.ntj");		// 遙遠的綠洲 蠕蟲巢穴
+		NTConfig_ClearFarOasis = 0;  						// 遙遠的綠洲 0 : BeetleBurst only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearMaggotLair = 0; 					// 冰蟲-蠕蟲巢穴 0 : Coldworm the Burrower Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTLostCity.ntj");		// 古代通道 - 遺失的城市
+		NTConfig_ClearLostCity = 0; 						// 黑暗長老 0 : Dark Elder only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearAncientTunnels = 1;			// 古代通道 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTClawViperTemple.ntj");	// 牙皮  遺失的城市-利爪腹蛇神殿第二層
+		NTConfig_ClearViperTemple = 0;				// 牙皮 0 : Fangskin, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTHaremToCellar.ntj");	// 火之眼 - 皇宮監牢
+		NTConfig_ClearHarem2 = 0;						//  監牢二層 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearPalaceCellar = -1; 				// 火之眼 0 : Fire Eye only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTArcaneSanctuary.ntj");	// 召喚者 - 神秘庇護所
+		NTConfig_ClearArcaneSanc = 0;					// 召喚者 0 : Summoner Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_OpenSummonerChests = false; 	// 開其他寶箱 Set true to open the chests on the 3 Non-Summoner corners
+	//NTConfig_Script.push("NTCanyonOfMagi.ntj");		// 都瑞爾 - 塔拉夏古墓
+		NTConfig_ClearMagiCanyon = 0; 					// 術士峽谷及古墓 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_RaidTombs = 0; 							// 都瑞爾 0 : Duriel Only, 1 : Chests Only, 2 : Clear Only, 3 : Everything, -1 : Disable
+		NTConfig_DirectToDuriel=true;				// true 直接殺都瑞爾不殺門口小怪 false 清光門口小怪再接殺都瑞爾
+
+	//------------------------------------------------------------------------------
+	// Act 3 Scripts
+	//------------------------------------------------------------------------------
+
+	//NTConfig_Script.push("NTSpiderForest.ntj");	// 燃燒者-瑋布 蜘蛛洞穴 - 蜘蛛森林
+		NTConfig_ClearArachnidLair = 0;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearSpiderForest = 0;         		// 蜘蛛森林 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearSpiderCavern = 0; 				// 蜘蛛洞穴 0 : Sszark Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTGreatMarsh.ntj");		// 龐大濕地		
+		NTConfig_ClearGreatMarsh = 0;					// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTFlayerJungle.ntj");		//  剝皮地窖 - 剝皮叢林
+		NTConfig_ClearFlayerJungle = 0; 				// 0 : StormTree Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearFlayerDungeons = 0;			// 古巫醫-印都 0 : Endugu Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearSwampyPit = 0;					// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTLowerKurast.ntj");		// 庫拉斯特下層
+		NTConfig_ClearLower = 0;						// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_LowerChests = true;				// 開啟寶箱 Set to true to grab chests, false if not
+	//NTConfig_Script.push("NTKurastBazaar.ntj");	// 庫拉斯特商場-殘破神殿
+		NTConfig_ClearBazaar = 0;						// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_BazaarChests = true;				// 開啟寶箱 Set to true to grab chests, false if not
+		NTConfig_ClearRuinedTemple = 0; 				// 殘破神殿 0 : Sarina Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearDisusedFane = 0;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearSewersAct3 = 0;					// 冰鷹 0 : Icehawk Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTUpperKurast.ntj");		// 庫拉斯特上層-下水道
+		NTConfig_ClearForgottenTemple = 0;			// 神殿 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearForgottenReliquary = 0;		// 神殿 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearUpper = 0;						// 清光上層 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_UpperChests = true;					// 開啟寶箱 Set to true to grab chests, false if not
+	//NTConfig_Script.push("NTTravincal.ntj");		//崔凡克
+		NTConfig_ClearRuinedFane = 0;					// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearDisusedReliquary = 0;			// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearTravincal = 0;						// 議會成員 0 : Council Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTDuranceOfHate.ntj");	// 莫菲斯托
+		NTConfig_ClearDury = 0;							// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_KillDuryCouncil = true;			// 議會成員 Set to true to kill Council, false if not
+		NTConfig_KillMeph = true;						// 莫菲斯托 Set to true to kill Mephisto, false if not
+		NTConfig_RedPortal = true;						//  使用傳送門 Set to true to use Red Portal, false if not
+
+	//------------------------------------------------------------------------------
+	// Act 4 Scripts
+	//------------------------------------------------------------------------------
+
+	//NTConfig_Script.push("NTOutterSteppes.ntj");		// 郊外大草原
+		NTConfig_ClearOutterSteppes = 2;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTPlainsOfDespair.ntj");	//衣卒爾 - 絕望平原
+		NTConfig_ClearPlains = 0; 							// 0 : Izual only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTCityOfDamned.ntj");
+		NTConfig_ClearCityOfTheDamned = 0;		// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTRiverOfFlame.ntj");		// 海法斯特盔甲製作者 - 火焰之河
+		NTConfig_ClearRiverOfFlame = 0; 				// 0 : Hephasto only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTChaosSanctuary.ntj");		// 暗黑破壞神 - 混純避難所
+		NTConfig_Dodge = true;	 						// 使用規避技巧
+		NTConfig_FastChaos = false;	 					// true: 快速清除封印 false: 清除全部小怪 Set true to clear seal area/bosses, false for full
+		NTConfig_EvenFasterChaos = false;			// true: 只清除封印主怪 flase: 全部清除 Set to true to clear ONLY the seal bosses at each seal.
+		NTConfig_Entrance = true;	 						// true: 從封印進入點開始 false: 從入口開始 Set true to start from Entrance, false for Star
+		NTConfig_LeechSupport = true;	 				// 支援團戰 Set true to support leechers, false if not
+
+	//--------------------------//
+	// "Public Diablo Settings" 團戰支援設定 //
+	//--------------------------//
+
+	NTConfig_CS_SafeTP 			= "打開安全傳送點 TP up.";			// Message for the Safe TP
+	NTConfig_CS_HotTP 			= "打開入口傳送點, 可以的話請幫忙清除小妖! Hot TP.";			// Message for the Hot TP
+	NTConfig_CS_EntranceTP 		= "打開王座傳送點, 可以的話請幫忙清除小妖!";		// Message for the Entrance TP
+	NTConfig_CS_StarTP 			= "打開入口傳送點, 可以的話請幫忙清除小妖!";			// Message for the Star TP
+	NTConfig_CS_NextGame		= "下一場..... ";		// Message after Diablo is dead
+	NTConfig_CS_LeechSupTP		= "打開封印團戰傳送點 TP up.";		// Message for LeechSupport
+	NTConfig_CS_SealBasher		= "請別踩封印.";	// Message if people hit seals (Seal bashers, lol)
+
+	//-----------------------------------------------------------------------------------
+	// Act 5 Scripts
+	//------------------------------------------------------------------------------------
+
+	//NTConfig_Script.push("NTBloodyFoothills.ntj");	// 血腥丘陵;
+		NTConfig_ClearBloodyFoothills = 0;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_BloodyFoothillsBoss = 0;				// 督軍山克 0 : Shenk, 達克法恩 1: Dac Farren, 2 : Both, -1 : Disable
+	//NTConfig_Script.push("NTFrigidHighlands.ntj");	// 冰凍高地
+		NTConfig_ClearFrigidHighlands = 0;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_KillEldritch = true;					// 矯正者-怪異 Set true to kill Eldritch, false if not
+		NTConfig_KillSharptooth = false;			 	// 利牙殺手 Set true to kill Sharptooth Slayer, false if not
+		NTConfig_KillEyeBack = false;				 	// Set true to kill Eyeback The Unleashed, false if not
+		NTConfig_ClearAbaddon = -1;						// 0 : Chest Only, 1 : Clear Path 2 : Clear All
+	//NTConfig_Script.push("NTArreatPlateau.ntj");		// 亞瑞特高原 狂暴者-眼魔 剝殼凹槽
+		NTConfig_ClearArreatPlateau = 0;				// 0 : Thresh Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ArreatEvilUrn = false;				// Set true to open Evil Urn, false if not
+		NTConfig_ClearPitOfAcheron = 0;				// 0 : Chest Only, 1 : Clear Path 2 : Clear All
+	//NTConfig_Script.push("NTCrystallinePassage.ntj");	// 水晶洞窟-冰河 冰凍魔怪
+		NTConfig_ClearCrystalline = 0;					// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearFrozenRiver = 0;					// 冰凍魔怪 0 : Frozenstein Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTNihlathaksTemple.ntj");	// 尼拉塞克的神殿
+		NTConfig_UseTemplePortal = true; 			// 使用安亞的紅門 Use red portal in act 5? (Set false for waypoint.)
+		NTConfig_KillPindleskin = true; 				// 暴躁外皮 Set true to kill Pindleskin, false if not
+		NTConfig_KillNihlathak = false;				// 尼拉塞克 Set true to kill Nihlathak, false if not
+		NTConfig_OpenEvilUrnOrChests = -1;		// 開啟寶箱 0 : Evil Urn, 1 : Super Chests, 2 : Both, -1 : Don't Open
+		NTConfig_ClearHalls = 0;								// 清除區域 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_CheckVipers = true; 				// 檢查古墓腹蛇 End script if Tomb Vipers are found around Nihlathak?
+	//NTConfig_Script.push("NTGlacialTrail.ntj");	// 冰河路徑
+		NTConfig_ClearGlacialTrail = 0;					// 骨碎破壞者 0 : Bonesaw Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+		NTConfig_ClearDrifterCavern = 0;				// 漂泊者洞穴 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+	//NTConfig_Script.push("NTFrozenTundra.ntj");		// 冰凍苔原
+		NTConfig_ClearFrozenTundra = 0;				// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearInfernalPit = 0;					// 開寶箱 0 : Chest Only, 1 : Clear Path 2 : Clear All
+	//NTConfig_Script.push("NTAncientsWay.ntj");	// 遠古之路-冰窖  粉碎者
+		NTConfig_ClearAncientWay = 0;					// 0 : Don't Clear, 1 : Clear All, 2 : Clear While Skipping Regular Monsters
+		NTConfig_ClearIcyCellar = 0;						// 冰窖-粉碎者 0 : SnapChip Only, 1 : Clear All, 2 : Clear While Skipping Regular Monsters, -1 : Disable
+	//NTConfig_Script.push("NTWorldstoneKeep.ntj");		// 毀滅的王座 - 世界之石大殿
+		NTConfig_ClearWorldStoneKeep = 0;				// 0 : Baal Run Only, 1 : Clear Path 2 : Clear All (From Waypoint)
+		NTConfig_MakeWSK3TP = false; 					//  開啟毀滅的王座入口傳送門 Make WS3 TP for help clearing the Throne
+		NTConfig_CheckSoulKillers = true; 				// 檢查死娃娃(不死靈魂殺手 End script if Stygian Dolls are found in Throne
+		NTConfig_MakeHotTP = true; 						// 清怪前開啟傳送門 Make a hot TP before clearing Throne
+		NTConfig_PreWaveTele = true; 					// 下一波怪物出現時傳送(讓傭兵能接近打怪) Teleport before wave to keep merc close
+		NTConfig_Wave2PSNCheck = true; 				// 清完第二波後若中毒回城治療 Heal after wave 2 if poisoned
+		NTConfig_Wave3Move = 1; 						// 清完第三波是否躲避火蛇 0 : Don't Move, 1 : Right Side, 2 : Left Side
+		NTConfig_TownBeforeBaal = true; 				// 打巴爾前是否回城清理身上空位 Check inventory & town if holding any items before going to Worldstone to kill Baal. (Requires NTConfig_FreeSpace correctly configured.)
+		NTConfig_KillBaal = true; 						// 攻打巴爾 Set true to kill Baal, false if not
+		NTConfig_HolyBoltBaal = true;		 			// 對巴爾使用聖光彈 Use Holy Bolt on wave 2 magic immunes
+		NTConfig_WalkAround = true;					// 四處走動 Move if HB isn't hitting monster
+
+	//------------------------\\
+	// "Public Baal Settings" 團戰設定 \\
+	//------------------------\\
+
+	NTThrone_Announce = true; 											// 在王座宣布怪物清單 Announce mobs in the Throne room pre-tp?
+	Baal_WSK3_TP_MSG = "打開王座入口傳送點, 可以的話請幫忙清除小妖!";		// Message for portal in WS lvl 3. (Clears throne faster with help.)
+	Baal_HotTp = "打開傳送點, 可以的話請幫忙清除小妖!";												// Hot TP message. (NTConfig_MakeHotTP must be set true.)
+	Baal_SafeTp = "開啟安全傳送點. TP safe.";											// What to say when bot opens the safe TP.
+	Baal_KillBaalMessage = "擊殺巴爾";							// What to say after last wave, before entering chamber.
+	Baal_NextGameMessage = "巴爾已躺下看星星了";						// What to say after killing Baal. (We appriciate those who leave the shameless plug.)
+	Baal_FreeSpaceMessage = "回城清理身上空位吧";  					// Used with NTConfig_FreeSpaceBeforeBaal for message before going to town to clear inventory
+	Baal_BSayNextGame = "下一場..... ";							// Message before announcing next game.  "Next game will be chaos" for example. (Leave empty to disable.)
+
+	//------------------------------------------------------------------------------
+	// NTWPGrabber Instructions
+	//------------------------------------------------------------------------------
+	// NTWPGrabber iterates through areas grabbing relevant waypoints.
+	//		* NTWPGrabber can be started (pause / unpause) in any area & will start from this point going forward.
+	//
+	// Uncomment (remove the preceeding "//") to enable quests. (The quest module will not run unless at least one is uncommented).
+	// 		* If the quest is already done, this will be detected & skipped. (Disable those you cannot handle...)
+	//
+	// It's HIGHLY recommended to disable all normal pickits while running the quest module.
+	// 		* Quest nip is required while running the quest module.
+	// 		* Make sure you have space in your stash (& a clear cube) for the quest items
+	//
+	// Your character WILL die if you cannot handle the quest.
+	//------------------------------------------------------------------------------
+
+	//NTConfig_Script.push("NTWPGrabber.ntj");		// 過任務關-自助採點
+
+		NTConfig_DoQuests =
+		[
+		//"Den Of Evil",		// ACT1 邪惡洞穴
+		//"The Search For Cain",	// ACT1 凱恩的搜尋
+		//"Radament's Lair",	// ACT2 羅達門特的巢穴
+		//"Horadric cube",	// ACT2 赫拉笛克方塊
+		//"Lam Esen's Tome",	// ACT3 藍.依森的古書
+		//"Golden Bird",  // ACT3 黃金鳥	// After Esen's Tome will clear the Ruined Temple in attempt for the Bird. (Doesn't always drop.)
+		//"Golden Bird Travincal", 	// ACT3 黃金鳥					// Will attempt to drop the Bird from Council. (Doesn't always drop.)
+		//"Fallen Angel",	// ACT4墮落的天使
+		//"Siege on Harrogath",
+		//"Prison Of Ice",	// ACT5 冰之囚
+		//"Rite Of Passage",	// ACT5 通道的祭典
+		];
+
+	NTConfig_NIPFilePath.push("Quest.nip"); 			// 拾取任務關卡所需物品 Uncomment this to pick quest items.
+
+	//------------------------------------------------------------------------------
+	// Misc. Scripts
+	//------------------------------------------------------------------------------
+
+	//NTConfig_Script.push("WpGiver.ntj");			// 分享傳送點Gives waypoints to another character via in-game chat commands.
+	//NTConfig_Script.push("mulelogger.ntj");			// Blank Script, loads Libs, CharConfig & Nips & enters delay loop.
+	//NTConfig_Script.push("TLNipCheck.ntj");  			// Checks for errors in pickit files. (Alternatively, you can also use NumPad "+" while ingame.)
+	//NTConfig_Script.push("TLInventory.ntj"); 			// Logs items to text file. (Alternatively, you can use NumPad "5" while ingame.)
+		NTConfig_TLInventory_SkipEquipped   = true;     // Skip logging what you have equipped (useful for logging mules).
+
+	NTConfig_HostileHandler = true;					// 載入敵對處理程式 true to use the new hostile handler
+		RunFromHostiles = true;						// 偵測到敵對離開遊戲 true to leave game when hostiled
+		KillHostiler = false;						// 敵對時殺死對手 true to kill the hostile player
+		TauntHostile = true;						// true to taunt the hostiler, false if not
+
+	//------------------------------------------------------------------------------
+	// Speed Settings
+	//------------------------------------------------------------------------------
+	me.maxgametime = 1200; 								// 每場遊戲最長時間設定(0不限定時間) Maximum game length in seconds (0 is infinite).
+	NTConfig_StartDelay = 0;									// 開始時延遲時間 Delay time in milliseconds to wait at start.
+	NTConfig_AreaDelay = 500;							// 區域切換延遲時間 Delay time in milliseconds to wait on each area change.
+	NTConfig_SnagDelay = 500;							// 撿取物品延遲時間 Delay time in milliseconds (added to ping delay) to wait before each pickit call.
+
+	//------------------------------------------------------------------------------
+	// Chicken settings  逃命觸發設定
+	//------------------------------------------------------------------------------
+	NTConfig_SkipHealLife = 90;							// 高於多少%不取用生命藥水 If you are over this percentage of life, you won't go to a healer.
+	NTConfig_SkipHealMana = 70;							// 高於多少%不取用法力藥水 If you are over this percentage of mana, you won't go to a healer.
+
+	NTConfig_LifeThresh = 85;							// 生命值低於多少%自動取用生命藥水 Drink a health potion if under this percent of life.
+	NTConfig_LifeRejuvThresh = 45;						// 生命值低於多少%自動取用回覆藥水 Drink a rejuvenation potion if under this percent of life. (Will not use health potions under this %)
+	NTConfig_ManaThresh = 30;							// 法力值低於多少%自動取用法力藥水 Drink a mana potion if under this percent of mana.
+	NTConfig_ManaRejuvThresh = 5;						// 法力值低於多少%自動取用回覆藥水 Drink a rejuvenation potion if under this percent of mana. (Will not use mana potions under this %)
+
+	NTConfig_LifeChicken = 30;							// 生命值低於多少%自動離開遊戲(針對D2NT設定) This is your D2NT chicken life percent. If you go below this life total, exit game.
+	NTConfig_ManaChicken = 0;							// 法力值低於多少%自動離開遊戲(針對D2NT設定) This is your D2NT chicken mana percent. If you go below this mana total, exit game.
+
+	// These chicken values are optional and can run alongside the traditional D2NT chicken or as a standalone chicken
+	// The Etal version comes with additional logging and will restart D2 instead of exitting the game for crash protection
+	// To disable, use 0
+	NTConfig_EtalLifeChicken = 75;						// 生命值低於多少%自動離開遊戲(針對ETal設定) This is your Etal chicken life percent. If you go below this life total, exit D2.
+	NTConfig_EtalManaChicken = 0;						// 法力值低於多少%自動離開遊戲(針對ETal設定) This is your Etal chicken mana percent. If you go below this mana total, exit D2.
+
+	NTConfig_TPChicken = 75; 							// 自身生命值低於多少%自動回城治療 Under this % of health will attempt to tp to town and heal. (Set 0 to disable.)
+	NTConfig_MercTPChicken = 0;						  	// 傭兵生命值低於多少%自動回城治療 Under this % of Merc health will attempt to tp to town and heal. (Set to 0 to disable.)
+
+	NTConfig_MercLifeThresh = 50;						// 傭兵生命值低於多少%自動施予生命藥水 Give merc a health potion if under this percent of life.
+	NTConfig_MercRejuvThresh = 30;						// 傭兵生命值低於多少%自動施予回覆藥水 Give merc a rejuvenation potion if under this percent of life. (Will not use health potions under this %)
+	NTConfig_MercChicken = 10;							// 傭兵生命值低於多少%自動離開遊戲 This is your mercs chicken life percent. If he goes below this, exit game. (Set 0 to disable.)
+
+	//------------------------------------------------------------------------------
+	// Inventory settings 庫存空格設定(身上背包)
+	//------------------------------------------------------------------------------
+	NTConfig_FreeSpaceBeforeBoss = 2;					// If # of free columns is less than this, will town before killing bosses.
+	NTConfig_FreeSpace = 1;								// Number of free columns. If bot has less than this amount after id'ing, it will go to stash.
+
+	// 設定0表示該位置有存放物品 1表示為可用空格  These numbers correspond to your inventory. Set 0 to keep whatever is there, 1 to have the bot manage the slot.
+	NTConfig_Columns[0] = [0,0,0,0,0,0,0,0,0,0];
+	NTConfig_Columns[1] = [0,0,0,0,0,0,0,0,0,0];
+	NTConfig_Columns[2] = [0,0,0,0,0,0,0,0,0,0];
+	NTConfig_Columns[3] = [0,0,0,0,0,0,0,0,0,0];
+
+	NTConfig_MinGoldToStash = 100000;					// 最多保留多少金幣在身上 Maximum gold amount carried before going to stash
+
+	//----------------------------------------------------------------------------------------------
+	// Belt Settings  腰帶藥水存放內容 hp生命藥水 mp法力藥水 rv回覆藥水
+	// 	 	Type of potion used in each belt column
+	// 		Available types : "hp" = health | "mp" = mana | "rv" = rejuv. Can use other potion types too.
+	// 		Keep equal types at adjacent columns. First HP then MP and then HP again is a bad choice.
+	// 		Keep HP and MP at the beginning of the belt (in case you want to use rejuv and other types).
+	// 		Rejuvenations MUST, I REPEAT MUST be at the end of the belt (last x columns).
+	// 		To use rejuvenations only, put "rv" in all columns.
+	//----------------------------------------------------------------------------------------------
+	NTConfig_BeltColType[0] = "hp";
+	NTConfig_BeltColType[1] = "hp";
+	NTConfig_BeltColType[2] = "mp";
+	NTConfig_BeltColType[3] = "rv";
+
+	//-----------------------------------------------------------------------------------
+	// Pickit (SnagIt) Configuration 設定拾取物品清單檔案
+	// 		* Select one group only (normal / advance / extreme / Master)
+	//-----------------------------------------------------------------------------------
+	NTConfig_NIPFilePath.push("required.nip");			// 自定清單
+	// 普通級別
+	//NTConfig_NIPFilePath.push("normal/normal.nip");
+	//NTConfig_NIPFilePath.push("normal/magic_rare.nip");
+	//NTConfig_NIPFilePath.push("normal/set.nip");
+	//NTConfig_NIPFilePath.push("normal/unique.nip");
+	//NTConfig_NIPFilePath.push("normal/craft.nip");
+	//NTConfig_NIPFilePath.push("normal/key.nip");
+
+	// 擴展級別
+	//NTConfig_NIPFilePath.push("advance/normal.nip");
+	//NTConfig_NIPFilePath.push("advance/magic_rare.nip");
+	//NTConfig_NIPFilePath.push("advance/set.nip");
+	//NTConfig_NIPFilePath.push("advance/unique.nip");
+	//NTConfig_NIPFilePath.push("advance/craft.nip");
+	//NTConfig_NIPFilePath.push("advance/key.nip");
+
+	// 進階級別
+	//NTConfig_NIPFilePath.push("extreme/normal.nip");
+	//NTConfig_NIPFilePath.push("extreme/magic_rare.nip");
+	//NTConfig_NIPFilePath.push("extreme/set.nip");
+	//NTConfig_NIPFilePath.push("extreme/unique.nip");
+	//NTConfig_NIPFilePath.push("extreme/craft.nip");
+	//NTConfig_NIPFilePath.push("extreme/key.nip");
+
+	// 菁英級別
+	NTConfig_NIPFilePath.push("Master/Charms.nip");	// 大中小護身符
+	NTConfig_NIPFilePath.push("Master/Crafted.nip");	// 自訂材料
+	NTConfig_NIPFilePath.push("Master/Cubed.nip");	// 合成材料
+	NTConfig_NIPFilePath.push("Master/CustomAdditions.nip");
+	//NTConfig_NIPFilePath.push("Master/FAST.nip");
+	NTConfig_NIPFilePath.push("Master/Gold Potions Runes Gems Essences Keys Organs.nip");
+	NTConfig_NIPFilePath.push("Master/Magic.nip");	// 魔法物品
+	NTConfig_NIPFilePath.push("Master/Rare.nip");		// 稀有物品(金黃)
+	NTConfig_NIPFilePath.push("Master/Set.nip");		// 套裝
+	NTConfig_NIPFilePath.push("Master/Unid.nip");
+	NTConfig_NIPFilePath.push("Master/Unique.nip");	// 獨特物品(暗金)
+	NTConfig_NIPFilePath.push("Master/White.nip");	// 一般物品
+	NTConfig_NIPFilePath.push("Master/Runeword.nip");	// 符文組合
+
+	NTConfig_SnagRange = 40;							// Radius to check for dropped items. 40 is a good number here
+
+	//------------------------------------------------------------------------------
+	// Runeword configuration 符文組合設定(會自動撿取該物品存放)
+	//
+	// 		* Format: NTConfig_Runeword.push([base item classid, rune1 classid, rune2 classid....]);
+	//		* Use NTItemAlias.ntl to find classids
+	// 		* YOU MUST USE THE EXACT ORDER OF RUNES
+	// 		* Base item needs to be in the pickit, rest is picked auto.
+	// 		* To keep a runeword, include NTConfig_KeepRuneword.push("pickit syntax"); after NTConfig_Runeword.push
+	//------------------------------------------------------------------------------
+
+	NTConfig_MakeRunewords = false;												// 是否啟用符文組合
+
+	//NTConfig_Runeword.push([498, 616, 619, 618, 620]); 					// Sacred Targe, Tal, Thul, Ort, Amn SPIRIT (精神-神聖輕盾)
+		NTConfig_KeepRuneword.push("[name] == sacredtarge # [fcr] >= 35");
+
+	//NTConfig_Runeword.push([447, 616, 619, 618, 620]); 					// Monarch, Tal, Thul, Ort, Amn SPIRIT (精神-統盾)
+		NTConfig_KeepRuneword.push("[name] == monarch # [fcr] >= 35");
+
+	//NTConfig_Runeword.push([29, 616, 619, 618, 620]); 					// Crystal Sword, Tal, Thul, Ort, Amn SPIRIT (精神-水晶劍)
+		NTConfig_KeepRuneword.push("[name] == crystalsword # [fcr] >= 35");
+
+	//NTConfig_Runeword.push([254, 617, 612, 616, 621]); 					// Colossus Voulge, Ral, Tir, Tal, Sol (眼光-巨神之斧)
+		NTConfig_KeepRuneword.push("[name] == ColossusVoulge # [fcr] >= 35");
+
+	//NTConfig_Runeword.push([255, 617, 612, 616, 621]); 					// Thresher, Ral, Tir, Tal, Sol (眼光-銳利之斧)
+		NTConfig_KeepRuneword.push("[name] == thresher # [fcr] >= 35");
+
+	//NTConfig_Runeword.push([256, 617, 612, 616, 621]); 					// Cryptic Axe, Ral, Tir, Tal, Sol (眼光-神秘之斧)
+		NTConfig_KeepRuneword.push("[name] == crypticaxe # [fcr] >= 35");
+
+	//NTConfig_Runeword.push([21, 627, 635, 630, 619]); 					// Flail, Ko, Vex, Pul, Thul (橡樹之心-鏈枷)
+		NTConfig_KeepRuneword.push("[name] == flail # [fcr] >= 40");
+
+	//NTConfig_Runeword.push([21, 620, 617, 632, 633, 636]); 				// Flail, Amn, Ral, Mal, Ist, Ohm (戰爭招喚-鏈枷)
+		NTConfig_KeepRuneword.push("[name] == flail # [IAS] >= 40");
+
+	//NTConfig_Runeword.push([29, 620, 617, 632, 633, 636]); 				// Crystal Sword, Amn, Ral, Mal, Ist, Ohm (戰爭招喚-水晶劍)
+		NTConfig_KeepRuneword.push("[name] == crystalsword # [IAS] >= 40");
+
+	//------------------------------------------------------------------------------
+	// Cubing configuration 方塊合成 (會自動撿取該物品存放)
+	//------------------------------------------------------------------------------
+	NTConfig_Cubing = false;										// 是否啟用方塊合成  Enable Cubing?
+
+	//NTConfig_CubingItem.push([NTCU_GEM, 560]);					// 紫 Flawless Amethyst
+	//NTConfig_CubingItem.push([NTCU_GEM, 565]);					// 黃 Flawless Topaz	
+	//NTConfig_CubingItem.push([NTCU_GEM, 570]);					// 藍 Flawless Saphire
+	//NTConfig_CubingItem.push([NTCU_GEM, 575]);					// 綠 Flawless Emerald
+	//NTConfig_CubingItem.push([NTCU_GEM, 580]);					// 紅 Flawless Ruby
+	//NTConfig_CubingItem.push([NTCU_GEM, 585]);					// 鑽 Flawless Diamond
+	//NTConfig_CubingItem.push([NTCU_GEM, 600]);					// 骨 Flawless Skull
+
+	//NTConfig_CubingItem.push([NTCU_MAGIC, 420]);				// 頭飾 Magic Tiara
+	//NTConfig_CubingItem.push([NTCU_MAGIC, 421]);				// 皇冠 Magic Diadem
+	//NTConfig_CubingItem.push([NTCU_MAGIC, 285]);  				// 女士標槍 Maiden Javelin - ilvl 71
+	//NTConfig_CubingItem.push([NTCU_MAGIC, 295]);  				// 祭典標槍 Ceremonial Javelin - ilvl 77
+	//NTConfig_CubingItem.push([NTCU_MAGIC, 305]);  				// 女族長標槍 Matriarchal Javelin - ilvl 80
+
+	//NTConfig_CubingItem.push([NTCU_MAGIC_CHARM, 603]);			// 小護符 Magic Small Charm
+	//NTConfig_CubingItem.push([NTCU_MAGIC_CHARM, 605]);			// 超大護符 Magic Grand Charm
+
+	//NTConfig_CubingItem.push([NTCU_CRAFT_HITPOWER_GLOVES, 382]);	// 打擊能量手套 Craft Heavy Bracers
+	//NTConfig_CubingItem.push([NTCU_CRAFT_HITPOWER_GLOVES, 452]);	// Craft Vambraces
+
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_HELM, 354]);		// 吸血頭盔 Craft Blood Casque
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_HELM, 424]);		// Craft Blood Armet
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_BOOTS, 388]);		// 吸血鞋 Craft Blood Battle Boots
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_BOOTS, 458]);		// Craft Blood Mirrored Boots
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_GLOVES, 381]);		// 吸血手套 Craft Blood Sharkskin Gloves
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_GLOVES, 451]);		// Craft Blood Vampirebone Gloves
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_BELT, 392]);		// 吸血腰帶 Craft Blood Mesh Belt
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_BELT, 462]);		// Craft Blood Mithril Coil
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_AMULET, 520]);		// 吸血項鍊 Craft Blood Amulet
+	//NTConfig_CubingItem.push([NTCU_CRAFT_BLOOD_RING, 522]);		// 吸血戒指 Craft Blood Ring
+
+	//NTConfig_CubingItem.push([NTCU_CRAFT_CASTER_AMULET, 520]);	// 施法項鍊 Craft Caster Amulet
+	//NTConfig_CubingItem.push([NTCU_CRAFT_CASTER_BOOTS, 385]);		// 施法鞋 Craft Caster Demonhide Boots
+	//NTConfig_CubingItem.push([NTCU_CRAFT_CASTER_BOOTS, 455]);		// Craft Caster Wyrmhide Boots
+	//NTConfig_CubingItem.push([NTCU_CRAFT_CASTER_BELT, 461]);		// 施法腰帶 Craft Caster Vampirefang Belt
+	//NTConfig_CubingItem.push([NTCU_CRAFT_CASTER_BELT, 391]);		// Craft Caster Sharkskin Belt
+
+	//NTConfig_CubingItem.push([NTCU_CRAFT_SAFETY_SHIELD, 447]);	// Craft Monarch
+	//NTConfig_CubingItem.push([NTCU_CRAFT_SAFETY_AMULET, 520]);	// Craft Amulet
+
+	//NTConfig_CubingItem.push([NTCU_ESSENSE, 0]);
+
+	// 符文 10號書爾開始
+	//NTConfig_CubingItem.push([NTCU_RUNE_THUL, 562]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_AMN, 557]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_SOL, 567]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_SHAEL, 577]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_DOL, 572]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_HEL, 582]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_IO, 563]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_LUM, 558]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_KO, 568]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_FAL, 578]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_LEM, 573]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_PUL, 583]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_UM, 564]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_MAL, 559]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_IST, 569]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_GUL, 579]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_VEX, 574]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_OHM, 584]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_LO, 565]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_SUR, 560]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_BER, 570]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_JAH, 580]);
+	//NTConfig_CubingItem.push([NTCU_RUNE_CHAM, 575]);
+
+	//***** Include the following, Primary item must be setted in item_configs folder *****
+	// 底下必須設定撿拾物品清單
+
+	//NTConfig_CubingItem.push([NTCU_SOCKET_BODYARMOR, 436]);				// Socket Great Hauberk
+	//NTConfig_CubingItem.push([NTCU_SOCKET_BODYARMOR, 435]);				// Socket Boneweave
+	//NTConfig_CubingItem.push([NTCU_SOCKET_BODYARMOR, 443]);				// Socket Archon Plate
+	//NTConfig_CubingItem.push([NTCU_SOCKET_BODYARMOR, 438]);				// Socket Hellforge Plate
+	//NTConfig_CubingItem.push([NTCU_SOCKET_BODYARMOR, 439]);				// Socket Kraken Shell
+	//NTConfig_CubingItem.push([NTCU_SOCKET_BODYARMOR, 442]);				// Socket Sacred Armor
+
+	//NTConfig_CubingItem.push([NTCU_SOCKET_WEAPON, 254]);					// Socket Colossus Voulge
+	//NTConfig_CubingItem.push([NTCU_SOCKET_WEAPON, 255]);					// Socket Thresher
+	//NTConfig_CubingItem.push([NTCU_SOCKET_WEAPON, 256]);					// Socket Cryptic Axe
+	//NTConfig_CubingItem.push([NTCU_SOCKET_WEAPON, 257]);					// Socket Great Poleaxe
+	//NTConfig_CubingItem.push([NTCU_SOCKET_WEAPON, 258]);					// Socket Giant Thresher
+	//NTConfig_CubingItem.push([NTCU_SOCKET_WEAPON, 29]);					// Socket Crystal Sword
+
+	//NTConfig_CubingItem.push([NTCU_SOCKET_SHIELD, 447]);					// Socket Monarch
+
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_WEAPON, 148]);		// HONE SUNDAN : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_WEAPON, 157]);		// RIBCRACKER : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_WEAPON, 103]);		// SUICIDE BRANCH : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_WEAPON, 295]);		// TITANS'S REVENGE : Exceptional -> Elite
+
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_N_UNIQUE_ARMOR, 335]);			// BLOODFIST : Normal -> Exceptional
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 381]);			// BLOODFIST or GRAVEPALM: Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_N_UNIQUE_ARMOR, 337]);			// MAGEFIST : Normal -> Exceptional
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 383]);			// MAGEFIST or LAVA GOUT : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_N_UNIQUE_ARMOR, 339]);			// HOTSPUR: Normal -> Exceptional
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 385]);			// HOTSPUR or INFERNOSTRIDE : Exeptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 386]);			// WATERWALK : Exeptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 389]);			// GORE RIDER : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 360]);			// SKIN OF THE VIPERMAGI : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 365]);			// SHAFTSTOP : Exeptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 420]);			// KIRA'S GUARDIAN : Exeptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 477]);			// ARREAT'S FACE : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 487]);			// HOMUNCULUS : Exceptional -> Elite
+	//NTConfig_CubingItem.push([NTCU_UPGRADE_E_UNIQUE_ARMOR, 481]);			// HERALD OF ZAKARUM : Exceptional -> Elite
+
+	//------------------------------------------------------------------------------
+	// Gamble Configuration 賭博
+	// 		* To specify what items to gamble, adjust the array with the desired item codes.
+	//------------------------------------------------------------------------------
+	NTConfig_Gamble = false;							// 賭博 Enable gambling?
+	NTConfig_GambleStartGold = 2500000;		// 多少錢開始賭博 Gold amount to start the gambling.
+	NTConfig_GambleStopGold = 500000;		// 保留多少錢不賭 Gold amount to stop the gambling.
+
+	NTConfig_GC = false;								// 保留手工藝品使用之項鍊  Enable gambling for craft amulet. This will keep one amulet for crafting on you when possible. Requires char lvl >= 88.
+	NTConfig_GCAmuGold = 300000;				// Gold amount to stop gambling for amulet to craft.
+
+	NTConfig_GambleItem.push(520);				// Amulets
+	NTConfig_GambleItem.push(522);				// Rings
+	NTConfig_GambleItem.push(418);				// Circlets
+	NTConfig_GambleItem.push(419);				// Coronets
+	//NTConfig_GambleItem.push(334);				// Leather Gloves
+	//NTConfig_GambleItem.push(335);				// Heavy Gloves
+	//NTConfig_GambleItem.push(336);				// Chain Gloves
+	//NTConfig_GambleItem.push(337);				// Light Gauntlets
+	//NTConfig_GambleItem.push(338);				// Gauntlets
+	NTConfig_GambleItem.push(331);				// Kite Shield
+
+	//------------------------------------------------------------------------------
+	// General configuration 一般設定
+	//------------------------------------------------------------------------------
+	me.revealautomap = true;							// 自動顯示地圖
+	me.showenemyonautomap = true;					// 顯示接近怪物
+	me.showmissileonautomap = true;					// 顯示遠射怪物
+	NTConfig_PublicMode = true;							// 自動邀請組隊 Enables "Public" features (Partying, Tp'ing etc). (Cannot be true while NTConfig_PartyOnlyLeader is.)
+	NTConfig_CheckCloneDiablo = true;					// 是否檢查地表暗黑出現 Set to true if you want to wait in game after "Diablo Walks the Earth" msg.
+	NTConfig_SoJWaitTime = 5;							// 多久時間等待下一次喬丹之石賣出 Time in minutes to wait for the next SoJ sale. Set to 0 to disable SoJ notifier.
+	NTConfig_FastPickit = true;							// 快速拾取物品 This is a new option that causes far less crashes(maybe none).  Is independent of snag delay
+	NTConfig_UseMerc = true;							// 使用傭兵 Set true if you will use a mercenary, will revive merc at a reviver npc.
+	NTConfig_ResetEnigma = false;  						// 重置謎團 Set true to reset enigma when tele bug exists. (Safe.)
+	NTConfig_QuitOnPing = 900;							// 網速值高於多少離開遊戲 Ping threshold. (0 to disable.)
+	NTConfig_PingInterval = 10;							// 網速值過高等待時間(秒) If ping is greater than threshold for x seconds, exit game. (0 = Disabled,  x = Time Interval In Seconds.)
+	NTConfig_ClearPosition = true;						// 殺掉主怪後是否清光周圍小怪 Set true if you want to clear area after killing boss.
+	NTConfig_PrioritizeWeakerFoes = false;				// 先殺小怪 Enable to kill weaker foes with higher priority as well as clear areas of minions and other foes prior to killing bosses
+	NTConfig_PrioritizeWeakerFoesAreaDisable = [];		// Use IDs from D2NT\sdk\areas.txt to disable for specific areas, e.g. [124,83] would disable Nihlathak and Travincial
+	NTConfig_SwitchTele = false; 						// 用副手裝備來傳送 Use tab 2 for teleporting (higher fcr breakpoint in tab 2)? (Slight chance of breaking an eth cta spirit.)
+	NTConfig_PreBuffFade = false; 						// 打鬥是否站在火堆中 Stand in fire until fade is triggered? (Must have Last Wish / Treachery etc.)
+	NTConfig_StopIfStashInventoryFull = false;    		// 庫存空位已滿是否暫停BOT Pauses bot when stash/inventory are full. (Helpful for HardCore players.) Must configure NTConfig_FreeRowsQuit below.
+	NTConfig_FreeRowsQuit = 2;							// If after stashing less than this number of inventory columns are free, bot will pause.
+	NTConfig_SkipRegularMonsters = false;				// 是否只殺主怪 If true will only kill Champions, Uniques and Bosses.
+	NTConfig_DropExtraRejuvs = true;					// 小回復藥水換大回覆藥水是否丟棄小回復藥水 When belt is full bot will either drop extra rejuvs when a new rejuv is found or drink them. (true to drop, false to drink).
+	NTConfig_TeleGrab = 1; 								// 0 = No, 1 = Yes. Changes pickit to run after each teleport (instead of after each clear call). (Recommended for aura stacking only with a NTConfig_SnagDelay of 0.) (Can cause complications (chickens etc) depending on system / setup.)
+	NTConfig_CheckPassword = false; 						// 遊戲沒設密碼是否離開遊戲 Check for game password, quit if none.
+	NTConfig_GoWestFromLut = true;		 				// Use Warriv to go to A1 for town functions if starting in A2
+	NTConfig_MinPots = 1;								// 低於多少藥水就必須回城購買 If less then this many (Health or Mana) potions, will return to town on checkselfsafe 0x01 is calls.
+	NTConfig_CheckPotsTown = 1;							// 低於多少藥水才回城購買 If less then this many (Health or Mana) potions, will shop them in normal town functions.  Set 0 to always shop them
+	NTConfig_AutoMule = false; 							// Set to true to enable muling. Requires NTMule entry point.
+	NTConfig_FinishRun = false; 							// true will finish current game. Good for if running the leecher entry or if running main as leader.
+	NTConfig_MuleStash = 8; 									// Set this to the free block limit in your Stash. If less than this mule.
+	NTConfig_MuleInv = 2; 										// Set this to the free column limit in your Inventory. If less than this mule. Must be set to higher than NTConfig_FreeSpace
+ 	NTConfig_UseKeysForPlaceHolder = false;		// 身上是否保留鑰匙 Set to true to keep a key in your inventory. (In the event that the bot has no space for ID scrolls, will sell the key instead of one of your items.)
+
+	NTConfig_PropsForEtal = 0; 								// Advertising etal at the end of public games.  set to 0 to disable.  Set to 1 or greater for the number of phrases spoken before exiting public games.  See D2NT\scripts\NTBot\char_configs\EtalPR.ntl for instructions on adding or removing phrases
+	NTConfig_MercStats = true;								// 顯示傭兵狀態 Prints Merc stats to Common Log with Char stats if true
+	NTConfig_VoyageToMissingWps = true; 			// 缺少傳送點是否自動踩點 when missing a wp setting this to true will have the bot path to and grab the missing wp
+
+	NTConfig_ChatRecording = false;						// 記錄聊天訊息 Logs all in game chat to a .txt file in D2NT/scripts/logs/ChatR folder
+	NTConfig_WhisperToManager = false;				// 記錄私訊訊息 Logs whispers from in-game to your manager
+	NTConfig_WhisperToTab = "common";				// Choose which tab whispers go to, either "common" or "item"
+	
+	//-------------------------------------------------------------------------------
+	// Advanced XML Item Logging
+	//-------------------------------------------------------------------------------
+	NTConfig_UseXMLItemlog = false; 					// Log kept, sold and ignored items in an XML log file?
+	NTConfig_IndependantLog = true;						// Create a seperate file for each character. Item Logfile is found in logs/Item Log/
+	NTConfig_LogSoldItems = false;  					// Logs items sold to item logfile?
+	NTConfig_LogIgnoredItems = false;					// Log ignored items to item logfile?
+	NTConfig_LogCraftedItems = false;					// Log crafted items to item logfile?
+	NTConfig_LogItemQuality = 5;						// Quality of items logged is >= of value: (3 = White, 4 = Magic, 5 = Sets, 6 = Rares, 7 = Uniques, 8 = Crafted).
+
+	//-------------------------------------------------------------------------------
+	// General Log File Options
+	//-------------------------------------------------------------------------------
+	NTConfig_LogShrines = false;  						// Log shrines found by NTConfig_Shrines array?
+	NTConfig_LogCraftingString = true;					// Log the string of ingredients that goes into cube?
+
+	//------------------------------------------------------------------------------
+	// Manager Log Options
+	//------------------------------------------------------------------------------
+	NTConfig_LogSoldItemQuality = 5;					// 記錄賣出物品級別  Quality of items logged is >= of value: (普通3 = White, 魔法4 = Magic, 套裝5 = Sets, 稀有6 = Rares, 暗金7 = Uniques, 手工藝品8 = Crafted, 不記錄0 = Disabled).
+	NTConfig_CubeProcessToManager = 1;			// Logs the string of ingredients that goes into cube (0 = Don't Log, 1 = Log In Item Log, 2 = Log To Common Log).
+
+	//-------------------------------------------------------------------------------
+	// Immunity Skipping  略過免疫怪清單
+	// physical=實體攻擊無效 magic=魔法免疫 fire=火免 lighting=電免 cold=冰免 posion=毒免
+	//-------------------------------------------------------------------------------
+	NTConfig_AreasToNotSkipImmunes = [131, 108];		// Add area ID's into the array seperated by "," for to disable immunity skipping within said area.
+
+	NTConfig_SkipSingle[0] = false;						//Skips all physical immunes.
+	NTConfig_SkipSingle[1] = false;						//Skips all magic immunes.
+	NTConfig_SkipSingle[2] = false;						//Skips all fire immunes.
+	NTConfig_SkipSingle[3] = false;						//Skips all lightning immunes.
+	NTConfig_SkipSingle[4] = false;						//Skips all cold immunes.
+	NTConfig_SkipSingle[5] = false;						//Skips all poison immunes.
+
+	NTConfig_SkipDual[0] = false;						//Skips all dual physical + magic immunes.
+	NTConfig_SkipDual[1] = false;						//Skips all dual physical + fire immunes.
+	NTConfig_SkipDual[2] = false;						//Skips all dual physical + lightning immunes.
+	NTConfig_SkipDual[3] = false;						//Skips all dual physical + cold immunes.
+	NTConfig_SkipDual[4] = false;						//Skips all dual physical + poison immunes.
+	NTConfig_SkipDual[5] = false;						//Skips all dual magic + fire immunes.
+	NTConfig_SkipDual[6] = false;						//Skips all dual magic + lightning immunes.
+	NTConfig_SkipDual[7] = false;						//Skips all dual magic + cold immunes.
+	NTConfig_SkipDual[8] = false;						//Skips all dual magic + poison immunes.
+	NTConfig_SkipDual[9] = false;						//Skips all dual fire + lightning immunes.
+	NTConfig_SkipDual[10] = false;						//Skips all dual fire + cold immunes.
+	NTConfig_SkipDual[11] = false;						//Skips all dual fire + poison immunes.
+	NTConfig_SkipDual[12] = false;						//Skips all dual lightning + cold immunes.
+	NTConfig_SkipDual[13] = false;						//Skips all dual lightning + poison immunes.
+	NTConfig_SkipDual[14] = false;						//Skips all dual cold + poison immunes.
+
+	//------------------------------------------------------------------------------
+	// ID Options & Other Town Configs
+	//------------------------------------------------------------------------------
+	NTConfig_IdInField = false;						// set to true to have bot id items in field.  MUST have a tome of id in inventory
+	NTConfig_FreeSpaceXY = [2, 4];					// free block if less bot will id.  Easiest way to explain this is [2,4] would be free space big enough to hold a thresher
+	NTConfig_AnnounceDroppedItems = false;			// anounce items that are being dropped.  NOTE does not work with items sold to vendor
+	NTConfig_dropMessages = [						// randomly selected phrase used for NTConfig_AnnounceDroppedItems.  Add as many as you want following the provided format
+								"up for grabs ",
+								"dropping ",
+								"tossing ",
+								"free item on ground ",
+							];
+
+	NTConfig_IdentAtCain = true;						// 找「凱恩」辨識物品 Identify @ Cain? (Quicker & will skip using cain if something in inventory is suppose to be kept unidentified. Will not log sold items.)
+	NTConfig_PocketChange = 500000;					// 身上保留多少金幣 Amount of gold you want to keep on hand used for repairs. Make adjustments to this & repair % to keep equipment from breaking.
+	NTConfig_DontCainAct = [4];							// 哪個關卡不找凱恩辨識 多個關卡用逗號(,)區隔 0全程找凱恩辨識 List any act you don't want to use cain on seperated by ",".  Set to "0" to id in all acts.
+	NTConfig_Repair = "60";									// 裝備耐用度低於多少%自動回城修復 Set to how much durability you want to repair at, 40 is normal, 99 is as soon as you loose one point.
+	NTConfig_AlwaysUseCain = true;					// 全程使用凱恩辨識物品 Always use cain to ID? (Will ID items which are set to keep unid if they are in the inventory when visiting Cain.)
+	NTConfig_DropCainItems = false;					// 辨識後不達標物品丟棄或變賣 true=丟棄 false=變賣 set to true to drop items/false sells them to vendor
+
+	//------------------------------------------------------------------------------
+	// DPS Meter Config
+	//------------------------------------------------------------------------------
+	DPSMeter = false;									// This toggles the DPS Meter on / off.
+		miniDPSDisplay = false;							// Set true if you run a resolution below 800*600. (Formatting removed.)
+		DPSScanSpeed = 50; 								// Delay between each scan (in ms).
+		DPSDisplayRate = 1000; 							// Interval DPS is recalculated and displayed (in ms). (Default 1000.)
+		DPSScanHist = 2; 								// Scan history (in seconds) to average. (Default 2.)
+
+	//----------------------------------------------------------------------------------
+	//Open chest configs configs.
+	//		* Chest ID's can be added to NTConfig_Chestids. Look for ID's in "Chest ID's.txt".
+	//----------------------------------------------------------------------------------
+	NTConfig_OpenChest = false;							// 開啟寶箱 Open most super unique chests at the end of runs. (Chest ID settings below do not effect this.)
+	NTConfig_CheckChestid = false;						// 顯示寶箱ID Print chest ID's to screen as they're opened?
+	NTConfig_OpenChestsInAreaClearing = false;		// Open chests while using clear functions? (Uses NTConfig_Chestids.)
+
+	// Remove area / chest ID's in the arrays below to open (all chests within removed area) / (specific chest).
+	//		* Current area ID can be displayed ingame by pressing Num Pad "*".
+	//		* Nearby chest ID's can be displayed ingame by pressing Num Pad "2".
+	// 		* A partial list of chest id's can be found in your D2NT\scripts\NTBot\char_configs\Chest ID's.txt.  NOTE some of these are wrong.
+
+	NTConfig_AreasToOpenChestClearing  = [];			// Enter areas for chests to be cleared within. (Areas seperated by commas.)
+
+	NTConfig_Chestids = [104, 105, 106, 107, 5, 6, 87, 143, 140, 141, 144, 146, 147, 148, 174, 175, 176, 177, 181, 183, 198,
+						240, 241, 242, 243, 329, 330, 331, 332, 333, 334, 335, 336, 354, 355, 356, 371, 387, 389, 390,
+	 					391, 397, 405, 406, 407, 413, 420, 424, 425, 430, 431, 454, 455, 501, 502, 504, 505,
+						580, 581, 1, 3, 50, 51, 53, 79, 54, 55, 56, 57, 58, 20, 55, 139, 155, 159];
+
+	//------------------------------------------------------------------------------
+	// Shrine Grabber Settings 自動踩踏神殿清單
+	//------------------------------------------------------------------------------
+
+	NTConfig_ShareExpShrine = false;					// 是否分享經驗神殿 Cleare around exp shrines and TP? (Will not grab experience shrines if true.)
+	NTConfig_Shrines = [0, 0, 0, 0, 0];					// [3, 5, 6, 7, 12, 15, 13, 18,8,9,10,11]; 法力,法力恢復,防禦,戰鬥,技能,經驗,寶石,火冰電毒(抗免)..... Change 0's to the corresponding #'s found in /D2NT/sdk/shrines.txt (To add more shrines, seperate values with a comma.)
+
+	//------------------------------------------------------------------------------
+	// Attack Configuration  使用技能設定
+	// 		* Change the -1's to the corresponding #'s found in 請參考 NTBot/char_configs/skills_CT.txt
+	// 		* 不攻擊 -1 = Disabled, 一般攻擊 0 = Normal Attack.
+	//------------------------------------------------------------------------------
+	NTConfig_AttackSkill[0]  = 0; 	// 首發攻擊技能 First skill. Maybe slow missiles
+	NTConfig_AttackSkill[1]  = 0; 	// 主要攻擊技能(針對主怪) Primary skill to super unique/champion.
+	NTConfig_AttackSkill[2]  = 0; 	// 主要副技能 Primary aura to boss. Set to -1 if you won't
+	NTConfig_AttackSkill[3]  = 0; 	// 主要攻擊技能(針對小怪) Primary skill to others.
+	NTConfig_AttackSkill[4]  = 0; 	// 主要副技能 Primary aura to others. Set to -1 if you won't
+	NTConfig_AttackSkill[5]  = 0; 	// 次要主打攻擊技能(針對免疫怪) Secondary skill in case monster is immune to primary skill.
+	NTConfig_AttackSkill[6]  = 0; 	// 次要副技能 Secondary aura. Set to -1 if you won't
+	NTConfig_AttackSkill[7]  = 0; 	// 第三主打攻擊技能(針對雙免疫怪) Tertiary skill to everything else in case monster is immune to both primary and secondary.
+	NTConfig_AttackSkill[8]  = 0; 	// 第三次要攻擊技能 Tertiary aura. Set to -1 if you won't
+	NTConfig_AttackSkill[9]  = 0; 	// 主要攻擊技能(針對大王 安達/莫非/巴爾等) Primary skill to boss (diablo/meph/Duriel/andy)
+	NTConfig_AttackSkill[10] = 0; 	// 次要攻擊技能(針對大王 安達/莫非/巴爾等)Primary skill to baal this MUST be set if you do baal charged bolt works well here
+
+	prewavespot = [15092, 5028];						// 毀滅王座前攻擊站立點 Pre-Wave standing (X,Y) coordinates. (For Baal Scripts.)
+
+	NTconfig_HighMaxAttack = false;						// Use HighMaxAttacks? (False = LowMaxAttacks.) High/Low are below.
+	NTConfig_HighMaxAttackAreas = [131];				// If above is set false (you're using LowMaxAttacks), add areas to bypass LowMaxAttacks and use HighMaxAttacks instead. (Recommended in Baal's Throne Room.)
+
+	NTConfig_HighMaxAttacks = 300;						// Maximum number of attacks (HIGH) before skipping.
+	NTConfig_LowMaxAttacks = 20;						// Maximum number of attacks (LOW) before skipping.
+
+	MonstersToAttackFirst = 							// Monster ID's to attack first. (Monsters which resurrect / spawn others are good choices.)
+	[58,59,60,61,62,101,102,103,104,190,191,
+	192,193,194,206,207,208,209,228,239,240,
+	241,278,279,280,281,282,283,303,312,480,
+	481,482,483,484,485,486,529];
+
+	NTConfig_AttackingThis = false; // Used to say target monsters ID/Name - Primarily for Dev purposes
+
+	//------------------------------------------------------------------------------
+	// Check Safe Settingss 詛咒設定回城治療
+	//------------------------------------------------------------------------------
+	// Check Self Safe. Set to []; for none.
+	// 01=Potion藥水 . 02=Poison淬毒. 04=Amplify Damage傷害加深. 08=Weaken削弱. 10=Iron Maiden攻擊反噬 . 20=Decrepify衰老. 40=Lower Resist降低抵抗. 80=Blood Mana.
+	// Use this format: ['01','02'] etc. Add as many or as few as you want.
+
+	NTConfig_CheckSelfSafe = ['01','04','10','40'];				// 自己
+	NTConfig_CheckMercSafe = ['01'];				// 傭兵
+
+	//------------------------------------------------------------------------------
+	// Class Specific Settings 聖騎專有技能設定
+	//------------------------------------------------------------------------------
+
+	NTConfig_OnlySmiteStationary = false; 				// Use Attackskill 3 on bosses which can be knocked back. Fixes potential bugs.
+
+	NTConfig_UseRedemptionHP = 80;						// 生命值低於多少使用(救贖) Use Redemption if under this % health. (Set 0 to disable.)
+	NTConfig_UseRedemptionMP = 60;						// 法力值低於多少使用(救贖) Use Redemption if under this % mana. (Set 0 to disable.)
+
+}
+

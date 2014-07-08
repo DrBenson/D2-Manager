@@ -1,0 +1,627 @@
+/* =====================================================
+ *
+ * AutoTele.ntl , a area autotele function call script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * AutoTele.ntl, 一個區域任務功能呼叫腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+function AreaPoi()// returns POI display info
+{
+	switch (me.areaid) {
+		case 1: return [COLOR_8 + " \u863F\u683C\u71DF\u5730"];
+		case 2: return [COLOR_8 + " \u9BAE\u8840\u8352\u5730"];
+		case 3: return [COLOR_8 + "\u51B0\u51B7\u4E4B\u539F" +COLOR_2+" \u8840\u9CE5", COLOR_2 + " \u6D1E\u7A9F"];
+		case 4:	return [COLOR_8 + " \u77F3\u584A\u66E0\u91CE"];
+		case 5:	return [COLOR_8 + " \u9ED1\u6697\u68EE\u6797 - "+COLOR_2+"\u6A39\u982D\u6728\u62F3"];
+		case 6: return [COLOR_8 + "\u9ED1\u8272\u8352\u5730 - " +COLOR_2 + "\u5973\u4F2F\u7235", COLOR_2 + " \u5730\u6D1E"];
+		case 7: return [COLOR_8 + " \u6CF0\u6469\u9AD8\u5730"];
+		case 8: return [COLOR_8 + " \u90AA\u60E1\u6D1E\u7A74"];
+		case 9:	return [COLOR_8 + " \u6D1E\u7A9F\u7B2C\u4E00\u5C64"];
+		case 10: return [COLOR_8 + " \u5730\u5E95\u901A\u9053\u7B2C\u4E00\u5C64"];
+		case 11: return [COLOR_8 + " \u5730\u6D1E\u7B2C\u4E00\u5C64"];
+		case 12: return [COLOR_8 + " \u5730\u6D1E\u7B2C\u4E8C\u5C64"];
+		case 13:	return [COLOR_8 + " \u6D1E\u7A9F\u7B2C\u4E8C\u5C64"];
+		case 14: return [COLOR_8 + " \u5730\u5E95\u901A\u9053\u7B2C\u4E8C\u5C64"];
+		case 17: return [COLOR_8 + " \u57CB\u9AA8\u4E4B\u5730"+COLOR_2+" \u8840\u9CE5"];
+		case 18: return [COLOR_8 + " \u5893\u5730"];
+		case 19: return [COLOR_8 + " \u5927\u9675\u5BE2"];
+		case 20: return [COLOR_8 + " \u907A\u5FD8\u4E4B\u5854"];
+		case 21: return [COLOR_8 + " \u9AD8\u5854\u5730\u7262\u7B2C\u4E00\u5C64"];
+		case 22: return [COLOR_8 + " \u9AD8\u5854\u5730\u7262\u7B2C\u4E8C\u5C64"];
+		case 23: return [COLOR_8 + " \u9AD8\u5854\u5730\u7262\u7B2C\u4E09\u5C64"];
+		case 24: return [COLOR_8 + " \u9AD8\u5854\u5730\u7262\u7B2C\u56DB\u5C64"];
+		case 25: return [COLOR_8 + " \u9AD8\u5854\u5730\u7262\u7B2C\u4E94\u5C64 - \u5973\u4F2F\u7235"];
+		case 26: return [COLOR_8 + " \u50E7\u9662\u5927\u9580"];
+		case 27: return [COLOR_8 + " \u5916\u5074\u8FF4\u5ECA"];
+		case 28: return [COLOR_8 + " \u8ECD\u71DF"];
+		case 29: return [COLOR_8 + " \u76E3\u7262\u7B2C\u4E00\u5C64"];
+		case 30: return [COLOR_8 + " \u76E3\u7262\u7B2C\u4E8C\u5C64"];
+		case 31: return [COLOR_8 + " \u76E3\u7262\u7B2C\u4E09\u5C64"];
+		case 32: return [COLOR_8 + " \u5167\u5074\u8FF4\u5ECA"];
+		case 33: return [COLOR_8 + " \u5927\u6559\u5802"];
+		case 34: return [COLOR_8 + " \u5730\u4E0B\u5893\u7A74\u7B2C\u4E00\u5C64"];
+		case 35: return [COLOR_8 + " \u5730\u4E0B\u5893\u7A74\u7B2C\u4E8C\u5C64"];
+		case 36: return [COLOR_8 + " \u5730\u4E0B\u5893\u7A74\u7B2C\u4E09\u5C64"];
+		case 37: return [COLOR_8 + " \u5730\u4E0B\u5893\u7A74\u7B2C\u56DB\u5C64 - \u5B89\u9054\u5229\u723E"];
+		case 38: return [COLOR_8 + " \u5D14\u65AF\u7279\u745E\u59C6"];
+		case 40: return [COLOR_8 + " \u9B6F.\u9AD8\u56E0"];
+		case 41:return [COLOR_8 + " \u788E\u77F3\u8352\u5730"];
+		case 42:return [COLOR_8 + " \u4E7E\u71E5\u7684\u9AD8\u5730"];
+		case 43:return [COLOR_8 + " \u9059\u9060\u7684\u7DA0\u6D32"+COLOR_2+" \u570B\u738B\u4E4B\u6756"];
+		case 44:return [COLOR_8 + " \u907A\u5931\u7684\u57CE\u5E02 - "+COLOR_2+"\u8179\u86C7\u8B77\u7B26"];
+		case 45:return [COLOR_8 + " \u7FA4\u86C7\u5CFD\u8C37"];
+		case 46:return [COLOR_8 + " \u8853\u58EB\u7684\u5CFD\u8C37 -" +COLOR_2+ " \u90FD\u745E\u723E"];
+		case 47: return [COLOR_8 + " \u4E0B\u6C34\u9053\u7B2C\u4E00\u5C64"];
+		case 48: return [COLOR_8 + " \u4E0B\u6C34\u9053\u7B2C\u4E8C\u5C64"];
+		case 49:return [COLOR_8 + " \u7F85\u9054\u9580\u7279\u7684\u5DE2\u7A74"];
+		case 50:return [COLOR_8 + " \u5973\u7737\u4F4F\u8655\u7B2C\u4E00\u5C64"];
+		case 51:return [COLOR_8 + " \u5973\u7737\u4F4F\u8655\u7B2C\u4E8C\u5C64"];
+		case 52:return [COLOR_8 + " \u7687\u5BAE\u76E3\u7262\u7B2C\u4E00\u5C64"];
+		case 53:return [COLOR_8 + " \u7687\u5BAE\u76E3\u7262\u7B2C\u4E8C\u5C64"];
+		case 54:return [COLOR_8 + " \u7687\u5BAE\u76E3\u7262\u7B2C\u4E09\u5C64"];
+		case 56: return [COLOR_8 + " \u6B7B\u4EA1\u4E4B\u6BBF\u7B2C\u4E00\u5C64"];
+		case 57: return [COLOR_8 + " \u6B7B\u4EA1\u4E4B\u6BBF\u7B2C\u4E8C\u5C64"];
+		case 58: return [COLOR_8 + " \u5229\u722A\u8179\u86C7\u795E\u6BBF\u7B2C\u4E00\u5C64"];
+		case 60:return [COLOR_8 +  " \u6B7B\u4EA1\u4E4B\u6BBF\u7B2C\u4E09\u5C64"+COLOR_2+" \u8D6B\u62C9\u7B1B\u514B\u65B9\u584A"];
+		case 61:return [COLOR_8 + " \u5229\u722A\u8179\u86C7\u795E\u6BBF\u7B2C\u4E8C\u5C64 - " +COLOR_2+" \u8179\u86C7\u8B77\u7B26"];
+		case 62:return [COLOR_8 + " \u86C6\u87F2\u5DE2\u7A74\u7B2C\u4E00\u5C64"];
+		case 63:return [COLOR_8 + " \u86C6\u87F2\u5DE2\u7A74\u7B2C\u4E8C\u5C64"];
+		case 64:return [COLOR_8 + " \u86C6\u87F2\u5DE2\u7A74\u7B2C\u4E09\u5C64"+COLOR_2+" \u570B\u738B\u4E4B\u6756"];
+		case 65:return [COLOR_8 + " \u53E4\u4EE3\u901A\u9053"];
+		case 66:
+		case 67:
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+		case 72:return [COLOR_8 + " \u5854.\u62C9\u590F\u7684\u53E4\u5893 -" +COLOR_2+ " \u90FD\u745E\u723E"];
+		case 73:return [COLOR_8 + " \u90FD\u745E\u723E\u7684\u623F\u9593"];
+		case 74:return [COLOR_8 + " \u795E\u7955\u5E87\u96E3\u6240 -"+COLOR_2+ " \u53EC\u559A\u5E2B"];
+		case 75:return [COLOR_8 + " \u5EAB\u62C9\u65AF\u7279\u6D77\u6E2F"];
+		case 76:return [COLOR_8 + " \u8718\u86DB\u68EE\u6797"];
+//		case 76:return [COLOR_8 + " \u8718\u86DB\u6D1E\u7A9F-\u514B\u6797\u59C6\u7684\u773C\u7403"];
+		case 78:return [COLOR_8 + " \u525D\u76AE\u53E2\u6797"];
+//		case 78:return [COLOR_8 + " \u525D\u76AE\u5730\u7A96-\u514B\u6797\u59C6\u7684\u5927\u8166"];
+		case 79:return [COLOR_8 + " \u5EAB\u62C9\u65AF\u7279\u4E0B\u5C64"];
+		case 80:return [COLOR_8 + " \u5EAB\u62C9\u65AF\u7279\u5546\u5834"];
+		case 81:return [COLOR_8 + " \u5EAB\u62C9\u65AF\u7279\u4E0A\u5C64"];
+		case 82:return [COLOR_8 + " \u5EAB\u62C9\u65AF\u7279\u5824\u9053"];
+		case 83:return [COLOR_8 + " \u5D14\u51E1\u514B - "+COLOR_2 + "\u8B70\u6703\u6210\u54E1"];
+//		case 80: return [COLOR_8 + " \u6B98\u7834\u795E\u6BBF", COLOR_8 + " \u514B\u6797\u59C6\u7684\u5FC3\u81DF"];
+		case 84:return [COLOR_8 + " \u8718\u86DB\u5DE2\u7A74"];
+		case 85:return [COLOR_8 + " \u8718\u86DB\u6D1E\u7A9F - "+COLOR_2+"\u514B\u6797\u59C6\u7684\u773C\u7403"];
+		case 86:return [COLOR_8 + " \u6CBC\u6FA4\u5730\u6D1E\u7B2C\u4E00\u5C64"];
+		case 87:return [COLOR_8 + " \u6CBC\u6FA4\u5730\u6D1E\u7B2C\u4E8C\u5C64"];
+		case 88:return [COLOR_8 + " \u525D\u76AE\u5730\u7A96\u7B2C\u4E00\u5C64"];
+		case 89:return [COLOR_8 + " \u525D\u76AE\u5730\u7A96\u7B2C\u4E8C\u5C64"];
+		case 90:return [COLOR_8 + " \u6CBC\u6FA4\u5730\u6D1E\u7B2C\u4E09\u5C64"];
+		case 91:return [COLOR_8 + " \u525D\u76AE\u5730\u7A96\u7B2C\u4E09\u5C64 - " +COLOR_2+"\u514B\u6797\u59C6\u7684\u5927\u8166"];
+		case 92: return [COLOR_8 + " \u4E0B\u6C34\u9053\u7B2C\u4E00\u5C64"];
+		case 93: return [COLOR_8 + " \u4E0B\u6C34\u9053\u7B2C\u4E8C\u5C64 - " +COLOR_2+" \u514B\u6797\u59C6\u7684\u5FC3\u81DF"];
+		case 94: return [COLOR_8 + " \u6B98\u7834\u795E\u6BBF"];
+		case 95: return [COLOR_8 + " \u5EE2\u68C4\u7684\u5BFA\u9662"];
+		case 96: return [COLOR_8 + " \u907A\u5FD8\u7684\u8056\u7269"];
+		case 97: return [COLOR_8 + " \u907A\u5FD8\u795E\u6BBF"];
+		case 100: return [COLOR_8 + " \u618E\u6068\u7684\u56DA\u7262\u7B2C\u4E00\u5C64"];
+		case 101: return [COLOR_8 + " \u618E\u6068\u7684\u56DA\u7262\u7B2C\u4E8C\u5C64"];
+		case 102: return [COLOR_8 + " \u618E\u6068\u7684\u56DA\u7262\u7B2C\u4E09\u5C64 - "+COLOR_2 + "\u83AB\u83F2\u65AF\u6258"];
+		case 103: return [COLOR_8 + " \u7FA4\u9B54\u5821\u58D8"];
+		case 104: return [COLOR_8 + " \u90CA\u5916\u5927\u8349\u539F"];
+		case 105: return [COLOR_8 + " \u7D55\u671B\u5E73\u539F - "+COLOR_2 + " \u8863\u5352\u723E"];
+		case 106: return [COLOR_8 + " \u795E\u7F70\u4E4B\u57CE"];
+		case 107: return [COLOR_8 + " \u706B\u7130\u4E4B\u6CB3 - "+COLOR_2 + "  \u6D77\u6CD5\u65AF\u7279\u76D4\u7532\u88FD\u4F5C\u8005"];
+		case 108: return [COLOR_8 + " \u6DF7\u7D14\u907F\u96E3\u6240"];
+		case 109: return [COLOR_8 + " \u54C8\u6D1B\u52A0\u65AF"];
+		case 110: return [COLOR_8 + " \u8840\u8165\u4E18\u9675"];
+		case 111: return [COLOR_8 + " \u51B0\u51CD\u9AD8\u5730"];
+		case 112: return [COLOR_8 + " \u4E9E\u745E\u7279\u9AD8\u539F"];
+		case 113: return [COLOR_8 + " \u6C34\u6676\u901A\u9053"];
+		case 114: return [COLOR_8 + " \u51B0\u6CB3 - "+COLOR_2 + "\u5B89\u4E9E"];
+		case 115: return [COLOR_8 + " \u51B0\u6CB3\u8DEF\u5F91"];
+		case 116: return [COLOR_8 + " \u98C4\u6CCA\u8005\u6D1E\u7A74"];
+		case 117: return [COLOR_8 + " \u51B0\u51CD\u82D4\u539F"];
+		case 118: return [COLOR_8 + " \u9060\u53E4\u4E4B\u8DEF"];
+		case 119: return [COLOR_8 + " \u51B0\u7A96"];
+		case 120: return [COLOR_8 + " \u4E9E\u745E\u7279\u5C71\u8108\u985B\u5CF0"];
+		case 125: return [COLOR_8 + " \u827E\u5DF4\u7576"];
+		case 126: return [COLOR_8 + " \u51A5\u6CB3\u4E4B\u6D1E"];
+		case 127: return [COLOR_8 + " \u5730\u7344\u9B54\u7A9F"];
+		case 128: return [COLOR_8 + " \u4E16\u754C\u4E4B\u77F3\u8981\u585E\u7B2C\u4E00\u5C64"];
+		case 129: return [COLOR_8 + " \u4E16\u754C\u4E4B\u77F3\u8981\u585E\u7B2C\u4E8C\u5C64"];
+		case 130: return [COLOR_8 + " \u4E16\u754C\u4E4B\u77F3\u8981\u585E\u7B2C\u4E09\u5C64"];
+		case 131:return [COLOR_8 + " \u6BC0\u6EC5\u7684\u738B\u5EA7"];
+		case 132:return [COLOR_8 + " \u4E16\u754C\u4E4B\u77F3\u5927\u6BBF"];
+		case 135:return [COLOR_8 + " \u9EC3\u91D1\u5BF6\u7BB1"];
+	}
+	var Poi = [" "];
+	return Poi;
+}
+
+function TelePoi()// move to POI's
+{
+	switch(me.areaid) {
+		case 2:	if(!MG_MoveToStairs([2, 8])) return ErrorHandler();
+			break;
+		case 8:	if(!MG_MoveToStairs([8, 2])) return ErrorHandler();
+			break;
+		case 3: (_Teleport == 0) ? MG_BurialGround() : MG_Cave();
+			break;
+		case 9:	if(!MG_MoveToStairs([9, 13])) return ErrorHandler();
+			break;
+		case 4: if(!NTM_KoMoveToPresetUnit(4, NTC_UNIT_OBJECT, 22))  return ErrorHandler();
+			break;
+		case 5: if(!NTM_KoMoveToPresetUnit(5, NTC_UNIT_OBJECT, 30))  return ErrorHandler();
+			break;
+		case 6: (_Teleport == 0) ? MG_Countess() : MG_Pit();
+			break;
+		case 12:if(!MG_MoveToStairs([12, 16])) return ErrorHandler();
+			break;
+		case 27:
+		case 28:if(!NTM_KoMoveToPresetUnit(28, NTC_UNIT_OBJECT, 108, 5, 5))  return ErrorHandler();
+			break;
+		case 35:
+		case 35:if(!MG_MoveToStairs([35, 36],[36, 37])) return ErrorHandler();
+			break;
+		case 47:if(!MG_MoveToStairs([47, 48])) return ErrorHandler();
+		case 48:if(!MG_MoveToStairs([48, 49])) return ErrorHandler();
+		case 49:if(!MG_Radament) return ErrorHandler();
+			break;
+		case 56:
+		case 57:
+		case 60:if(!MG_MoveToStairs([56, 57],[57, 60])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(60, NTC_UNIT_OBJECT, 354, 4, 2))  return ErrorHandler();
+			break;
+		case 43:if(!MG_MoveToStairs([43, 62],[62, 63],[63, 64])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(64, NTC_UNIT_OBJECT, 356, 4, 2))  return ErrorHandler();
+			break;
+		case 44:if(!MG_MoveToStairs([44, 45, 58], [45, 58], [58, 61])) return ErrorHandler();
+		case 61:if(!NTM_KoMoveToPresetUnit(61, NTC_UNIT_OBJECT, 149, 2, -4))  return ErrorHandler();
+			break;
+		case 74:if(!MG_Sumoner())  return ErrorHandler();
+			break;
+		case 46:if(!MG_Duriel())  return ErrorHandler();
+			break;
+		case 76:if(!MG_MoveToStairs([76, 85])) return ErrorHandler();
+			break;
+		case 78:if(!MG_MoveToStairs([78, 88], [88, 89], [89, 91])) return ErrorHandler();
+			break;
+		case 80: (_Teleport == 0) ? MG_Tome() : MG_Heart();
+			break;
+		case 101:if(!MG_MoveToStairs([101, 102])) return ErrorHandler();
+			if(!NTM_MoveTo(102, 17592, 8070, 1)) return ErrorHandler();
+			break;
+		case 104:
+		case 105:
+		case 106:if(!MG_Izual())  return ErrorHandler();
+			break;
+		case 107:if(!NTM_KoMoveToPresetUnit(107, NTC_UNIT_OBJECT, 376, 2, -4))  return ErrorHandler();
+			break;
+		case 111:if(!NTM_KoMoveToPresetUnit(111, NTC_UNIT_OBJECT, 60)) return ErrorHandler();
+			if(!NTM_TakeUnit(NTC_UNIT_OBJECT, 60)) return ErrorHandler();
+			break;
+		case 112:if(!NTM_KoMoveToPresetUnit(112, NTC_UNIT_OBJECT, 60)) return ErrorHandler();
+			if(!NTM_TakeUnit(NTC_UNIT_OBJECT, 60)) return ErrorHandler();
+			break;
+		case 113:if(!MG_MoveToStairs([113, 114])) return ErrorHandler();
+		case 114: if(!NTM_KoMoveToPresetUnit(114, NTC_UNIT_OBJECT, 460, 3, 3)) return ErrorHandler();
+			break;
+		case 117:if(!NTM_KoMoveToPresetUnit(117, NTC_UNIT_OBJECT, 60)) return ErrorHandler();
+			if(!NTM_TakeUnit(NTC_UNIT_OBJECT, 60)) return ErrorHandler();
+			break;
+		case 118:if(!MG_MoveToStairs([118, 120])) return ErrorHandler();
+			break;
+		case 121:
+		case 122:
+		case 123:if(!MG_MoveToStairs([121,122], [122,123], [123,124])) return ErrorHandler();
+			break;
+		case 129:
+		case 130:if(!MG_MoveToStairs([129, 130], [130, 131])) return ErrorHandler();
+		case 131:if(!NTM_MoveTo(131, 15112, 5068, 1)) return ErrorHandler();
+			break;
+		case 13:
+		case 16:
+		case 18:
+		case 19:
+		case 65:
+		case 66:
+		case 67:
+		case 68:
+		case 69:
+		case 70:
+		case 71:
+		case 72:
+		case 85:
+		case 91:
+		case 93:
+		case 125:
+		case 126:
+		case 127:
+		case 133:
+		case 135: MG_GoldenChest();
+			break;
+	}
+}
+
+function MG_GoldenChest()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u9EC3\u91D1\u5BF6\u7BB1");
+	var chest;
+	switch (me.areaid) {
+		case 85: chest = 407; break;
+		case 91: chest = 406; break;
+		case 93: chest = 405; break;
+		default: chest = 397;
+	}
+
+	if(!NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_OBJECT, chest)) return ErrorHandler();
+	return;
+}
+
+function MG_Cave()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u6D1E\u7A9F");
+	if(!MG_MoveToStairs([3, 9])) return ErrorHandler();
+	return;
+}
+
+function MG_BurialGround()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u57CB\u9AA8\u4E4B\u5730");
+	if(!NTM_KoMoveToStair(17, 19, 0, 20)) return ErrorHandler();
+	return;
+}
+
+function MG_Countess()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u5973\u4F2F\u7235");
+	if(!MG_MoveToStairs([6, 20], [20, 21], [21, 22], [22, 23], [23, 24], [24, 25])) return ErrorHandler();
+	return;
+}
+
+function MG_Pit()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u5730\u6D1E");
+	if(!NTM_KoMoveToPresetUnit(7, NTC_UNIT_OBJECT, 37)) return ErrorHandler();
+	if(!MG_MoveToStairs([7, 12])) return ErrorHandler();
+	return;
+}
+
+function MG_Radament()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u7F85\u9054\u9580\u7279");
+	if(!NTM_KoMoveToPresetUnit(me.areaid, NTC_UNIT_OBJECT, 355, 1, -1)) return ErrorHandler();
+	return;
+}
+function MG_Sumoner()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u53EC\u559A\u8005");
+	var _unit, _journalx, _journaly ;
+	NTP_DoPrecast(true);
+
+	_unit = GetPresetUnits(me.areaid, 2);
+
+	for (i=0;i < _unit.length; i++) {
+		if (_unit[i].id == 357) {
+			_journalx = _unit[i].roomx*5+_unit[i].x;
+			_journaly = _unit[i].roomy*5+_unit[i].y;
+		}
+	}
+
+	if(_journalx < 25300){_journalx+=55;}
+	if(_journaly < 5300){_journalx+=15; _journaly+=55;}
+	if(_journalx > 25500){_journalx-=40; _journaly+=15;}
+	if(_journaly > 5500){_journalx+=15; _journaly-=40;}
+	if(!NTM_MoveTo(me.areaid, _journalx, _journaly)) return false;
+
+	return true;
+}
+
+function MG_Duriel()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u90FD\u745E\u723E");
+	var _tile;
+	var _tombs = GetRoom();
+
+	if(_tombs) {
+		if(NTM_KoMoveToPresetUnit(me.areaid, NTC_UNIT_TILE, _tombs.correcttomb - 28)) {
+			_tile = NTC_FindUnit(NTC_UNIT_TILE, _tombs.correcttomb - 28, 5);
+			if(_tile) {
+				if(NTM_TakeStair(_tile.subareaid)) {
+					if(NTM_KoMoveToPresetUnit(me.areaid, NTC_UNIT_OBJECT, 152, -6, 0))
+						return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+function MG_Tome()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u6B98\u7834\u795E\u6BBF");
+	if(!MG_MoveToStairs([80, 94])) return ErrorHandler();
+	return;
+}
+
+function MG_Heart()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u514B\u6797\u59C6\u7684\u5FC3\u81DF");
+	if(!MG_MoveToStairs([80, 92], [92, 93])) return ErrorHandler();
+	return;
+}
+
+function MG_Izual()
+{
+	SetStatusText(COLOR_4 + Rev + COLOR_8 + " \u8863\u5352\u723E");
+	var _monst = GetPresetUnits(105, NTC_UNIT_MONSTER, "izual");
+	if(!_monst)
+		return Print("\u627E\u4E0D\u5230\u602A") && false;
+	var posx = _monst[0].roomx*5+_monst[0].x;
+	var posy = _monst[0].roomy*5+_monst[0].y;
+	var _pathb = GetPath(105, posx, posy, me.x, me.y, true);
+	if(!_pathb)
+		return Print("\u627E\u4E0D\u5230\u8DEF") && false;
+
+	for(i = _pathb.length-1 ; i > -1 ; i--) {
+		var dis = GetDistance(_pathb[i][0], _pathb[i][1], posx, posy)
+		if(dis < 65)
+			break;
+	}
+
+	NTP_DoPrecast();
+	if(!NTM_MoveTo(me.areaid, _pathb[i][0], _pathb[i][1])) return false;
+	return true;
+}
+
+function MG_WaypointUp()
+{
+	if(me.areaid != 1 && me.areaid != 40 && me.areaid != 75 && me.areaid != 103 && me.areaid != 109)
+		NTP_DoPrecast(true);
+	switch (me.areaid) {
+		case 1:	if(!NTTM_TownMove("exit")) return ErrorHandler();
+			NTTM_OutOfAct1();
+			NTP_DoPrecast(true);
+		case 17:
+		case 2:	if(!NTM_MoveToPresetUnit(3, NTC_UNIT_OBJECT, 119)) return ErrorHandler();
+			break;
+		case 3:	if(!NTM_MoveToPresetUnit(4, NTC_UNIT_OBJECT, 119)) return ErrorHandler();
+			break;
+		case 4: if(!MG_MoveToStairs([4, 10])) return ErrorHandler();
+		case 10: if(!MG_MoveToStairs([10, 5])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(5, NTC_UNIT_OBJECT, 119)) return ErrorHandler();
+			break;
+		case 5: if(!NTM_KoMoveToPresetUnit(6, NTC_UNIT_OBJECT, 119)) return ErrorHandler();
+			break;
+		case 6:	if(!NTM_KoMoveToPresetUnit(7, NTC_UNIT_OBJECT, 37)) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(26, NTC_UNIT_OBJECT, 27)) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(27, NTC_UNIT_OBJECT, 119)) return ErrorHandler();
+			break;
+		case 27:if(!MG_MoveToStairs([27, 28, 29])) return ErrorHandler();
+		case 28:if(!MG_MoveToStairs([28, 29])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(29, NTC_UNIT_OBJECT, 157)) return ErrorHandler();
+			break;
+		case 29:if(!MG_MoveToStairs([29, 30])) return ErrorHandler();
+		case 30:if(!MG_MoveToStairs([30, 31])) return ErrorHandler();
+		case 31:if(!MG_MoveToStairs([31, 32])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(32, NTC_UNIT_OBJECT, 119)) return ErrorHandler();
+			break;
+		case 32:if(!MG_MoveToStairs([32, 33, 34])) return ErrorHandler();
+		case 33:if(!MG_MoveToStairs([33, 34])) return ErrorHandler();
+		case 34:if(!MG_MoveToStairs([34, 35])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(35, NTC_UNIT_OBJECT, 157)) return ErrorHandler();
+			break;
+		case 35:NTM_TakeWaypoint(40);
+		case 40:if(!NTTM_TownMove("greiz")) return ErrorHandler();
+			if(!NTM_TakeStair(47)) return ErrorHandler();
+			if(!MG_MoveToStairs([40, 47])) return ErrorHandler();
+		case 47:if(!MG_MoveToStairs([47, 48])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(48, NTC_UNIT_OBJECT, 323)) return ErrorHandler();
+			break;
+		case 48:NTM_TakeWaypoint(40);
+			_unit = GetPresetUnits(41, NTC_UNIT_OBJECT);
+			if(!_unit)return ErrorHandler();
+			if(_unit[0].id == 286) {
+				if(!NTTM_TownMove("drognan")) return ErrorHandler();
+				if(!NTM_MoveTo(41, me.x, me.y - 60)) return ErrorHandler();
+			}
+			else {
+				if(!NTTM_TownMove("exit")) return ErrorHandler();
+				if(!NTM_MoveTo(41, me.x - 40, me.y)) return ErrorHandler();
+			}
+		case 41: if(!NTM_KoMoveToPresetUnit(42, NTC_UNIT_OBJECT, 156)) return ErrorHandler();
+			break;
+		case 42:if(!MG_MoveToStairs([42, 56])) return ErrorHandler();
+		case 56:if(!MG_MoveToStairs([56, 57])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(57, NTC_UNIT_OBJECT, 156)) return ErrorHandler();
+			break;
+		case 57:NTM_TakeWaypoint(42);
+			if(!NTM_KoMoveToPresetUnit(43, NTC_UNIT_OBJECT, 156)) return ErrorHandler();
+			break;
+		case 43:if(!NTM_KoMoveToPresetUnit(44, NTC_UNIT_OBJECT, 156)) return ErrorHandler();
+			break;
+		case 44:NTM_TakeWaypoint(40);
+			if(!NTTM_TownMove("palace")) return ErrorHandler();
+			if(!NTM_TakeStair(50)) return ErrorHandler();
+		case 50:if(!MG_MoveToStairs([50, 51])) return ErrorHandler();
+		case 51:if(!MG_MoveToStairs([51, 52])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(52, NTC_UNIT_OBJECT, 288)) return ErrorHandler();
+			break;
+		case 52:if(!MG_MoveToStairs([52, 53])) return ErrorHandler();
+		case 53:if(!MG_MoveToStairs([53, 54])) return ErrorHandler();
+		case 54:if(!NTM_KoMoveToPresetUnit(54, NTC_UNIT_OBJECT, 298)) return ErrorHandler();
+			if(!NTM_TakeUnit(NTC_UNIT_OBJECT, 298)) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(74, NTC_UNIT_OBJECT, 402)) return ErrorHandler();
+			break;
+		case 74:if(!NTM_KoMoveToPresetUnit(74, NTC_UNIT_OBJECT, 357))return ErrorHandler();
+			var _journal = NTC_FindUnit(NTC_UNIT_OBJECT, 357);
+			if(!NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _journal))	return ErrorHandler();
+			NTM_MoveTo(me.areaid, me.x+8, me.y-6);
+			me.Cancel(0);NTC_Delay(100);me.Cancel(0);NTC_Delay(100);
+			NTM_UsePortal("Portal", 46);
+			NTM_MoveTo(me.areaid, me.x-16, me.y-16);
+			break;
+		case 46:NTM_TakeWaypoint(75);
+		case 75:
+			if(!NTTM_TownMove("exit")) return ErrorHandler();
+			if(!NTM_MoveTo(76, me.x, me.y - 70, 5)) return ErrorHandler();
+			NTP_DoPrecast(true);
+			if(!NTM_KoMoveToPresetUnit(76, NTC_UNIT_OBJECT, 237)) return ErrorHandler();
+			break;
+		case 76:if(!NTM_KoMoveToPresetUnit(77, NTC_UNIT_OBJECT, 237)) return ErrorHandler(); break;
+		case 77:if(NTM_KoMoveToPresetUnit(78, NTC_UNIT_OBJECT, 237)) break;
+			else {
+				if(!NTM_TakeWaypoint(76)) return ErrorHandler();
+				if(!NTM_KoMoveToPresetUnit(78, NTC_UNIT_OBJECT, 237)) return ErrorHandler();
+			}
+			break;
+		case 78:if(!NTM_KoMoveToPresetUnit(79, NTC_UNIT_OBJECT, 237)) return ErrorHandler();
+			break;
+		case 79:if(!NTM_KoMoveToPresetUnit(80, NTC_UNIT_OBJECT, 237)) return ErrorHandler();
+			break;
+		case 80:if(!NTM_KoMoveToPresetUnit(81, NTC_UNIT_OBJECT, 237)) return ErrorHandler();
+			break;
+		case 81:if(!NTM_KoMoveToPresetUnit(82, NTC_UNIT_OBJECT, 194, 50, 0)) return ErrorHandler();
+		case 82:if(!NTM_KoMoveToPresetUnit(83, NTC_UNIT_OBJECT, 237)) return ErrorHandler();
+			break;
+		case 83:if(me.GetQuest(18, 0) == 0){Print("Cannot continue need Orb Quest");return;}
+			if(!MG_MoveToStairs([83, 100])) return ErrorHandler();
+		case 100:if(!MG_MoveToStairs([100, 101])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(101, NTC_UNIT_OBJECT, 324)) return ErrorHandler();
+			break;
+		case 101:	NTM_TakeWaypoint(103);
+		case 103:
+			if(!NTTM_TownMove("exit")) return ErrorHandler();
+			if(!NTM_MoveTo(104, me.x + 20, me.y)) return ErrorHandler();
+			NTP_DoPrecast(true);
+			if(!NTM_KoMoveToPresetUnit(105, NTC_UNIT_OBJECT, 374)) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(106, NTC_UNIT_OBJECT, 238)) return ErrorHandler();
+			break;
+		case 106:	if(!MG_MoveToStairs([106, 107])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(107, NTC_UNIT_OBJECT, 238)) return ErrorHandler();
+			break;
+		case 107:	NTM_TakeWaypoint(109);
+		case 109:	var _unit;
+			if(!NTTM_TownMove("exit"))return ErrorHandler();
+			_unit = NTC_FindUnit(NTC_UNIT_OBJECT, 449, 5);
+			if(!_unit)return ErrorHandler();
+			if(!_unit.mode) {
+				if(!NTC_OpenChest(_unit))
+					return ErrorHandler();
+			}
+			if(!NTM_MoveTo(110, me.x - 50, me.y)) return ErrorHandler();
+			NTP_DoPrecast(true);
+		case 110:	if(!NTM_KoMoveToPresetUnit(111, NTC_UNIT_OBJECT, 496)) return ErrorHandler();
+			break;
+		case 111:	if(!NTM_KoMoveToPresetUnit(112, NTC_UNIT_OBJECT, 496)) return ErrorHandler();
+			break;
+		case 112:	if(!MG_MoveToStairs([112, 113])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(113, NTC_UNIT_OBJECT, 511)) return ErrorHandler();
+			break;
+		case 113:	if(!MG_MoveToStairs([113, 115])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(115, NTC_UNIT_OBJECT, 511)) return ErrorHandler();
+			break;
+		case 115:	if(!MG_MoveToStairs([115, 117])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(117, NTC_UNIT_OBJECT, 496)) return ErrorHandler();
+			break;
+		case 117:	if(!MG_MoveToStairs([117, 118])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(118, NTC_UNIT_OBJECT, 511)) return ErrorHandler();
+			break;
+		case 121:	if(!MG_MoveToStairs([121, 122])) return ErrorHandler();
+		case 122:	if(!MG_MoveToStairs([122, 123])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(123, NTC_UNIT_OBJECT, 496)) return ErrorHandler();
+			Print(COLOR_2 + "Get this waypoint only if you want the portal to close!");
+			break;
+		case 118:	if(!MG_MoveToStairs([118, 120])) return ErrorHandler();
+		case 120:	if(!MG_MoveToStairs([120, 128])) return ErrorHandler();
+		case 128:	if(!MG_MoveToStairs([128, 129])) return ErrorHandler();
+			if(!NTM_KoMoveToPresetUnit(129, NTC_UNIT_OBJECT, 494)) return ErrorHandler();
+			break;
+		default: Print(COLOR_4 + "\u9019\u88E1\u6C92\u6709\u50B3\u9001\u9EDE, \u56DE\u57CE\u53BB!"); HeadingHome(); break;
+	} return MG_ClickWaypoint();
+}
+
+function ErrorHandler()
+{
+	Print(COLOR_1 + "Error moving in area " + me.areaid);
+	return;
+}
+
+function MG_ClickWaypoint()
+{
+	var _waypoint = NTC_FindUnit(NTC_UNIT_OBJECT, GetLocaleString(22526), 5);
+
+	if(_waypoint && (me.areaid != 123)) {
+		for (var i = 0; i < 55; i++) {
+			if((i % 10) == 0)
+				NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _waypoint);
+				Delay(100);
+			if(_waypoint.mode) {
+				if(GetUIState(0x14))
+					me.Cancel(1);
+				return true;
+			}
+		}
+	} return false;
+}
+
+function MG_MoveToStairs()
+{
+	NTP_DoPrecast();// ? precast if needed
+	for (var i = 0; i < arguments.length; i++) {
+		if(arguments[i][0] == me.areaid) {
+			if(arguments[i].length < 3) {
+				if(!NTM_KoMoveToStair(arguments[i][0], arguments[i][1]))
+					return false;
+				if(!NTM_TakeStair(arguments[i][1]))
+					return false;
+			}
+			else {
+				if(!NTM_KoMoveToStair(arguments[i][1], arguments[i][2]))
+					return false;
+				if(!NTM_TakeStair(arguments[i][2]))
+					return false;
+			}
+		}
+	} return true;
+}

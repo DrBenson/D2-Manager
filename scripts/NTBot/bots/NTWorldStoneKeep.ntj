@@ -1,0 +1,573 @@
+/* =====================================================
+ *
+ * NTWorldstoneKeep.ntj , a BOT run for NTWorldstoneKeep script, based on ETal 1.44WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTWorldstoneKeep.ntj, 一個毀滅的前夕(巴爾)-世界之石大殿的BOT程式腳本, 根據 ETal 1.44WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+var _hostilepause = false;
+var poscount = 1;
+var _trapsPreCasted;
+function NTMain(){
+
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	var i;
+	var _wave;
+	var _starttick;
+
+	NT_LoadConfig();
+	NTSI_LoadNIPFiles("NTBot/item_configs");
+
+	NTA_Initialize();
+
+	if(!NTTM_CheckAct()){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+		return;
+	}
+	NTTMGR_TownManager();
+	if(!NTTM_TownMove("waypoint")){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+		return;
+	}
+	if(!NTM_TakeWaypoint(129)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+		return;
+	}
+	NTP_DoPrecast(true);
+	if(NTConfig_ClearWorldStoneKeep == 1){ // Chair add - checking what clear option has been selected. non specified = don't clear!
+		clearpath = true;
+	}
+	else if(NTConfig_ClearWorldStoneKeep == 2){
+		clearpath = 2;
+	}
+	else{
+		clearpath = false;
+	}
+	if(clearpath != 2){ //Chair add - first block handles anything but full level clears
+		if(!NTM_MoveToStair(me.areaid, 130,0,0,clearpath)){ // Chair add - the clearpath variable is adjusted by NTConfig_ClearWorldStoneKeep above
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToStair()");
+			return;
+		}
+		if(!NTM_TakeStair(130)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+			return;
+		}
+		if(!NTM_MoveToStair(me.areaid, 131,0,0,clearpath)){ // Chair add - the clearpath variable is adjusted by NTConfig_ClearWorldStoneKeep above
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToStair()");
+				return;
+		}
+		if(NTConfig_MakeWSK3TP && NTConfig_PublicMode){
+			Say("\u904E\u4EFB\u52D9\u5438\u53D6\u7D93\u9A57\u8ACB\u7A0D\u5F8C");
+			NTM_MakeTP();
+			Say(Baal_WSK3_TP_MSG);
+			NTC_Delay(200);
+			NTP_DoPrecast(true);
+			NTC_Delay(300);
+		}
+		if(!NTM_TakeStair(130+i)){ 	// stair var i isn't being used yet so not sure why you have it here??? doesn't get used until line 147
+
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+			return;
+		}
+	}
+	else{ 	//Chair add - This entire block handles the option to clear the entire lvl 2 and 3, not only the path.
+		if(!NTA_ClearLevel()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTA_ClearLevel()");
+			return;
+		}
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas())
+			OpenChestsInArea();
+		if(!NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_TILE, 82)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToPresetUnit()");
+			return;
+		}
+		if(!NTM_TakeStair()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+			return;
+		}
+		NTP_DoPrecast();
+		if(!NTA_ClearLevel()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTA_ClearLevel()");
+			return;
+		}
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas())
+			OpenChestsInArea();
+		if(!NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_TILE, 82)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToPresetUnit()");
+			return;
+		}
+		if(!NTM_TakeStair()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+			return;
+		}
+		NTP_DoPrecast();
+		if(!NTA_ClearLevel()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTA_ClearLevel()");
+			return;
+		}
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas())
+			OpenChestsInArea();
+	}
+	//End of things added by Chairman
+	if(!NTM_MoveTo(me.areaid, 15112, 5068)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveTo()");
+		return;
+	}
+	// Adding Doll Check
+	if(NTConfig_CheckSoulKillers && NTC_FindUnit(NTC_UNIT_MONSTER, GetLocaleString(2904))) {
+		//NTM_MoveTo(me.areaid, 15114, 5069, 1, true);
+		Say("\u767C\u73FE\u6B7B\u5A03\u5A03\u300C\u4E0D\u6B7B\u9748\u9B42\u6BBA\u624B\u300D. \u9003\u547D\u5148.....");
+		NTM_MakeTP();
+		SendCopyData('D2NT Manager', null,  9<<16|NTC_LOG_COMMON, "2."+COLOR_1 + "\u767C\u73FE\u6B7B\u5A03\u5A03\u300C\u4E0D\u6B7B\u9748\u9B42\u6BBA\u624B\u300D...");
+		NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_1 + "\u9003\u547D\u89F8\u767C. \u767C\u73FE\u6B7B\u5A03\u5A03\u300C\u4E0D\u6B7B\u9748\u9B42\u6BBA\u624B\u300D...");
+		//NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+		ExitGame();
+		NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+		return;
+	}
+	// End Doll Check
+	NTA_ClearPosition(20, true, 2);
+	if(NTConfig_PublicMode){
+		if(NTConfig_MakeHotTP){
+			NTM_MoveTo(me.areaid, 15091, 5006);
+			if(NTThrone_Announce)
+				_announceTMobs();
+			Say("\u602A\u7269\u5C1A\u672A\u6E05\u9664\u5B8C\u7562, \u904E\u4EFB\u52D9\u5438\u53D6\u7D93\u9A57\u8ACB\u7A0D\u5F8C");
+			NTM_MakeTP();
+			Say(Baal_HotTp);
+			//NTC_Delay(500);
+			NTP_DoPrecast(true);
+			NTA_ClearPosition(20, true, 2);
+			NTM_MoveTo(me.areaid, 15091, 5006);
+			NTC_PingDelay(1000);
+		}
+	}
+	NT_ClearThroneInt();
+	if(NTConfig_PublicMode){
+		NTM_MoveTo(me.areaid, 15114, 5069, 1, true);
+		Say("\u5DF2\u7D93\u6E05\u9664\u5340\u57DF\u5C0F\u602A, \u904E\u4EFB\u52D9\u5438\u53D6\u7D93\u9A57\u53EF\u4EE5\u9032\u5834\u4E86");
+		NTM_MakeTP();
+		Say(Baal_SafeTp);
+		NTC_Delay(500);
+		NTP_DoPrecast(true);
+	}
+	while(1){
+		NTC_Delay(100);
+		NTM_MoveTo(me.areaid, prewavespot[0], prewavespot[1]);
+		if(me.GetState(2))
+			NTC_PutSkill(109, NTC_HAND_RIGHT);
+		if(NTConfig_IdInField){
+			NT_FieldID();
+		}
+		for(i = 0 ; i < 6 ; i++){
+			_wave = NT_ThroneCheckInt();
+			if(_wave > 0)
+				break;
+			NTC_Delay(500);
+		}
+		_starttick = GetTickCount();
+		while(_wave == 0){
+			if(!NT_ThronePreAttackInt())
+				NTC_Delay(200);
+			if(GetTickCount()-_starttick > 17000){
+				NT_ClearThroneInt();
+				_starttick = GetTickCount();
+			}
+			_wave = NT_ThroneCheckInt();
+		}
+		switch(_wave){
+			case 1:
+				if(NTConfig_PreWaveTele){
+					NTM_TeleportTo(me.x+1, me.y+3);
+                }
+				NTA_ClearPosition(40, true, 2);
+				NTM_MoveTo(me.areaid, 15092, 5040);
+				NTP_DoPrecast(true);
+				Say("\u300C\u7834\u58DE\u8005\u5361\u862D\u7D22\u300D\u6050\u6015\u6C92\u6A5F\u6703\u518D\u641E\u7834\u58DE\u4E86.");
+				break;
+			case 2:
+				if(NTConfig_PreWaveTele){
+					NTM_TeleportTo(me.x+1, me.y+3);
+                }
+				if(NTConfig_HolyBoltBaal){
+					if (me.classid == NTC_CHAR_CLASS_PALADIN && NTConfig_AttackSkill[5] == 101)
+						achmel();
+				}
+				NTA_ClearPosition(40, true, 2);
+				Say("\u300C\u8A5B\u5492\u7684\u963F\u514B\u59C6\u300D\u5DF2\u7D93\u4E0D\u80FD\u518D\u65BD\u653E\u8A5B\u5492\u4E86.");
+				if(NTConfig_Wave2PSNCheck && me.GetState(2) != -1){
+					NTTMGR_VisitTown();
+				}
+				break;
+			case 3:
+				if(NTConfig_PreWaveTele){
+					NTM_TeleportTo(me.x+1, me.y+3);
+                }
+				NTA_ClearPosition(40, true, 2);
+				Say('\u300C\u8840\u8165\u5DF4\u7279\u514B\u300D\u4ECA\u5F8C\u53EA\u80FD\u559D\u81EA\u5DF1\u7684"\u8840\u8165\u746A\u9E97".');
+				if(NTConfig_Wave3Move > 0){
+					NT_CheckHydraInt();
+				}
+				else
+					NTC_Delay(2500);
+				break;
+			case 4:
+				if(NTConfig_PreWaveTele){
+					NTM_TeleportTo(me.x+1, me.y+3);
+                }
+				NTA_ClearPosition(40, true, 2);
+				NTM_MoveTo(me.areaid, 15092, 5040);
+				NTP_DoPrecast(true);
+				Say('\u300C\u4E0D\u6F54\u7684\u51E1\u5854\u300D\u5DF2\u7D93\u88AB\u4FEE\u7406\u7684\u5B8C\u5168\u6E05\u6F54\u6E9C\u6E9C\u4E86.');
+				break;
+			case 5:
+				if(NTConfig_PreWaveTele){
+					NTM_TeleportTo(me.x+1, me.y+3);
+                }
+				NTA_ClearPosition(40, true, 2);
+				Say('\u300C\u53E4\u96E3\u7D00\u9304\u8005\u300D\u5DF2\u7136\u6210\u70BA\u707D\u96E3\u6B77\u53F2\u7D00\u9304.');
+				break;
+			default:
+				if(NTConfig_PreWaveTele){
+					NTM_TeleportTo(me.x+1, me.y+3);
+                }
+				NTA_ClearPosition(40, true, 2);
+				break;
+		}
+		if(_wave != 0) // Need to force a one time cast/wave Assassin only
+			_trapsPreCasted = false;
+		if(_wave == 5)
+			break;
+	}
+	if(NTConfig_KillBaal){
+		var _portal;
+		if(NTConfig_PublicMode)
+			Say(Baal_KillBaalMessage);
+		if(NTConfig_TownBeforeBaal && NTT_CheckInventoryBeforeBoss()){
+			Delay(1000);
+			if(NTConfig_PublicMode) {
+				Say(Baal_FreeSpaceMessage);
+			}
+			NTTMGR_VisitTown();
+		}
+		NTM_MoveTo(me.areaid, 15092, 5010);
+		NTP_DoPrecast(true);
+		if(NTConfig_IdInField){
+			NT_FieldID();
+		}
+		for(var i = 0; i < 60; i++) {
+			Delay(500);
+			if(!NTC_FindUnit(NTC_UNIT_MONSTER, 543)) {
+				break;
+			}
+			if(i >= 58) {
+				Say("looks like baal is bugged");
+				if(Baal_BSayNextGame.length > 0 && NTConfig_PublicMode) {
+					Say(Baal_BSayNextGame + NTC_NextGameSayererer());
+				}
+			}
+		}
+		_portal = NTC_FindUnit(NTC_UNIT_OBJECT, 563, 1);
+		if(!_portal){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTC_FindUnit()");
+			return;
+		}
+		if(!NTM_UsePortal("Portal", 132, null, _portal)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_UsePortal()");
+			return;
+		}
+		NTM_MoveTo(me.areaid, 15138, 5916);
+		if(!NTA_KillMonster(544)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTA_KillMonster()");
+			return;
+		}
+		NTSI_PickItems();
+	}
+	Delay(500);
+	if(NTConfig_PublicMode)
+		Say(Baal_NextGameMessage);
+	Delay(500)
+	if(Baal_BSayNextGame.length > 0 && NTConfig_PublicMode)
+		Say(Baal_BSayNextGame + NTC_NextGameSayererer());
+	Delay(2000);
+	NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+}
+
+// Internal function
+function NT_ClearThroneInt(){
+	var _attackpos = [15112, 5068, 15075, 5065, 15114, 5045, 15114, 5012, 15095, 5024, 15078, 5013, 15092, 5040];
+	for(var i = 0 ; i < _attackpos.length ; i += 2){
+		NTM_MoveTo(me.areaid, _attackpos[i], _attackpos[i+1]);
+		NTA_ClearPosition(25, true, 2);
+	}
+}
+
+function NT_ThroneCheckInt(){
+	var _monster;
+	if(!NTC_FindUnit(NTC_UNIT_MONSTER, 543))
+		return 5;
+	_monster = NTC_FindUnit(NTC_UNIT_MONSTER);
+	if(_monster){
+		do{
+			if(NTA_IsValidMonster(_monster)){
+				if(_monster.classid == 23 || _monster.classid == 62)
+					return 1;
+				if(_monster.classid == 105 || _monster.classid == 381)
+					return 2;
+				if(_monster.classid == 557)
+					return 3;
+				if(_monster.classid == 558)
+					return 4;
+				if(_monster.classid == 571)
+					return 5;
+			}
+		} while(_monster.GetNext());
+	}
+	return 0;
+}
+
+function NT_ThronePreAttackInt(){
+	if(me.classid == NTC_CHAR_CLASS_SORCERESS){
+		if(NTConfig_PreWaveSpam > 0){
+			if(poscount == 1){
+				poscount = 2;
+				return NTC_CastSkill(NTConfig_PreWaveSpam, 0, KBLSpamPos[0], KBLSpamPos[1]);
+			}
+			else if(poscount == 2){
+				poscount = 3;
+				return NTC_CastSkill(NTConfig_PreWaveSpam, 0, KBLSpamPos[2], KBLSpamPos[3]);
+			}
+			else{
+				poscount = 1;
+				return NTC_CastSkill(NTConfig_PreWaveSpam, 0, KBLSpamPos[4], KBLSpamPos[5]);
+			}
+		}
+	}
+	else if(me.classid == NTC_CHAR_CLASS_DRUID){
+		if(NTConfig_AttackSkill[3] == 245){
+			return NTC_CastSkill(NTConfig_AttackSkill[3], 2, DruidPreAtt[0], DruidPreAtt[1]);
+		}
+	}
+	else if(me.classid == NTC_CHAR_CLASS_NECROMANCER){
+		if(NTConfig_PreWaveSpam > 0)
+			return NTC_CastSkill(NTConfig_PreWaveSpam, _NTA_SkillHand[NTConfig_PreWaveSpam], NecroPreAtt[0], NecroPreAtt[1]);
+	}
+	else if(me.classid == NTC_CHAR_CLASS_PALADIN){
+		if(NTConfig_AttackSkill[3] == 112){
+			NTC_PutSkill(NTConfig_AttackSkill[3], NTC_HAND_LEFT);
+			NTC_PutSkill(NTConfig_AttackSkill[4], NTC_HAND_RIGHT);
+			return NTC_CastSkill(NTConfig_AttackSkill[3], 2, 15092, 5028);
+		}
+	}
+	else if(me.classid == NTC_CHAR_CLASS_ASSASSIN){
+		var _attackPos = [15088,5023,15087,5032,15098,5022,15101,5034,15094,5029];
+		if(NTConfig_UseTraps && !_trapsPreCasted){
+			for(var i=0;i<5;i++) {
+				if(i == 0 || i == 2 || i == 3) // Added delays to prevent trap miscast
+					NTC_Delay(25);
+				if(NTConfig_TrapSet[i] > 0)
+					NTC_CastSkill(NTConfig_TrapSet[i], NTC_HAND_RIGHT, _attackPos[i*2],_attackPos[(i*2)+1]);
+			}
+			_trapsPreCasted = true;
+		}
+		if(NTConfig_AttackSkill[3] == 256)
+			if(me.GetSkillStatus(NTConfig_AttackSkill[3]) != 8)
+				return NTC_CastSkill(NTConfig_AttackSkill[3], 2, 15093, 5030);
+	}
+	return false;
+}
+
+function NT_CheckHydraInt(){
+	var _hydra1, _hydra2, _hydra3;
+	_hydra1 = NTC_FindUnit(NTC_UNIT_MONSTER, 351);
+	_hydra2 = NTC_FindUnit(NTC_UNIT_MONSTER, 352);
+	_hydra3 = NTC_FindUnit(NTC_UNIT_MONSTER, 353);
+	if((_hydra1 && _hydra1.GetStat(172) != 2 && _hydra1.GetState(105))
+	  || (_hydra2 && _hydra2.GetStat(172) != 2 && _hydra2.GetState(105))
+	  || (_hydra3 && _hydra3.GetStat(172) != 2 && _hydra3.GetState(105))){
+		if(NTConfig_Wave3Move == 1)
+			NTM_MoveTo(me.areaid, 15112, 5004); // right side
+		else if(NTConfig_Wave3Move == 2)
+			NTM_MoveTo(me.areaid, 15073, 5002); // left side
+		if(me.GetState(2))
+			NTC_PutSkill(109, NTC_HAND_RIGHT);
+		NTC_PingDelay(3000);
+	}
+}
+
+function achmel(){
+	var x = 0;
+	var _holdTargetHp = 0;
+	NTC_PutSkill(NTConfig_AttackSkill[6], NTC_HAND_RIGHT);
+	var _achmel = NTC_FindUnit(NTC_UNIT_MONSTER, GetLocaleString(21852));
+	while (_achmel && _achmel.hp > 0){
+		_holdTargetHp = _achmel.hp;
+		for(var i = 0; i < 5 ; i++){
+			NTC_CastSkill(NTConfig_AttackSkill[5], NTC_HAND_LEFT, _achmel);
+		}
+		if(_holdTargetHp <= _achmel.hp && NTConfig_WalkAround) {
+			x++;
+			if(x % 2 == 0)
+				NTM_WalkTo(me.x+10, me.y);
+			else
+				NTM_WalkTo(me.x-10, me.y);
+		}
+	}
+	var _company = NTC_FindUnit(NTC_UNIT_MONSTER, 105);
+	do{
+		while (_company != null && _company.hp >0 && !_company.GetState(53) && !_company.GetState(96)){
+			_holdTargetHp = _company.hp;
+			for(var i = 0; i < 5 ; i++){
+				NTC_CastSkill(NTConfig_AttackSkill[5], NTC_HAND_LEFT, _company);
+			}
+			if(_holdTargetHp <= _company.hp && NTConfig_WalkAround) {
+				x++;
+				if(x % 2 == 0)
+					NTM_WalkTo(me.x+10, me.y);
+				else
+					NTM_WalkTo(me.x-10, me.y);
+			}
+		}
+	} while (_company && _company.GetNext());
+}
+
+function HostileHandler(msg){
+	if(msg == "pause"){
+		if(_hostilepause){
+			Print(COLOR_3 + "\u7E7C\u7E8C...");
+			_hostilepause = false;
+		}
+		else{
+			Print(COLOR_1 + "\u8D0A\u505C\u904A\u6232: \u7375\u6BBA\u6575\u5C0D\u8005...");
+			_hostilepause = true;
+			ClickMap(NTC_CLICK_LUP, NTC_SHIFT_NONE, null);
+			ClickMap(NTC_CLICK_RUP, NTC_SHIFT_NONE, null);
+			while(_hostilepause)
+				NTC_Delay(250);
+		}
+	}
+}
+
+function _announceTMobs() {
+
+	var _throneMobs = [];
+	var _count = [];
+
+	_monster = NTC_FindUnit(NTC_UNIT_MONSTER);
+
+	if(_monster){
+		do {
+			if(_outofTBounds(_monster.x, _monster.y))
+				continue;
+			switch(_monster.classid) {
+				case 120:
+				case 641:
+				case 733: _updateTMobs("\u71C3\u71D2\u7684\u9748\u9B42");
+					break;
+				case 215:
+				case 691: _updateTMobs("\u4E0D\u6B7B\u9748\u9B42\u6BBA\u624B");
+					break;
+				case 478:
+				case 637: _updateTMobs("\u5730\u7344\u5973\u5DEB");
+					break;
+				case 77:
+				case 598: _updateTMobs("\u6CD5\u86C7\u6CD5\u5E2B");
+					break;
+				case 133:
+				case 697:
+				case 731: _updateTMobs("\u9ED1\u6697\u4E4B\u738B");
+					break;
+				case 510: _updateTMobs("\u8840\u4E4B\u738B");
+					break;
+				case 310:
+				case 699:
+				case 700: _updateTMobs("\u5384\u904B\u9A0E\u58EB");
+					break;
+				case 312:
+				case 701:
+				case 702:
+				case 713: _updateTMobs("\u907A\u5FD8\u9A0E\u58EB");
+					break;
+				case 361:
+				case 687:
+				case 712: _updateTMobs("\u6B7B\u795E\u4E4B\u738B");
+					break;
+				case 104:
+				case 669:
+				case 670: _updateTMobs("\u53E4\u4EE3\u8D6B\u62C9\u8FEA\u59C6");
+					break;
+				case 33:
+				case 603: _updateTMobs("\u653B\u64CA\u8005");
+					break;
+				default: _updateTMobs("\u5783\u573E\u602A");
+					break;
+			}
+		} while(_monster.GetNext())
+	}
+	_sayTMobs();
+	function _updateTMobs(Tmob) {
+		var _tIndex = _throneMobs.indexOf(Tmob);
+		if(_tIndex == -1) {
+			_throneMobs.push(Tmob);
+			_count.push(1);
+		}
+		else {
+			_count[_tIndex]++;
+		}
+	}
+	function _sayTMobs() {
+		for(var i = 0; i < _throneMobs.length; i++) {
+			Say(_count[i] + "\u500B " + (_count[i] == 1 ? _throneMobs[i] : (_throneMobs[i].charAt(_throneMobs[i].length - 1).toLowerCase() == "s" ? _throneMobs[i] + "'" : (_throneMobs[i].indexOf("Witch") != -1 ? _throneMobs[i] + "" : _throneMobs[i] + ""))));
+			Delay(100);
+		}
+	}
+	function _outofTBounds(monX, monY) {
+		if((monX >= 15072 && monX <= 15118 && monY >= 5002 && monY <=5073) || (monX >= 15087 && monX <= 15104 && monY >= 5073 && monY <= 5094))
+			return false;
+		return true;
+	}
+}

@@ -1,0 +1,136 @@
+/* =====================================================
+ *
+ * NTLevelAnnouncer.ntl , a Level-up Announcer script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTLevelAnnouncer.ntl, ¤@­Óµ¥¯Å´£ª@¯¬¶P¥\¯à©I¥s¸}¥», ®Ú¾Ú ETal 1.33WW ¬Û®eª©¥»­×­q
+ *
+ * ¥ô¦ó­ì¥N½X¦bBSD³\¥iÃÒ¤U±ÂÅv
+ * ¦Û¥»¦¸¼gªº©Ò¦³¥N½X¥HGPL³\¥i
+ * ½Ð°Ñ¾\COPYINGªº¸Ô²Ó«H®§
+ *
+ * ª©Åv©Ò¦³(c) 2014¦~, Benson's Network Technolygy Company.
+ * ª©Åv©Ò¦³(c) 1976¦Ü2014 Benson's Network Technolygy Company.
+ * «O¯d©Ò¦³Åv§Q¡C
+ *
+ * ¥»µ{§Ç¬O¦Û¥Ñ³n¥ó¡G±z¥i¥H­«·s¤À°t©M/©Î­×§ï
+ * ¥¦®Ú¾ÚGNU³q¥Î¤½¦@³\¥iÃÒªº±ø´Úµoªí
+ * ¦Û¥Ñ³n¥ó°òª÷·|¡AµL½×¬Oª©¥»3ªº¨Ï¥Î±ÂÅv¡A©Î
+ * (¥Ñ§A¿ï¾Ü) ¥ô¦ó§ó·sªºª©¥»¡C
+ *
+ * ¥»µ{§Ç¤Àµoªº¥Øªº¬O§Æ±æ¥¦¦³¥Î¡A
+ * ¦ý"¨S¦³¥ô¦ó¾á«O"; ¬Æ¦Ü¨S¦³·t¥Üªº«OÃÒ
+ * ¾A¾P©Ê©Î°w¹ï¯S©w¥Î³~¡C½Ð°Ñ¾\
+ * GNU³q¥Î¤½¦@³\¥iÃÒ¥HÀò±o§ó¦h²Ó¸`¡C
+ * §AÀ³¸Ó¤w¸g¦¬¨ì¤@¥÷GNU³q¥Î¤½¦@³\¥iÃÒªº°Æ¥»
+ * ÀHµÛ³o¤@­p¹º¡C¦pªG¤£¬O¡A½Ð°Ñ¾\<http://www.gnu.org/licenses/>¡C
+ *
+===================================================== */
+
+var _MWLW_CharLevels = new Array();
+
+function NTMain(){
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NTC_IncludeLibs();
+	NT_LoadConfig();
+
+	while(1) {
+	MWLW_CheckLevelUps();
+	NTC_Delay(200);
+	}
+}
+
+// muddy waters code
+function MWC_CharClassIdToString(id)
+{
+	switch(id)
+	{
+		case NTC_CHAR_CLASS_AMAZON:
+			return GetLocaleString(4011);
+		case NTC_CHAR_CLASS_SORCERESS:
+			return GetLocaleString(4010);
+		case NTC_CHAR_CLASS_NECROMANCER:
+			return GetLocaleString(4009);
+		case NTC_CHAR_CLASS_PALADIN:
+			return GetLocaleString(4008);
+		case NTC_CHAR_CLASS_BARBARIAN:
+			return GetLocaleString(4007);
+		case NTC_CHAR_CLASS_DRUID:
+			return GetLocaleString(4012);
+		case NTC_CHAR_CLASS_ASSASSIN:
+			return GetLocaleString(4013);
+		default:
+			return "Unknown";
+	}
+}
+
+function MWLW_CheckLevelUps() //Muddy Waters level anouncer
+{
+
+	var _player, _output;
+	_player = GetPlayerUnit();
+
+	if(_player) {
+		while(_player.GetNext()) {
+			if(_player.level >= NTConfig_LevelMin) {
+				if(isNaN(_MWLW_CharLevels[_player.name]))
+						_MWLW_CharLevels[_player.name] = _player.level;
+				else if(_MWLW_CharLevels[_player.name] != _player.level) {
+					_MWLW_CharLevels[_player.name] = _player.level;
+					_output = " %level, %name"; //what to announce
+					if(NTConfig_LogIt)
+					{
+						NT_File("logs/LevelsGainedInMyRuns/_________LevelLog_________.txt", 2, "" + _player.name + " has reached level " + _player.level); // logs to combined logger
+						NT_File("logs/LevelsGainedInMyRuns/" + _player.name + ".txt", 2, "" + _player.name + " has reached level " + _player.level); // logs to to char name specific file
+					}
+					_output = _output.replace(/%level/gi, _player.level); // replacing _player.level so its "%level"
+					_output = _output.replace(/%name/gi, _player.name); // replacing _player.name so its "%name"
+					_output = _output.replace(/%class/gi, MWC_CharClassIdToString(_player.classid)); // replacing _player.classid so its "%class"
+
+					Say(NTConfig_Output + _output); // says the output
+					NTC_Delay(200);
+				}
+			}  else if(_player.level < NTConfig_LevelMin) {
+				if(isNaN(_MWLW_CharLevels[_player.name]))
+					_MWLW_CharLevels[_player.name] = _player.level;
+				else if(_MWLW_CharLevels[_player.name] != _player.level)
+				{
+					_MWLW_CharLevels[_player.name] = _player.level;
+					_output = "ÿc2%name ÿc4has reached level ÿc2%level"; //what to announce
+					if(NTConfig_LogIt)
+						{
+							NT_File("logs/LevelsGainedInMyRuns/_________LevelLog_________.txt", 2, "" + _player.name + " has reached level " + _player.level); // logs to combined logger
+							NT_File("logs/LevelsGainedInMyRuns/" + _player.name + ".txt", 2, "" + _player.name + " has reached level " + _player.level); // logs to to char name specific file
+						}
+					_output = _output.replace(/%level/gi, _player.level); // replacing _player.level so its "%level"
+					_output = _output.replace(/%name/gi, _player.name); // replacing _player.name so its "%name"
+					_output = _output.replace(/%class/gi, MWC_CharClassIdToString(_player.classid)); // replacing _player.classid so its "%class"
+					Print(_output); // prints the output
+					NTC_Delay(200);
+				}
+			}
+		}
+	}
+}
+// end of muddy waters code

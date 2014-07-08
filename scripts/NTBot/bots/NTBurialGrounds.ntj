@@ -1,0 +1,241 @@
+/* =====================================================
+ *
+ * NTBurialGrounds.ntj , a BOT run for BurialGrounds script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTBurialGrounds.ntj, 一個修女埋骨之地的BOT程式腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+function NTMain(){
+
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NT_LoadConfig();
+	NTSI_LoadNIPFiles("NTBot/item_configs");
+
+	NTA_Initialize();
+
+	if(!NTTM_CheckAct()){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+		return;
+	}
+	NTTMGR_TownManager();
+	if(!NTTM_TownMove("waypoint")){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+		return;
+	}
+	if(!NTM_TakeWaypoint(3)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+		return;
+	}
+	NTP_DoPrecast(true);
+	if(!NTM_MoveToPresetUnit(17, NTC_UNIT_TILE, 7, 8, 15)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToPresetUnit()");
+		return;
+	}
+	if(NTConfig_PublicMode && (me.areaid == 17))
+		NTM_MakeTP();
+	if(NTConfig_ClearBurialGrounds == 0) {
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas()){
+			OpenChestsInArea();
+		}
+		NTA_KillMonster(GetLocaleString(3111));
+		if(NTConfig_ClearPosition){
+			NTA_ClearPosition();
+		}
+		NTSI_PickItems();
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas()){
+			OpenChestsInArea();
+		}
+	}
+	if(NTConfig_ClearBurialGrounds == 1){
+		NTConfig_SkipRegularMonsters = false;
+		NTP_DoPrecast();
+		if(!NTA_ClearLevel()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+		}
+	}
+	if(NTConfig_ClearBurialGrounds == 2){
+		NTConfig_SkipRegularMonsters = true;
+		NTP_DoPrecast();
+		if(!NTA_ClearLevel()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+		}
+	}
+	if(NTConfig_ClearMausoleum > 0){
+		if(!NTM_MoveToStair(me.areaid, 19)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToStair()");
+			return;
+		}
+		if(!NTM_TakeStair(19)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+			return;
+		}
+		if(NTConfig_PublicMode && (me.areaid == 19))
+			NTM_MakeTP();
+		NTP_DoPrecast();
+		if(NTConfig_OpenChest){
+			if(!NTM_MoveToPresetUnit4(me.areaid, NTC_UNIT_OBJECT, 397))
+			Print("\u7121\u6CD5\u5230\u9054\u5BF6\u7BB1\u4F4D\u7F6E.");
+			var _chest;
+			_chest = NTC_FindUnit(NTC_UNIT_OBJECT, GetLocaleString(3260));
+			if(_chest){
+				if(NTM_MoveTo(_chest.areaid, _chest.x+1, _chest.y)){
+					if(NTC_OpenChest(_chest))
+					NTSI_PickItems();
+				}
+			}
+		}
+		if(NTConfig_ClearMausoleum == 1){
+			NTConfig_SkipRegularMonsters = false;
+			NTP_DoPrecast();
+			if(!NTA_ClearLevel()){
+				NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+			}
+		}
+		if(NTConfig_ClearMausoleum == 2){
+			NTConfig_SkipRegularMonsters = true;
+			NTP_DoPrecast();
+			if(!NTA_ClearLevel()){
+				NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+			}
+		}
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas()){
+			OpenChestsInArea();
+		}
+		if(NTConfig_ClearCrypt > -1){
+			if(!NTM_MoveToStair(me.areaid, 17)){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToStair()");
+				return;
+			}
+			if(!NTM_TakeStair(17)){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+				return;
+			}
+		}
+	}
+	if(NTConfig_ClearCrypt > -1){
+		if(!NTM_MoveToStair(me.areaid, 18)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToStair()");
+			return;
+		}
+		if(!NTM_TakeStair(18)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+			return;
+		}
+		if(NTConfig_PublicMode && (me.areaid == 18))
+			NTM_MakeTP();
+		NTP_DoPrecast();
+		if(NTConfig_OpenChest){
+			if(!NTM_MoveToPresetUnit4(me.areaid, NTC_UNIT_OBJECT, 397))
+			Print("\u7121\u6CD5\u5230\u9054\u5BF6\u7BB1\u4F4D\u7F6E.");
+			var _chest;
+			_chest = NTC_FindUnit(NTC_UNIT_OBJECT, GetLocaleString(3260));
+			if(_chest){
+				if(NTM_MoveTo(_chest.areaid, _chest.x+1, _chest.y)){
+					if(NTC_OpenChest(_chest))
+					NTSI_PickItems();
+				}
+			}
+		}
+		if(NTConfig_ClearCrypt == 0){
+			if(!NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_MONSTER, 735)){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToPresetUnit()");
+				return;
+			}
+			if (!NTA_KillMonster(GetLocaleString(2870))){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTA_KillMonster()");
+				return;
+			}
+			NTSI_PickItems();
+			if(NTConfig_ClearPosition){
+				NTA_ClearPosition(20, true);
+			}
+		}
+		if(NTConfig_ClearCrypt == 1){
+			NTConfig_SkipRegularMonsters = false;
+			NTP_DoPrecast();
+			if(!NTA_ClearLevel()){
+				NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+			}
+		}
+		if(NTConfig_ClearCrypt == 2){
+			NTConfig_SkipRegularMonsters = true;
+			NTP_DoPrecast();
+			if(!NTA_ClearLevel()){
+				NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+			}
+		}
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas())
+			OpenChestsInArea();
+	}
+	NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+}
+
+function NTM_MoveToPresetUnit4(areaid, unittype, classid, offsetx, offsety, clearpath){ // Edit
+    var i, _unit;
+    if(arguments.length < 4){
+        offsetx = 0;
+        offsety = 0;
+    }
+    if(arguments.length < 6)
+        clearpath = false;
+    _unit = GetPresetUnits(areaid, unittype);
+    if(!_unit)
+        return false;
+    for(i = 0 ; i < _unit.length ; i++){
+        if(_unit[i].id == classid)
+            return NTM_MoveTo(areaid, _unit[i].roomx*5+_unit[i].x+offsetx, _unit[i].roomy*5+_unit[i].y+offsety, 2, clearpath);
+    }
+    NTC_PingDelay(200);
+    _unit = GetPresetUnits(areaid, unittype);
+    if(!_unit)
+        return false;
+    for(i = 0 ; i < _unit.length ; i++){
+        if(_unit[i].id == classid)
+            return NTM_MoveTo(areaid, _unit[i].roomx*5+_unit[i].x+offsetx, _unit[i].roomy*5+_unit[i].y+offsety, 2, clearpath);
+    }
+    return false;
+}

@@ -1,0 +1,357 @@
+0	Attack	0一般攻擊
+1	Kick	1踢
+2	Throw	2丟擲
+3	Unsummon	3反召喚
+4	Left Hand Throw	4左手投擲
+5	Left Hand Swing	5左手揮舞
+6	Magic Arrow	6魔法箭
+7	Fire Arrow	7火焰箭
+8	Inner Sight	8內視
+9	Critical Strike	9致命攻擊
+10	Jab	10戳刺
+11	Cold Arrow	11冰箭
+12	Multiple Shot	12多重箭
+13	Dodge	13閃避
+14	Power Strike	14威力一擊
+15	Poison Javelin	15毒槍
+16	Exploding Arrow	16爆裂箭
+17	Slow Missiles	17慢速箭
+18	Avoid	18躲避
+19	Impale	19刺爆
+20	Lightning Bolt	20閃電球
+21	Ice Arrow	21急凍箭
+22	Guided Arrow	22導引箭
+23	Penetrate	23刺入
+24	Charged Strike	24充能一擊
+25	Plague Javelin	25瘟疫標槍
+26	Strafe	26炮轟
+27	Immolation Arrow	27犧牲之箭
+28	Dopplezon	28
+29	Evade	29迴避
+30	Fend	30擊退
+31	Freezing Arrow	31凍結之箭
+32	Valkyrie	32女武神
+33	Pierce	33穿刺
+34	Lightning Strike	34閃電攻擊
+35	Lightning Fury	35閃電之怒
+36	Fire Bolt	36火彈
+37	Warmth	37暖氣
+38	Charged Bolt	38充能彈
+39	Ice Bolt	39冰彈
+40	Frozen Armor	40冰封裝甲
+41	Inferno	41地獄之火
+42	Static Field	42靜態立場
+43	Telekinesis	43心靈傳動
+44	Frost Nova	44霜之新星
+45	Ice Blast	45冰風暴
+46	Blaze	46熾烈之徑
+47	Fire Ball	47火球
+48	Nova	48新星
+49	Lightning	49閃電
+50	Shiver Armor	50碎冰甲
+51	Fire Wall	51火牆
+52	Enchant	52強化
+53	Chain Lightning	53連鎖閃電
+54	Teleport	54傳送
+55	Glacial Spike	55冰尖柱
+56	Meteor	56隕石
+57	Thunder Storm	57雷雲風暴
+58	Energy Shield	58能量護盾
+59	Blizzard	59暴風雪
+60	Chilling Armor	60寒冰裝甲
+61	Fire Mastery	61支配火焰
+62	Hydra	62九頭火蛇
+63	Lightning Mastery	63支配閃電
+64	Frozen Orb	64冰封球
+65	Cold Mastery	65支配冰冷
+66	Amplify Damage	66傷害加深
+67	Teeth	67牙
+68	Bone Armor	68白骨裝甲
+69	Skeleton Mastery	69支配骷髏
+70	Raise Skeleton	70復甦骷髏
+71	Dim Vision	71微暗靈視
+72	Weaken	72削弱
+73	Poison Dagger	73淬毒匕首
+74	Corpse Explosion	74屍爆
+75	Clay Golem	75粘土石魔
+76	Iron Maiden	76攻擊反噬
+77	Terror	77恐懼
+78	Bone Wall	78骨牆
+79	Golem Mastery	79支配石魔
+80	Raise Skeletal Mage	80復甦骷髏法師
+81	Confuse	81迷亂
+82	Life Tap	82偷取生命
+83	Poison Explosion	83毒爆
+84	Bone Spear	84骨矛
+85	BloodGolem	85鮮血石魔 
+86	Attract	86吸引
+87	Decrepify	87衰老
+88	Bone Prison	88骨牢
+89	Summon Resist	89召喚反抗
+90	IronGolem	90	 鋼鐵石魔
+91	Lower Resist	91降低抵抗
+92	Poison Nova	92劇毒新星
+93	Bone Spirit	93白骨之魂
+94	FireGolem	94火焰石魔
+95	Revive	95重生
+96	Sacrifice	96犧牲
+97	Smite	97重擊
+98	Might	98力量
+99	Prayer	99祈禱
+100	Resist Fire	100抗火
+101	Holy Bolt	101聖光彈
+102	Holy Fire	102聖火
+103	Thorns	103針刺
+104	Defiance	104反抗
+105	Resist Cold	105抗冰冷
+106	Zeal	106白熱
+107	Charge	107突擊
+108	Blessed Aim	108祝福瞄準
+109	Cleansing	109淨化
+110	Resist Lightning	110抗閃電
+111	Vengeance	111復仇
+112	Blessed Hammer	112祝福之錘
+113	Concentration	113專注
+114	Holy Freeze	114神聖冰凍
+115	Vigor	115精力
+116	Conversion	116轉換
+117	Holy Shield	117神聖之盾
+118	Holy Shock	118神聖衝擊
+119	Sanctuary	119庇護所
+120	Meditation	120冥思
+121	Fist of the Heavens	121天堂之拳
+122	Fanaticism	122狂熱
+123	Conviction	123信念
+124	Redemption	124救贖
+125	Salvation	125救助
+126	Bash	126重擊
+127	Sword Mastery	127支配長劍
+128	Axe Mastery	128支配斧頭
+129	Mace Mastery	129支配釘頭錘
+130	Howl	130狂嗥
+131	Find Potion	131尋找藥劑
+132	Leap	132跳躍
+133	Double Swing	133雙手揮擊
+134	Pole Arm Mastery	134支配長棍
+135	Throwing Mastery	135支配飛擲
+136	Spear Mastery	136支配長矛
+137	Taunt	137嘲弄
+138	Shout	138大叫
+139	Stun	139擊暈
+140	Double Throw	140雙手投擲
+141	Increased Stamina	141增加耐力
+142	Find Item	142尋找物品
+143	Leap Attack	143跳躍攻擊
+144	Concentrate	144專心
+145	Iron Skin	145鐵布衫
+146	Battle Cry	146戰嗥
+147	Frenzy	147狂亂
+148	Increased Speed	148加速
+149	Battle Orders	149戰鬥體制
+150	Grim Ward	150殘酷嚇阻
+151	Whirlwind	151旋風
+152	Berserk	152狂戰士
+153	Natural Resistance	153自然抗性
+154	War Cry	154戰鬥狂嗥 戰嚎
+155	Battle Command	155戰鬥指揮
+156	Fire Hit
+157	UnHolyBolt
+158	SkeletonRaise
+159	MaggotEgg
+160	ShamanFire
+161	MagottUp
+162	MagottDown
+163	MagottLay
+164	AndrialSpray
+165	Jump
+166	Swarm Move
+167	Nest
+168	Quick Strike
+169	VampireFireball
+170	VampireFirewall
+171	VampireMeteor
+172	GargoyleTrap
+173	SpiderLay
+174	VampireHeal
+175	VampireRaise
+176	Submerge
+177	FetishAura
+178	FetishInferno
+179	ZakarumHeal
+180	Emerge	
+181	Resurrect
+182	Bestow
+183	MissileSkill1
+184	MonTeleport
+185	PrimeLightning
+186	PrimeBolt
+187	PrimeBlaze
+188	PrimeFirewall
+189	PrimeSpike
+190	PrimeIceNova	190
+191	PrimePoisonball	191
+192	PrimePoisonNova	192
+193	DiabLight	193
+194	DiabCold	194
+195	DiabFire	195
+196	FingerMageSpider	196
+197	DiabWall	197
+198	DiabRun	198
+199	DiabPrison	199
+200	PoisonBallTrap	200
+201	AndyPoisonBolt	201
+202	HireableMissile	202
+203	DesertTurret	203
+204	ArcaneTower	204
+205	MonBlizzard	205
+206	Mosquito	206蚊
+207	CursedBallTrapRight	207
+208	CursedBallTrapLeft	208
+209	MonFrozenArmor	209
+210	MonBoneArmor	210
+211	MonBoneSpirit	211
+212	MonCurseCast	212
+213	HellMeteor	213
+214	RegurgitatorEat	214
+215	MonFrenzy	215
+216	QueenDeath	216
+217	Scroll of Identify	217
+218	Book of Identify	218
+219	Scroll of Townportal	219
+220	Book of Townportal	220
+221	Raven	221烏鴉
+222	Plague Poppy	222
+223	Wearwolf	223狼人變化
+224	Shape Shifting	224
+225	Firestorm	225火風暴
+226	Oak Sage	226橡木智者
+227	Summon Spirit Wolf	227召喚鬼狼
+228	Wearbear	228熊人變化
+229	Molten Boulder	229熔漿巨岩
+230	Arctic Blast	230極地風暴
+231	Cycle of Life	231循環壽命
+232	Feral Rage	232野性之怒
+233	Maul	233撞槌
+234	Eruption	234噴發
+235	Cyclone Armor	235颶風裝甲
+236	Heart of Wolverine	236狼獾之心
+237	Summon Fenris	237
+238	Rabies	238狂犬病
+239	Fire Claws	239?爪
+240	Twister	240鎌鼬風
+241	Vines	241食屍藤
+242	Hunger	242飢餓
+243	Shock Wave	243震波
+244	Volcano	244火山
+245	Tornado	245龍捲風
+246	Spirit of Barbs	246棘靈
+247	Summon Grizzly	247召喚灰熊
+248	Fury	248狂怒
+249	Armageddon	249毀天滅地
+250	Hurricane	250暴風
+251	Fire Trauma	251消防創傷
+252	Claw Mastery	252支配利爪
+253	Psychic Hammer	253心靈戰錘
+254	Tiger Strike	254虎擊
+255	Dragon Talon	255龍爪
+256	Shock Field	256
+257	Blade Sentinel	257刃之守衛
+258	Quickness	258
+259	Fists of Fire	259?拳
+260	Dragon Claw	260雙龍爪
+261	Charged Bolt Sentry	261電能守衛
+262	Wake of Fire Sentry	262喚醒火焰復甦
+263	Weapon Block	263武器格擋
+264	Cloak of Shadows	264魔影斗篷
+265	Cobra Strike	265眼鏡蛇攻擊
+266	Blade Fury	266刃之怒
+267	Fade	267能量消解
+268	Shadow Warrior	268影子戰士
+269	Claws of Thunder	269雷電爪
+270	Dragon Tail	270神龍擺尾
+271	Lightning Sentry	271雷光守衛
+272	Inferno Sentry	272地獄火哨兵
+273	Mind Blast	273心靈震爆
+274	Blades of Ice	274寒冰刃
+275	Dragon Flight	275飛龍在天
+276	Death Sentry	276亡者守衛
+277	Blade Shield	277刀刃之盾
+278	Venom	278毒牙
+279	Shadow Master	279支配影子
+280	Royal Strike
+281	Wake Of Destruction Sentry
+282	Imp Inferno
+283	Imp Fireball
+284	Baal Taunt
+285	Baal Corpse Explode
+286	Baal Monster Spawn
+287	Catapult Charged Ball
+288	Catapult Spike Ball
+289	Suck Blood
+290	Cry Help
+291	Healing Vortex
+292	Teleport 2	292傳送2
+293	Self-resurrect
+294	Vine Attack
+295	Overseer Whip
+296	Barbs Aura
+297	Wolverine Aura
+298	Oak Sage Aura
+299	Imp Fire Missile
+300	Impregnat
+301	Siege Beast Stomp
+302	MinionSpawner	302
+303	CatapultBlizzard	303
+304	CatapultPlague	304
+305	CatapultMeteor	305
+306	BoltSentry	306
+307	CorpseCycler	307
+308	DeathMaul	308
+309	Defense Curse	309
+310	Blood Mana	310
+311	mon inferno sentry	311
+312	mon death sentry	312
+313	sentry lightning	313
+314	fenris rage	314
+315	Baal Tentacle	315
+316	Baal Nova	316
+317	Baal Inferno	317
+318	Baal Cold Missiles	318
+319	MegademonInferno	319
+320	EvilHutSpawner	320
+321	CountessFirewall	321
+322	ImpBolt	322
+323	Horror Arctic Blast	323
+324	death sentry ltng	324
+325	VineCycler	325
+326	BearSmite	326
+327	Resurrect2	327
+328	BloodLordFrenzy	328
+329	Baal Teleport	329
+330	Imp Teleport	330
+331	Baal Clone Teleport	331
+332	ZakarumLightning	332
+333	VampireMissile	333
+334	MephistoMissile	334
+335	DoomKnightMissile	335
+336	RogueMissile	336
+337	HydraMissile	337
+338	NecromageMissile	338
+339	MonBow	339
+340	MonFireArrow	340
+341	MonColdArrow	341
+342	MonExplodingArrow	342
+343	MonFreezingArrow	343
+344	MonPowerStrike	344
+345	SuccubusBolt	345
+346	MephFrostNova	346
+347	MonIceSpear	347
+348	ShamanIce	348
+349	Diablogeddon	349
+350	Delerium Change	350
+351	NihlathakCorpseExplosion	351
+352	SerpentCharge	352
+353	Trap Nova	353
+354	UnHolyBoltEx	354
+355	ShamanFireEx	355
+356	Imp Fire Missile Ex	356

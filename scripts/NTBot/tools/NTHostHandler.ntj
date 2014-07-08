@@ -1,0 +1,269 @@
+/* =====================================================
+ *
+ * NTHostHandler.ntj , a Hostile Watch script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTHostHandler.ntj, ¤@­Ó¼Ä¹ï³B²zµ{¦¡¸}¥», ®Ú¾Ú ETal 1.33WW ¬Û®eª©¥»­×­q
+ *
+ * ¥ô¦ó­ì¥N½X¦bBSD³\¥iÃÒ¤U±ÂÅv  
+ * ¦Û¥»¦¸¼gªº©Ò¦³¥N½X¥HGPL³\¥i  
+ * ½Ð°Ñ¾\COPYINGªº¸Ô²Ó«H®§
+ *
+ * ª©Åv©Ò¦³(c) 2014¦~, Benson's Network Technolygy Company.
+ * ª©Åv©Ò¦³(c) 1976¦Ü2014 Benson's Network Technolygy Company.
+ * «O¯d©Ò¦³Åv§Q¡C
+ *
+ * ¥»µ{§Ç¬O¦Û¥Ñ³n¥ó¡G±z¥i¥H­«·s¤À°t©M/©Î­×§ï
+ * ¥¦®Ú¾ÚGNU³q¥Î¤½¦@³\¥iÃÒªº±ø´Úµoªí
+ * ¦Û¥Ñ³n¥ó°òª÷·|¡AµL½×¬Oª©¥»3ªº¨Ï¥Î±ÂÅv¡A©Î
+ * (¥Ñ§A¿ï¾Ü) ¥ô¦ó§ó·sªºª©¥»¡C
+ *
+ * ¥»µ{§Ç¤Àµoªº¥Øªº¬O§Æ±æ¥¦¦³¥Î¡A
+ * ¦ý"¨S¦³¥ô¦ó¾á«O"; ¬Æ¦Ü¨S¦³·t¥Üªº«OÃÒ
+ * ¾A¾P©Ê©Î°w¹ï¯S©w¥Î³~¡C½Ð°Ñ¾\
+ * GNU³q¥Î¤½¦@³\¥iÃÒ¥HÀò±o§ó¦h²Ó¸`¡C
+ * §AÀ³¸Ó¤w¸g¦¬¨ì¤@¥÷GNU³q¥Î¤½¦@³\¥iÃÒªº°Æ¥»
+ * ÀHµÛ³o¤@­p¹º¡C¦pªG¤£¬O¡A½Ð°Ñ¾\<http://www.gnu.org/licenses/>¡C
+ *
+===================================================== */
+
+//	Original HostileCatch done by Young_Love - Original HostileWatch done by kolton
+//	Additional modifications originate from Diabolic - Implemented by Tru
+//	Combined - Edited/Updated by Tru V2.3 (23 Jun 2013)
+
+var HH_CampStairs = false;		// Set true to move to Throne of Destruction stairs to wait for hostile to come play
+var HH_CampSpam = -1;			// Set to the skill id for what attack you want to spam at the stairs
+
+var HostileAccount;
+var Accounts = [];
+var Class = [];
+var Levels = [];
+var Names = [];
+var Ver = "2.3a";
+
+var GetWreckedTaunt = [
+		" is pure weakness!",
+		" can't fight me one on one huh, gotta come at me while I'm busy?",
+		" really wants to go toe-to-toe with a seasoned pro! Hey, I rhymed.",
+		" should not have done that, for your own health of course!",
+		" needs to get a life. I have one, which is why I bot!"];
+
+var GotWreckedTaunt = [
+					", want some more? Come get some!",
+					" can't hang with me!",
+					" should really respec after that show!",
+					"'s mom goes to college!",
+					" trained with nuns for that battle!",
+					" should stop crying, it's only gold loss!"];
+
+function NTMain()
+{
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+	NT_LoadConfig();
+	NTA_Initialize();
+
+	RegisterEvent(EVENT_GAMEMSG, DumbassCity);
+	ScanPlayers();
+
+	Print(COLOR_4 + "\u6575\u5C0D\u8655\u7406\u7A0B\u5E8F " + COLOR_2 + Ver + COLOR_4 + " \u8F09\u5165\u6210\u529F");
+
+	while(1){ Delay(100); MyTime();
+		if(KillHostiler & !RunFromHostiles){ var _dumbass = NTC_FindUnit(NTC_UNIT_PLAYER);
+			if(_dumbass){
+				do{
+					if(!HH_CampStairs || me.areaid != 131){
+						if(GetPlayerFlag(me.gid, _dumbass.gid, 9) && /*GetDistance(me.x, me.y, _dumbass.x, _dumbass.y) < 60*/ me.areaid == _dumbass.areaid && !NTC_InTown() && NTA_IsValidTarget(_dumbass)){
+							NTC_SendMsgToScript("NTBotGame.ntj", "\u767C\u73FE\u6575\u5C0D\u72C0\u6CC1");
+							if(NTA_KillDumbass(_dumbass.gid) && TauntHostile){
+								t = Random(0,(GotWreckedTaunt.length-1));
+								Say(_dumbass.name + GotWreckedTaunt[t]);
+								GotWreckedFunctionOhYeah();
+							} NTC_SendMsgToScript("NTBotGame.ntj", "\u767C\u73FE\u6575\u5C0D\u72C0\u6CC1");
+						}
+					}
+					else{
+						if(GetPlayerFlag(me.gid, _dumbass.gid, 9) && me.areaid == 131){
+							NTC_SendMsgToScript("NTBotGame.ntj", "\u767C\u73FE\u6575\u5C0D\u72C0\u6CC1");
+							NTM_MoveTo(131, 15112, 5248);
+							while(_dumbass.areaid != me.areaid) {
+								Delay(500);
+								if(HH_CampSpam > -1){
+									NTC_CastSkill(HH_CampSpam, NTC_HAND_RIGHT, 15099, 5237);
+								} return;
+							}
+							if(NTA_KillDumbass(_dumbass.gid) && TauntHostile){
+								t = Random(0,(GotWreckedTaunt.length-1));
+								Say(_dumbass.name + GotWreckedTaunt[t]);
+							} NTC_SendMsgToScript("NTBotGame.ntj", "\u767C\u73FE\u6575\u5C0D\u72C0\u6CC1");
+						}
+					}
+				} while(_dumbass.GetNext());
+			}
+		}
+	}
+}
+
+function DumbassCity(msg, type)
+{
+	switch(type){
+		case 8:
+		case 9:
+			if(msg.indexOf("has expressed hostility") != -1 || msg.indexOf("left") != -1){
+				var TheTime = MyTime();
+				var Today = new Date().toLocaleFormat("%d %b");
+				var Area = GetArea();
+				var _dumbass = GetPlayerUnit();
+				if(_dumbass){
+					do{
+						if(GetPlayerFlag(me.gid, _dumbass.gid, 9)){
+							_dumbass = stripColorCodes(_dumbass.name);
+
+							HostLog = FileOpen("logs/HostileLogs/" + me.charname + ".txt", 2);
+							if(!HostLog) HostLog = FileOpen("logs/HostileLogs/" + me.charname + ".txt", 2);
+								HostLog.WriteLine("---------" + Area.name + "---------");
+								HostLog.WriteLine("\u65E5\u671F - \u6642\u9593: " + Today + " - " + TheTime);
+								HostLog.WriteLine("\u904A\u6232\u89D2\u8272: " + Names[Names.indexOf(_dumbass)]);
+								HostLog.WriteLine("\u904A\u6232\u5E33\u865F: " + Accounts[Names.indexOf(_dumbass)]);
+								HostLog.WriteLine("\u904A\u6232\u540D\u7A31: " + me.gamename);
+								HostLog.WriteLine("\u5167\u5BB9\u8CC7\u8A0A: " + Class[Names.indexOf(_dumbass)] + " (" + Levels[Names.indexOf(_dumbass)] + ")");
+								HostLog.WriteLine("");
+							HostLog.Close(); Delay(Random(100,200));
+
+							HostileOOG = COLOR_1 + "\u6575\u5C0D " + Area.name.toUpperCase(1) + ";";
+							HostileOOG += COLOR_1 + "----------------------------------" + "\n";
+							HostileOOG += COLOR_4 + "\u904A\u6232\u89D2\u8272: " + COLOR_8 + Names[Names.indexOf(_dumbass)] + "\n";
+							HostileOOG += COLOR_4 + "\u904A\u6232\u5E33\u865F: " + COLOR_8 + Accounts[Names.indexOf(_dumbass)] + "\n";
+							HostileOOG += COLOR_4 + "\u5167\u5BB9\u8CC7\u8A0A: " + COLOR_8 + Class[Names.indexOf(_dumbass)] + " (" + Levels[Names.indexOf(_dumbass)] + ")" + "\n";
+							HostileOOG += COLOR_4 + "\u904A\u6232\u540D\u7A31: " + COLOR_8 + me.gamename + "\n";
+
+							if(RunFromHostiles){
+								HostileOOG += COLOR_1+"\u6575\u610F\u9003\u547D"+COLOR_8 + "\u8655\u7406\u7A0B\u5E8F\u6210\u529F\u555F\u52D5" + "\n";
+								HostileOOG += COLOR_1 + "----------------------------------";
+								NTC_SendLogToOOG(NTC_LOG_COMMON, HostileOOG); Delay(200);
+								CloseD2();
+							}
+							else{
+								HostileOOG += COLOR_1 + "----------------------------------";
+								NTC_SendLogToOOG(NTC_LOG_COMMON, HostileOOG);
+								if(TauntHostile){
+									t = Random(0,(GetWreckedTaunt.length - 1));
+									Say(Names[Names.indexOf(_dumbass)] + GetWreckedTaunt[t]);
+								}
+							}
+						}
+					} while(_dumbass.GetNext());
+				} return;
+			} break;
+		default: break;
+	}
+}
+
+function GotWreckedFunctionOhYeah()
+{
+	var Area = GetArea();
+	HostileWrecked = COLOR_1 + "\u8655\u7406\u7A0B\u5E8F\u7D42\u6B62\u5728" + Area.name.toUpperCase(1) + ";";
+	NTC_SendLogToOOG(NTC_LOG_COMMON, HostileWrecked);
+	return;
+}
+
+function ScanPlayers()
+{
+	var Player = GetPlayerUnit();
+	if(Player){
+		do{
+			if(Names.indexOf(Player.name) == -1){
+				Names.push(Player.name);
+				Class.push(_classid(Player.classid));
+				Levels.push(Player.level);
+				Accounts.push(HostileAccount);
+			}
+		} while(Player.GetNext())
+	} return;
+}
+
+function NTA_KillDumbass(id)
+{
+	var _target;
+	if(NTConfig_AttackSkill[1] < 1)
+		return false;
+	_target = NTC_FindUnit(NTC_UNIT_PLAYER, id);
+	if(!_target)
+		return false;
+	if(_target.IsAttackable()){
+		var _attackcount = 0;
+		while(_attackcount < 600 && NTA_IsValidTarget(_target)){
+			if(NTA_Attack(_target, (_attackcount%30) == 0) < 2)
+				return false;
+			if(me.classid == 1 && GetDistance(me.x, me.y, _target.x, _target.y) < 10)
+			{
+				_castx =  _target.x > me.x ? _target.x+15 : _target.x-15;
+				_casty =  _target.y > me.y ? _target.y+15 : _target.y-15;
+				NTM_MoveTo(me.areaid, _castx, _casty);
+			} _attackcount++;
+		}
+	}
+	NTSI_PickItems();
+	return (_target.hp <= 0 || _target.mode == 0 || _target.mode == 17);
+}
+
+function NTA_IsValidTarget(target)
+{
+	if(target.mode == 17 || target.mode == 0 || NTC_InTown(target)){ return false; }
+	else{ return true; }
+}
+
+function MyTime()
+{
+	var NW = new Date();
+	var HR = NW.getHours();
+	var MM = NW.getMinutes();
+	var SS = NW.getSeconds();
+	var DT;
+
+	if (HR > 12){ HR = HR - 12; }
+	if (HR < 12){ DT = "\u4E0A\u5348"; }
+	if (HR > 11){ DT = "\u4E0B\u5348"; }
+	if (HR == 0){ HR = 12; }
+	if (HR < 10){ HR = "0" + HR; }
+	if (MM < 10){ MM = "0" + MM; }
+	if (SS < 10){ SS = "0" + SS; }
+
+	TheTime = DT + " " +HR + "\u9EDE" + MM + "\u5206" + SS + "\u79D2";
+	return TheTime;
+}
+
+function _classid(i)
+{
+	switch(i){
+		case 0:	return "Amazon";
+		case 1: return "Sorceress";
+		case 2: return "Necromancer";
+		case 3: return "Paladin";
+		case 4: return "Barbarian";
+		case 5: return "Druid";
+		case 6: return "Assassin";
+	} return;
+}
+
+function stripColorCodes(input){ return input.replace(/ÿc\d+/g, ""); }

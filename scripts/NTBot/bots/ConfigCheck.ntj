@@ -1,0 +1,79 @@
+/* =====================================================
+ *
+ * ConfigCheck.ntj , a Configuration setting check script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTBarracks.ntj, 一個BOT參數檢查程式腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權  
+ * 自本次寫的所有代碼以GPL許可  
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+function NTMain(){
+
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NT_LoadConfig();
+
+	me.maxgametime = 0;
+	
+	var screenFill = [
+	COLOR_4 + "\u8F09\u5165 \u53C3\u6578\u6A94\u6AA2\u67E5\u7A0B\u5E8F.",
+	"---------------------------------------------------------------------------------------------------",
+	COLOR_2 + "\u7576\u4F60\u770B\u5230\u6B64\u8A0A\u606F\u6642, \u8868\u793A\u4F60\u7684\u89D2\u8272\u53C3\u6578\u6A94\u9084\u6C92\u91CD\u65B0\u8A2D\u5B9A\u7DE8\u8F2F\u904E.",
+	"---------------------------------------------------------------------------------------------------",
+	];
+	var _skillCheck = 0;
+	for(var i = 1; i < 5; i++) {
+		if(NTConfig_AttackSkill[i] == -1)
+			_skillCheck++;
+	}
+	if(_skillCheck > 0)
+		screenFill.push(COLOR_8 + "\u7576\u5FC3\u597D\u53CB! \u4E0D\u82B1\u9EDE\u9069\u7576\u7684\u6642\u9593\u4FEE\u6539\u89D2\u8272\u53C3\u6578, \u57F7\u884CBOT\u76F8\u7576\u65BC\u662F\u81EA\u627E\u9EBB\u7169.");
+
+	while(me.ingame){
+		for(var i = 0; i < screenFill.length; i++) {
+			Print(screenFill[i]);
+		}
+	Delay(10100);
+	}
+}

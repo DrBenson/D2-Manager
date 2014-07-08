@@ -1,0 +1,145 @@
+/* =====================================================
+ *
+ * KeycodeFunctions.ntl , a bot tools function call script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTTools.ntl, 一個功能呼叫工具腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+function NTT_PrintCoordinatesIPandGateway()
+{
+	{
+	NTC_Delay(1000);
+
+	while (me.areaid != 0)
+		{
+		NTC_Delay(3000);
+			{
+			Print(COLOR_1 + " \u5230 " + "\u5730\u5340: " + me.areaid + " X: " + me.x + " Y: " + me.y + " \u65BC: " + me.gatewayid + " IP: " + me.gameserverip);
+			}
+		}
+	}
+}
+
+var AntiIdleAct = ["\u863F\u683C\u71DF\u5730", "\u9B6F.\u9AD8\u56E0", "\u5EAB\u62C9\u65AF\u7279\u6D77\u6E2F", "\u7FA4\u9B54\u5821\u58D8", "\u54C8\u6D1B\u52A0\u65AF"];
+var AntiIdleActE = [" \u901B\u4E00\u4E0B", " \u8D70\u4E00\u5708", " \u7E5E\u4E00\u7E5E", " \u6643\u6643", " \u5DE1\u8996\u4E00\u756A"];
+var AntiIdleActPreMsg = ["\u6211\u60F3\u8981\u98DB\u5230 ", "\u6211\u8981\u50B3\u9001\u5230 ", "\u5982\u679C\u6211\u53BB ", "\u6211\u5C31\u53EA\u60F3\u53BB ", "\u55E8, \u54B1\u5011\u53BB "];
+var AntiIdleAct1 = ["\u85CF\u5BF6\u7BB1","\u5361\u590F", "\u57FA\u5F97", "\u6070\u897F", "\u963F\u5361\u62C9", "\u74E6\u745E\u592B"];
+var AntiIdleAct2 = ["\u85CF\u5BF6\u7BB1","\u96F7\u5C71\u5FB7", "\u51F1\u6069", "\u6CD5\u62C9", "\u5353\u683C\u5357", "\u4E9E\u7279\u746A"];
+var AntiIdleAct3 = ["\u85CF\u5BF6\u7BB1","\u8D6B\u62C9\u9435\u529B", "\u51F1\u6069", "\u827E\u67EF", "\u5967\u99AC\u65AF", "\u99AC\u5E2D\u592B"];
+var AntiIdleAct4 = ["\u85CF\u5BF6\u7BB1", "\u51F1\u6069", "\u6D77\u723E\u5E03", "\u6CF0\u745E\u723E", "\u8CC8\u6885\u62C9", "\u6CF0\u745E\u723E"];
+var AntiIdleAct5 = ["\u85CF\u5BF6\u7BB1", "\u51F1\u6069", "\u746A\u62C9", "\u62C9\u8607\u514B", "\u5938\u723E\u51F1\u7279", "\u746A\u62C9"];
+var AntiIdlePreMsg = ["!\u6211\u53BB\u62DC\u8A2A\u4E00\u4E0B ", "!\u4F60\u597D\u50CF\u4E0D\u600E\u9EBC\u9AD8\u8208\u5594 ", "!\u60F3\u807D\u807D\u82F1\u96C4\u6545\u4E8B\u55CE? ", "!\u563F! \u6211\u6C92\u898B\u5230\u4F60\u8036 ", "!\u4F60\u5230\u5E95\u662F\u4E0D\u662F ", "!\u5582 \u4F60\u6B20\u7684\u8CED\u50B5\u8A72\u9084\u4E86\u5427 ", "!\u4F60\u4E0D\u662F\u8981\u7D66\u6211\u8D85\u7D1A\u88DD\u5099\u55CE? "];
+
+
+var AntiIdleAct1Area = ["stash","kashya", "gheed", "charsi", "akara", "warriv"];
+var AntiIdleAct2Area = ["stash","lysander", "cain", "fara", "drognan", "atma"];
+var AntiIdleAct3Area = ["stash", "hratli", "cain", "alkor", "ormus", "meshif"];
+var AntiIdleAct4Area = ["stash", "cain", "halbu", "tyrael", "jamella", "tyrael"];
+var AntiIdleAct5Area = ["stash", "cain", "malah", "larzuk", "qual-kehk", "malah"];
+
+var WeGonnaChangeAct = Random(0,5);
+function NTT_AntiIdle()
+{
+	while (me.areaid != 0 && BGAntiIdle){
+		NTC_PingDelay(3000);
+		t = Random(0,5);
+		abcde = Random(0,6);
+
+		if(WeGonnaChangeAct == undefined){
+			WeGonnaChangeAct = 0;
+		} else if(WeGonnaChangeAct == 5){
+			qrstu = Random(1,5);
+			vwxyz = Random(0,4);
+			wwxyz = Random(0,4);
+			Say(AntiIdleActPreMsg[vwxyz] + AntiIdleAct[qrstu-1] + AntiIdleActE[wwxyz]);
+			if(!NTTM_CheckAct(qrstu)){
+				Say("\u6211\u60F3\u60F3\u9084\u662F\u4E0D\u8981\u53BB " + AntiIdleAct[qrstu-1] + "\u4E86");
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+				return;
+			}
+			WeGonnaChangeAct = Random(0,5);
+		} else{
+			WeGonnaChangeAct++;
+		}
+
+		switch(me.areaid){
+			case 1:
+				Say(AntiIdlePreMsg[abcde] + AntiIdleAct1[t] + "!");
+				if(!NTTM_TownMove(AntiIdleAct1Area[t])) {
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+					return;
+				}
+				break;
+			case 40:
+				Say(AntiIdlePreMsg[abcde] + AntiIdleAct2[t] + "!");
+				if(!NTTM_TownMove(AntiIdleAct2Area[t])) {
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+					return;
+				}
+				break;
+			case 75:
+				Say(AntiIdlePreMsg[abcde] + AntiIdleAct3[t] + "!");
+				if(!NTTM_TownMove(AntiIdleAct3Area[t])) {
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+					return;
+				}
+				break;
+			case 103:
+				Say(AntiIdlePreMsg[abcde] + AntiIdleAct4[t] + "!");
+				if(!NTTM_TownMove(AntiIdleAct4Area[t])) {
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+					return;
+				}
+				break;
+			case 109:
+				Say(AntiIdlePreMsg[abcde] + AntiIdleAct5[t] + "!");
+				if(!NTTM_TownMove(AntiIdleAct5Area[t])) {
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+					return;
+				}
+			break;
+		}
+		Delay(Random(2000,5000));
+	}
+}

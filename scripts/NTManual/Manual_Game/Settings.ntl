@@ -1,0 +1,171 @@
+/* =====================================================
+ *
+ * Settings.ntl , a basic configuration script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Settings.ntl, 一個基本參數定義腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+// Welcome to NTManual's settings! Below, you can use a default configuration for all of your character
+// Or you can specify different configs for each character you use
+// Use the TruWind config as a template if you wish to create addition custom configs
+// Be sure you copy everything between the case: and the break; for each new config, or you will have errors!!
+
+function MG_LoadConfig(MyChar)
+{
+	Print(COLOR_4 + "\u6210\u529F\u8F09\u5165\u53C3\u6578!");
+	switch(MyChar){
+		case "TruWind": // USE THIS AS AN EXAMPLE, modify the "TruIce" to your "Char_Name"
+			MGConfig_LifeChicken = -1; 		// This is your chicken life percent. If you go below this life total, exit game.
+			MGConfig_ManaChicken = -1; 		// This is your chicken mana percent. If you go below this mana total, exit game.
+			MGConfig_ChickenWarn = true; 	// This will warn you to heal before exiting town if you'll chicken
+
+			MGConfig_LifeThresh = 75;		// Drink a health potion if under this percent of life.
+			MGConfig_LifeRejuvThresh = 50;	// Drink a rejuvenation potion if under this percent of life. (Will not use health potions under this %)
+			MGConfig_ManaThresh = 30;		// Drink a mana potion if under this percent of mana.
+			MGConfig_ManaRejuvThresh = 0;	// Drink a rejuvenation potion if under this percent of mana. (Will not use mana potions under this %)
+
+			MGConfig_BeltType = ["hp", "hp", "hp", "hp"]; // Belt slots are just as they show in game!
+
+			MGConfig_CheckStuff = true; 	// Gives a warning when low on pots/scrolls
+			MG_CS = ["2", "2", "1", "1"];	// Values to check [HPs, MPs, TPs, IDs];
+
+			NTConfig_HostileHandler = false; // true will make you quit when hostiled, false won't
+		break;
+		default:
+			MGConfig_LifeChicken = 75; 		// This is your chicken life percent. If you go below this life total, exit game.
+			MGConfig_ManaChicken = -1; 		// This is your chicken mana percent. If you go below this mana total, exit game.
+			MGConfig_ChickenWarn = false; 	// This will warn you to heal before exiting town if you'll chicken
+
+			MGConfig_LifeThresh = 90;		// Drink a health potion if under this percent of life.
+			MGConfig_LifeRejuvThresh = 65;	// Drink a rejuvenation potion if under this percent of life. (Will not use health potions under this %)
+			MGConfig_ManaThresh = 30;		// Drink a mana potion if under this percent of mana.
+			MGConfig_ManaRejuvThresh = 0;	// Drink a rejuvenation potion if under this percent of mana. (Will not use mana potions under this %)
+
+			MGConfig_BeltType = ["hp", "hp", "mp", "rv"]; // Belt slots are just as they show in game!
+
+			MGConfig_CheckStuff = false; 	// Gives a warning when low on pots/scrolls
+			MG_CS = ["2", "1", "3", "-1"];	// Values to check [HPs, MPs, TPs, IDs];
+
+			NTConfig_HostileHandler = true; // true will make you quit when hostiled, false won't
+		break;
+	}
+
+	// Below is the settings that are global. Currently only the keypresses are a global variable!
+
+	// Pickit stuff... DO NOT FORGET TO SET YOUR PICKIT FILES UP AT THE BOTTOM OF THIS FILE
+	MGConfig_PickItems = true;		// This will turn on/off item picking
+	MGConfig_PickAuto = false;		// This will turn on/off automatic item picking
+
+	MGConfig_AutoParty = true; 		// true will auto party with people who join, false won't
+
+	MGConfig_ShowMap = true;
+	MGConfig_ShowEnemy = true;
+	MGConfig_ShowMissile = true;
+	me.revealautomap = true;									// 自動顯示地圖
+	me.showenemyonautomap = true;					// 顯示接近怪物
+	me.showmissileonautomap = true;					// 顯示遠射怪物
+
+	NTConfig_ChatRecording = false;	 	// Logs all in game chat to a .txt file in D2NT/scripts/logs/ChatR folder
+	NTConfig_WhisperToManager = false; 	// Logs whispers from in-game to your manager
+	NTConfig_WhisperToTab = "common"; 	// Choose which tab whispers go to, either "common" or "item"
+
+	//Key_PickItems = 17;				// Ctrl - pick items based on your standard item configs!
+	NTConfig_SnagRange = 40;	// Range for picking items!
+	Key_HotKeyInfo = 45;			// Insert - Send a list of hotkeys to your manager
+	Key_ExitGame = 46;				// Delete - Exit game with game stats like the normal bot does
+	Key_GoToTown = 36;				// Home - teleports you to town
+	Key_DoPrecast = 96;			 	// Num 0 - Precast your skills, obviously
+	Key_HiddenStats = 97;			// Num 1 - Resistances, FCR, FHR, IAS, %DR, %MDR, and absorbs!
+	Key_Breakpoints = 100;			// Num 4 - Get your BPs for your character class
+	Key_MyChicken = 103;			// Num 7 - Print your chicken values for HP/MP
+	Key_DPSMeter = 104;				// Num 8 - DPS Meter above character - YOU CAN NOT CHAT IN GAME WITH THIS ACTIVE!
+	Key_CursoriLvL = 105;			// Num 9 - Print the iLvl of the item on your cursor.
+	Key_NextWaypoint = 106; 		// Num * - Auto-tele to next waypoint
+	Key_POI = 109; 					// Num - - Auto-tele to Point Of Interest (POI)
+	Key_InvStashCheck = 107; 		// Num + - Stairbuilders Inventory/Stash layout checker!
+	InvChecking = "Mgr";		// "Game" to print in game "Mgr" to print in CommonLog
+	StashChecking = "Mgr";		// "Game" to print in game "Mgr" to print in CommonLog
+	Key_GameStats = 33;				// Pg Up - Log your current game's stats to manager
+	Key_CharStats = 34;			 	// Pg Dn - Log your extended stats to manager
+	NTConfig_MercStats = true;	// true to get Merc stats, false if not
+	Key_AntiIdle = 19;				// Pause/break - Turn on AntiIdle for extended AFK's
+	Key_ClearPosition = 187;	// Equal-sign - Clear near position monster.
+	MGAntiIdle = false;
+	// -----------------------------------------------------------------------------------------------------------------
+	// Development Tools Settings Only!!
+	// -----------------------------------------------------------------------------------------------------------------
+
+	Key_DevTools = 98;						// Num 2 - Keypress for the following Dev Tools
+
+	NTMG_GetLocalStringIDs = false;	 		// pretty much same as objects
+	NTMG_StringIdRange = [2500, 4000];		// this is range getlocalstrings  id's similar to above ranges
+	NTMG_StringLookRange = 5;				// this is the distance that you wish to look for getlocalstrings from your toon
+	NTMG_ObjectIDs = false;				 	// prints the type and id number of objects (shrines/chests/etc)
+	NTMG_ObjectIdRange = [0, 600];			// this is range of object id's similar to above ranges
+	NTMG_ObjectLookRange = 5;				// this is the distance that you wish to look for objects from your toon
+	NTMG_MonsterIDs = false;			 	// prints the name and id number of monsters.  Probably should set a range for it but been using it for summons
+	NTMG_MonsterIdRange = 	[0, 575];		// set the range of id's you want to look for ie [420, 432] looks for druid summons
+	NTMG_GetState = false;		 			// prints id # of state and "active" if the state is active
+	NTMG_StateIdRange = 	[0, 159];		// set the range of me.states you want to check if active ie [141, 154] looks for druid states
+	NTMG_AreaIDs = 1;		 				// 1 prints AreaID and X/Y coordinates, 2 logs AreaID and X/Y coordinates to .txt, 3 does both
+
+}
+
+function MG_PickitLoad()
+{
+	NTConfig_NIPFilePath.push("required.nip");
+	//NTConfig_NIPFilePath.push("Master/Charms.nip");
+	//NTConfig_NIPFilePath.push("Master/Crafted.nip");
+	//NTConfig_NIPFilePath.push("Master/Cubed.nip");
+	//NTConfig_NIPFilePath.push("Master/CustomAdditions.nip");
+	//NTConfig_NIPFilePath.push("Master/FAST.nip");
+	NTConfig_NIPFilePath.push("Master/Gold Potions Runes Gems Essences Keys Organs.nip");
+	//NTConfig_NIPFilePath.push("Master/Magic.nip");
+	//NTConfig_NIPFilePath.push("Master/Rare.nip");
+	//NTConfig_NIPFilePath.push("Master/Set.nip");
+	//NTConfig_NIPFilePath.push("Master/Unid.nip");
+	//NTConfig_NIPFilePath.push("Master/Unique.nip");
+	//NTConfig_NIPFilePath.push("Master/White.nip");
+	//NTConfig_NIPFilePath.push("Master/Runeword.nip");
+}

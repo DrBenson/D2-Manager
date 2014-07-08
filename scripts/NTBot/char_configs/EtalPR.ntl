@@ -1,0 +1,7 @@
+/* Instructions:
+* "you can comment out any of the line you don't like by putting "//" in front of them
+* you can also add as many line you want just make sure that the line has " and " at the beginning and end and also a "," after the last "
+*/
+
+var etalSpam = [""
+];

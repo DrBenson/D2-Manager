@@ -1,0 +1,96 @@
+/* =====================================================
+ *
+ * NTLogHandler.ntj , a Log Handler function call script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTLogHandler.ntj, 一個BOT的記錄處理程式腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+// NTLogHandler.ntj
+
+function NTMain() {
+	Include("libs/common/NTLogger.ntl");
+	if (NTConfig_LoggingEnabled) {
+		Print(COLOR_4 + "\u8A18\u9304\u8655\u7406\u7A0B\u5E8F: " + COLOR_2 + " \u555F\u52D5\u4E2D");
+		//NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_2 + "NTLogHandler: registered");
+		RegisterEvent(EVENT_SCRIPTMSG, scriptMsgEvents);
+	}
+	while(1) {
+		NTC_Delay(200);
+	}
+}
+
+// log msgs are of the format: scriptname, ticks, type, level, msg separated by NTLG_DELIM
+function scriptMsgEvents(msg) {
+    log = msg.split(NTLG_DELIM);
+    if (log.length != 4) {
+		NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_1 + "NTLogHandler: invalid log message dropped");
+		return;
+	}
+	time = NTLG_TimeStamp(parseInt(log[0]));
+	type = parseInt(log[1]);
+	level = parseInt(log[2]);
+	message = log[3];
+
+	switch(type) {
+		case NTLG_TYPE_LOG:
+			if (level < NTConfig_Log_Level) return;
+			filename = "logs/Logger/" + me.account + "-" + me.charname + "-log.txt";
+			break;
+		case NTLG_TYPE_ITEM:
+			if (level < NTConfig_Item_Level) return;
+			filename = "logs/Logger/" + me.account + "-" + me.charname + "-item.txt";
+			break;
+		default:
+			NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_1 + "NTLogHandler: invalid log message (type) dropped");
+
+	}
+	if (message == "") {
+		NTLG_InitLog(filename, time);
+	} else {
+		NTLG_LogLine(filename, time, level, message);
+	}
+}
+
+
+

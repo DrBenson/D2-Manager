@@ -1,0 +1,415 @@
+//* =====================================================
+// *
+// * required.nip , a user required item pickup script
+// *
+// * Any original code is licensed under the BSD license
+// * All code written since the fork of this is licensed under the GPL
+// * Please see COPYING for details
+// *
+// * Copyright (c) 2014, Benson's Network Technolygy Company.
+// * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+// * All rights reserved.
+// *
+// * This program is free software: you can redistribute it and/or modify
+// * it under the terms of the GNU General Public License as published by
+// * the Free Software Foundation, either version 3 of the License, or
+// * (at your option) any later version.
+// *
+// * This program is distributed in the hope that it will be useful,
+// * but WITHOUT ANY WARRANTY; without even the implied warranty of
+// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// * GNU General Public License for more details.
+// * You should have received a copy of the GNU General Public License
+// * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// *
+// * required.nip, 一個自定義撿取物品清單腳本
+// *
+// * 任何原代碼在BSD許可證下授權  
+// * 自本次寫的所有代碼以GPL許可  
+// * 請參閱COPYING的詳細信息
+// *
+// * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+// * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+// * 保留所有權利。
+// *
+// * 本程序是自由軟件：您可以重新分配和/或修改
+// * 它根據GNU通用公共許可證的條款發表
+// * 自由軟件基金會，無論是版本3的使用授權，或
+// * (由你選擇) 任何更新的版本。
+// *
+// * 本程序分發的目的是希望它有用，
+// * 但"沒有任何擔保"; 甚至沒有暗示的保證
+// * 適銷性或針對特定用途。請參閱
+// * GNU通用公共許可證以獲得更多細節。
+// * 你應該已經收到一份GNU通用公共許可證的副本
+// * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+// *
+//===================================================== */
+
+//RARE RINGS 稀有戒指
+[Type] == Ring && [Quality] == Rare # [ItemMagicBonus] >= 25
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 10 || [Strength] >= 15) && [MaxHP] >= 15
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && [HPRegen] >= 7
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && ([ColdResist] >= 15 || [FireResist] >= 15 || [LightResist] >= 15)
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && (([ColdResist]+[FireResist] >= 15) || ([ColdResist]+[LightResist] >= 15) || ([FireResist]+[LightResist] >= 15))
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && [Mana] >= 50
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [Strength]+[Dexterity] >= 20
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [MaxHP] >= 25 && [HPRegen] >= 7
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [MaxHP] >= 35 && ([ColdResist] >= 15 || [FireResist] >= 15 || [LightResist] >= 15)
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [MaxHP] >= 25 && (([ColdResist]+[FireResist] >= 20) || ([ColdResist]+[LightResist] >= 20) || ([FireResist]+[LightResist] >= 20))
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && (([ColdResist]+[FireResist] >= 15) || ([ColdResist]+[LightResist] >= 15) || ([FireResist]+[LightResist] >= 15))
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && ([ColdResist] >= 15 || [FireResist] >= 15 || [LightResist] >= 15)
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && [MaxHP] >= 15
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && [Mana] >= 50
+[Type] == Ring && [Quality] == Rare # [Strength]+[Dexterity] >= 30 && [ManaLeech]+[LifeLeech] >= 6
+[Type] == Ring && [Quality] == Rare # ([Dexterity] >= 15 || [Strength] >= 20) && [MaxHP] >= 35
+[Type] == Ring && [Quality] == Rare # ([Dexterity] >= 15 || [Strength] >= 20) && [HPRegen] >= 7
+[Type] == Ring && [Quality] == Rare # ([Dexterity] >= 15 || [Strength] >= 17) && [ManaLeech]+[LifeLeech] >= 10
+[Type] == Ring && [Quality] == Rare # [ManaLeech]+[LifeLeech] >= 10 && (([ColdResist]+[FireResist] >= 30) || ([ColdResist]+[LightResist] >= 30) || ([FireResist]+[LightResist] >= 30))
+[Type] == Ring && [Quality] == Rare # [ManaLeech]+[LifeLeech] >= 10 && [MaxHP] >= 35
+
+//RARE MF AMULET 稀有項鍊(魔法取得大於35%)
+[Type] == Amulet && [Quality] == Rare # [ItemMagicBonus] >= 35
+
+//RARE VISIONARY CIRCLET 稀有頭飾
+[Type] == Circlet && [Quality] == Rare # [ItemToHitPercentPerLevel] > 1
+
+//RARE GLOVES 稀有手套
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [Dexterity] >= 15 || [Strength] >= 15
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [IAS] == 20 && ([Dexterity] >= 10 || [Strength] >= 13)
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [IAS] == 20 && ([BowAndCrossbowSkillTab] == 2 || [PassiveAndMagicSkillTab] == 2 || [JavelinAndSpearSkillTab] == 2)
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [Dexterity] >= 15 || [Strength] >= 15 && [ItemReplenishDurability] >= 1
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [IAS] == 20 && ([Dexterity] >= 10 || [Strength] >= 13) && [ItemReplenishDurability] >= 1
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [IAS] == 20 && ([BowAndCrossbowSkillTab] == 2 || [PassiveAndMagicSkillTab] == 2 || [JavelinAndSpearSkillTab] == 2) && [ItemReplenishDurability] >= 1
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [FCR] >= 10 && ([Strength] >= 10 || [MaxHP] >= 20)
+
+//RARE BOOTS 稀有鞋子
+[Type] == Boots && [Quality] == Rare && [Flag] != Ethereal # [FRW] >= 30 && (([ColdResist]+[FireResist] >= 70) || ([ColdResist]+[LightResist] >= 70) || ([FireResist]+[LightResist] >= 70))
+[Type] == Boots && [Quality] == Rare && [Flag] != Ethereal # [FRW] >= 30 && (([ColdResist]+[FireResist]+[LightResist] >= 75) || ([ColdResist]+[FireResist]+[PoisonResist] >= 90) || ([ColdResist]+[LightResist]+[PoisonResist] >= 90) || ([FireResist]+[LightResist]+[PoisonResist] >= 90))
+[Type] == Boots && [Quality] == Rare && [Flag] == Ethereal # [FRW] >= 30 && (([ColdResist]+[FireResist] >= 70) || ([ColdResist]+[LightResist] >= 70) || ([FireResist]+[LightResist] >= 70)) && [ItemReplenishDurability] >= 1
+[Type] == Boots && [Quality] == Rare && [Flag] == Ethereal # [FRW] >= 30 && (([ColdResist]+[FireResist]+[LightResist] >= 75) || ([ColdResist]+[FireResist]+[PoisonResist] >= 90) || ([ColdResist]+[LightResist]+[PoisonResist] >= 90) || ([FireResist]+[LightResist]+[PoisonResist] >= 90)) && [ItemReplenishDurability] >= 1
+
+//RARE BELTS 稀有腰帶
+[Type] == Belt && [Quality] == Rare && [Flag] != Ethereal # [FHR] == 24 && [Strength] >= 20 && [MaxHP] >= 40
+[Type] == Belt && [Quality] == Rare && [Flag] == Ethereal # [FHR] == 24 && [Strength] >= 20 && [MaxHP] >= 40 && [ItemReplenishDurability] >= 1
+[Type] == Belt && [Quality] == Rare && [Flag] != Ethereal # [FCR] >= 10 && ([Strength] >= 15 || [MaxHP] >= 35)
+
+//RARE ORBS 稀有法杖
+[type] == orb && [Quality] == rare # (([itemallskills] >= 2 || [itemaddclassskills] >= 2) && [manarecoverybonus] >= 15  && [itemfastercastrate] >= 20 && ([maxhp] >= 30 || [maxmana] >= 30))
+
+
+//##### Helms 暗金頭盔
+//[Name] == SkullCap && [Quality] == unique // 塔因頭盔 Tarn Helm
+//[Name] == WarCap && [Quality] == unique //粗野之冠 Peasant Crown
+[Name] == WingedHelm && [Quality] == unique // 女神之翼 Valkyrie Wing
+[Name] == Shako && [Quality] == unique // 諧角之冠 Harlequin Crest
+[Name] == SpiredHelm && [Quality] == unique // 夜翼面紗 Nightwing's Veil
+[Name] == Demonhead && [Quality] == unique // 安達利爾的面貌Andariel's Visage
+[Name] == Corona && [Quality] == unique // 年紀之冠 Crown of ages
+[Name] == Diadem && [Quality] == unique // 格利風之眼Griffon's Eye
+[Name] == GrandCrown && [Quality] == unique //# [lifedrainmindam] >= 10 && [EnhancedDefense] >= 190 // 盜賊皇冠
+//[Name] == Sallet && [Quality] == unique  # [ColdResist] >= 35 && [FireResist] >=45  && [LightResist] >= 35 // 岩石制動器
+[Name] == FuryVisor && [Quality] == unique  // 狼嚎
+[Name] == DestroyerHelm && [Quality] == unique   // 惡魔號角的邊緣
+[Name] == ConquerorCrown && [Quality] == unique   // 海拉柏得的國度
+
+//##### Craft 符文組合材料(頭盔)
+[Type] == helm && [Class] >= exceptional && [Quality] == superior && [Flag] != ethereal # [Sockets] >= 2 && [EnhancedDefense] >= 80 // Delirium or Dream
+[Type] == helm && [Class] >= exceptional && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] >= 2) && [EnhancedDefense] >= 80  // Lore Delirium or Dream
+
+//##### Armor  暗金盔甲
+[Name] == SerpentskinArmor && [Quality] == unique && [Flag] != ethereal # [FireResist] >= 30 // Skin of the Vipermagi	// 蛇魔法師之皮
+[Name] == xpl && [Quality] == unique // 詩寇蒂的憤怒
+[Name] == RussetArmor && [Quality] == unique //&& [Flag] == ethereal # [EnhancedDefense] >= 160 // Skullder's Ire	// 詩寇蒂的憤怒
+[Name] == WireFleece && [Quality] == unique // 鬥士的禍根
+//[Name] == FullPlateMail && [Quality] == unique && [Flag] == ethereal// Gold skin 黃金之皮
+[Name] == MagePlate && [Quality] == unique # [EnhancedDefense] >= 160 // Que-Hegan's Wisdom 魁黑剛的智慧
+[Name] == DuskShroud && [Quality] == unique //# [itemarmorpercent] >= 20 && [passivefiremastery] >= 15 && [passiveltngmastery] >= 15 && [passivecoldmastery] >= 15 && [manarecoverybonus] >= 15  // 奧瑪斯的長袍
+[Name] == BalrogSkin && [Quality] == unique // 阿凱尼的榮耀
+[Name] == KrakenShell && [Quality] == unique  // 海王利維亞桑
+[Name] == SacredArmor && [Quality] == unique   // 聖堂武士的力量 // 泰瑞爾的力量
+[Name] == Cuirass && [Quality] == unique // && [Flag] == ethereal # [EnhancedDefense] >= 190 //  200 都瑞爾的殼
+
+//##### Craft 符文組合材料(盔甲)
+[Name] == MagePlate && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 3) && [EnhancedDefense] >= 10 // Enigma
+[Name] == DuskShroud && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4) && [EnhancedDefense] >= 10 // Enigma || Chains of Honor
+[Name] == Wyrmhide && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4) && [EnhancedDefense] >= 10 // Enigma || Chains of Honor
+[Name] == ScarabHusk && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4) && [EnhancedDefense] >= 10 // Enigma || Chains of Honor
+
+
+// ##### Shields ####################### 暗金盾牌
+//[Name] == GothicShield && [Quality] == unique // The Ward 囚房
+[Name] == Defender && [Quality] == unique # [EnhancedDefense] >=  150; // Visceratuant 維斯爾坦特
+//[Name] == RoundShield && [Quality] == unique // Moser's Blessed Circle 摩西祝福之環
+//[Name] == Pavise && [Quality] == unique // Gerke's Sanctuary 基爾克的聖堂
+[Name] == GrimShield && [Quality] == unique // Lidless Wall 警戒之牆
+[Name] == Ward && [Quality] == unique // Spirit Ward 魂系結界
+//[Name] == TrollNest && [Quality] == unique // 獵頭人的榮耀
+// ##### Craft 符文組合材料(盾牌)
+[Name] == GrimShield && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 2) && [EnhancedDefense] >= 10
+[Name] == Monarch && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 4) && [EnhancedDefense] >= 10 // Phoenix or Spirit
+
+// ##### Gloves ######################## 暗金手套
+[Name] == ChainGloves && [Quality] == unique # [ItemMagicBonus] >= 40// Chance Guards 運氣守護
+//[Name] == HeavyGloves && [Quality] == unique // Bloodfist 血拳
+[Name] == VampireboneGloves && [Quality] == unique // Dracul's Grasp 卓古拉之握
+[Name] == LightGauntlets && [Quality] == unique // Magefist  法師之拳
+
+// ##### Boots ######################### 暗金鞋子
+[Name] == BattleBoots && [Quality] == unique // War Traveler 戰爭旅者
+[Name] == SharkskinBoots && [Quality] == unique //# [MaxHP] >= 60 && [EnhancedDefense] >= 200// Waterwalk 水上飄
+[Name] == ScarabshellBoots && [Quality] == unique // Sandstorm Trek 沙暴之旅
+
+// ##### Belts ######################### 暗金腰帶
+//[Name] == Belt && [Quality] == unique // Nightsmoke 夜煙
+[Name] == HeavyBelt && [Quality] == unique && [Flag] != ethereal # [EnhancedDefense] >= 60 && [ItemGoldBonus] >= 80 // 金色包袱 Goldwrap
+[Name] == MeshBelt && [Quality] == unique # [EnhancedDefense] >= 145 // 陰影陷阱 Gloom's Trap
+[Name] == BattleBelt && [Quality] == unique # [EnhancedDefense] >= 165 // 雪之衝突 Snowclash
+[Name] == WarBelt && [Quality] == unique # [EnhancedDefense] >= 190// 雷神之力 Thundergod's Vigor
+[Name] == SpiderwebSash && [Quality] == unique // 蜘蛛之網 Mesh
+[Name] == MithrilCoil && [Quality] == unique // 維爾登戈的心結 Verdungo's Hearty Cord
+[Name] == DemonhideSash && [Quality] == unique && [Flag] != ethereal # [EnhancedDefense] >= 180 && [DamageResist] >= 15 && [LifeLeech] >= 8 // String of Ears 長串之耳
+[Name] == VampirefangBelt && [Quality] == unique && [Flag] != ethereal # [LifeLeech] >= 7 // Nosferatu's Coil 吸血聖王之圈
+[Name] == MithrilCoil && [Quality] == unique && [Flag] != ethereal # [EnhancedDefense] >= 130 && [Vitality] >= 40 && [DamageResist] >= 15 // Verdungo's Hearty Cord 維爾登戈的心結
+
+// ##### Sorceress Orbs Staffs ################ 法師裝備
+[Name] == SwirlingCrystal && [Quality] == unique // The Oculus 眼球
+[Name] == EldritchOrb && [Quality] == unique // # [SorceressSkills] >= 3 && ([PassiveFireMastery] >= 20 || [PassiveLtngMastery] >= 20) // Eschuta's Temper 艾斯屈塔的脾氣
+[Name] == DimensionalShard && [Quality] == unique // # [PassiveColdMastery] >= 30 // Death's Fathom 死亡深度
+[Name] == ElderStaff && [Quality] == unique // Ondal's Wisdom 安戴爾的智慧
+[Name] == ArchonStaff && [Quality] == unique // Mang Song's Lesson 梅格之歌的教訓
+[Name] == CedarStaff && [Quality] == unique //  Chromatic Ire 五彩的怒氣
+
+// ##### Amazon Weapons ################ 亞馬遜裝備
+[Name] == CeremonialBow && [Quality] == unique //# [EnhancedDamage] >= 200 && [ManaLeech] >= 8 // Lycander's Aim
+[Name] == CeremonialJavelin && [Quality] == unique # [EnhancedDamage] >= 200 && [LifeLeech] >= 9 // Titan's Revenge
+[Name] == MatriarchalJavelin && [Quality] == unique # [EnhancedDamage] >= 200 && [LifeLeech] >= 9 // Titan's Revenge
+// ##### Bows ########################## 弓
+[Name] == ShortSiegeBow && [Quality] == unique //# [EnhancedDamage] >= 170 // Witchwild String
+[Name] == WardBow && [Quality] == unique //# [EnhancedDamage] >= 200 && [PlusSkillGuidedArrow] >= 5 // Widowmaker
+[Name] == HydraBow && [Quality] == unique //# [ManaLeech] >= 8 // Windforce
+[Name] == CrusaderBow && [Quality] == unique // Eaglehorn
+// ##### Crossbows ##################### 十字弓
+[Name] == Ballista && [Quality] == unique //# [EnhancedDamage] >= 200 // Buriza-Do Kyanon
+[Name] == ColossusCrossbow && [Quality] == unique  //# [EnhancedDamage] >= 220 // Hellrack
+
+// ##### Axes ########################## 釜
+[Name] == EttinAxe && [Quality] == unique //&& [Flag] == ethereal # [Sockets] >= 5 && [EnhancedDamage] >= 260 // Rune Master
+[Name] == BerserkerAxe && [Quality] == unique //&& [Flag] == ethereal # [EnhancedDamage] >= 270 // Death Cleaver
+
+// ##### Circlets ###################### 頭環
+[Name] == Tiara && [Quality] == unique && [Flag] != ethereal # [Defense] >= 160 && [FireResist] >= 70 // Kira's Guardian 奇拉的守護
+[Name] == Diadem && [Quality] == unique # [Defense] >= 240 && [PassiveLtngMastery]+[PassiveLtngPierce] >= 35 // Griffon's Eye 格利風之眼
+
+//##### Craft polearm 符文組合材料
+[Type] == polearm && [Class] == elite && [Quality] <= superior && ([Flag] == ethereal || [Flag] != ethereal) # [Sockets] >= 4 // Variable
+[Name] == ColossusVoulge && [Quality] <= superior && ([Flag] == ethereal || [Flag] != ethereal) # [Sockets] == 4 // 巨神之斧
+[Name] == CrypticAxe && [Quality] <= superior && ([Flag] == ethereal || [Flag] != ethereal) # [Sockets] >= 4 // 神秘之斧
+
+// ##### Maces & Sword #########################
+[Name] == Flail && [Quality] <= superior # ([Sockets] == 4 || [Sockets] == 5) // 橡樹之心 / 戰爭招喚 Heart of the Oak
+[Name] == CrystalSword && [Quality] <= superior # ([Sockets] == 4 || [Sockets] == 5) // 精神 Spirit / 戰爭招喚 Heart of the Oak
+
+//##### TalRasha'sWrappingsSet 塔拉廈套裝 #####
+[Name] == SwirlingCrystal&&[Quality] == set  # [skillcoldmastery] >= 2 && [skilllightningmastery] >= 2 && [skillfiremastery] >= 2//TalRasha'sLidlessEye
+[Name] == DeathMask&&[Quality] == set # [Defense] >= 130//TalRasha'sHoradricCrest
+[Name] == LacqueredPlate&&[Quality] == set # [Defense] >= 840//TalRasha'sGuardianship
+[Name] == MeshBelt&&[Quality] == set # [ItemMagicBonus] >= 15//TalRasha'sFine-SpunCloth
+[Type] == amulet&&[Quality] == set #[ SorceressSkills] == 2//TalRasha'sAdjucation
+
+// ##### Immortal King 不朽王套裝 #####
+//[Name] == WarBelt && [Quality] == Set // Immortal King's Detail
+[Name] == AvengerGuard && [Quality] == Set # [ItemMagicBonus] >= 40 // 40 Immortal King's Will
+[Name] == OgreMaul && [Quality] == Set // Immortal King's Stone Crusher
+[Name] == SacredArmor && [Quality] == Set // Immortal King's Soul Cage
+//[Name] == WarGauntlets && [Quality] == Set // Immortal King's Forge
+//[Name] == WarBoots && [Quality] == Set // Immortal King's Pillar
+
+// ##### Cow King's Leathers 牛魔王 ###########
+//[Name] == WarHat && [Quality] == set // Cow King's Horns
+//[Name] == StuddedLeather && [Quality] == set // Cow King's Hide
+//[Name] == HeavyBoots && [Quality] == set # [Dexterity] == 20 && [ItemMagicBonus] == 25 // Cow King's Hooves
+
+// ##### Naj's Ancient Vestige 娜吉套裝#########
+//[Name] == Circlet && [Quality] == set // Naj's Circlet
+//[Name] == HellforgePlate && [Quality] == set // Naj's Light Plate
+//[Name] == ElderStaff && [Quality] == set // Naj's Puzzler
+
+// ##### Rings ######################### 暗金戒指
+[Type] == ring && [Quality] == unique
+
+// ##### Amulets ####################### 暗金項鍊
+[Type] == amulet && [Quality] == unique
+
+//RARE RINGS 稀有戒指
+[Type] == Ring && [Quality] == Rare # [ItemMagicBonus] >= 25
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 10 || [Strength] >= 15) && [MaxHP] >= 15
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && [HPRegen] >= 7
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && ([ColdResist] >= 15 || [FireResist] >= 15 || [LightResist] >= 15)
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && (([ColdResist]+[FireResist] >= 15) || ([ColdResist]+[LightResist] >= 15) || ([FireResist]+[LightResist] >= 15))
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && ([Dexterity] >= 13 || [Strength] >= 17) && [Mana] >= 50
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [Strength]+[Dexterity] >= 20
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [MaxHP] >= 25 && [HPRegen] >= 7
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [MaxHP] >= 35 && ([ColdResist] >= 15 || [FireResist] >= 15 || [LightResist] >= 15)
+[Type] == Ring && [Quality] == Rare # [FCR] >= 10 && [MaxHP] >= 25 && (([ColdResist]+[FireResist] >= 20) || ([ColdResist]+[LightResist] >= 20) || ([FireResist]+[LightResist] >= 20))
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && (([ColdResist]+[FireResist] >= 15) || ([ColdResist]+[LightResist] >= 15) || ([FireResist]+[LightResist] >= 15))
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && ([ColdResist] >= 15 || [FireResist] >= 15 || [LightResist] >= 15)
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && [MaxHP] >= 15
+[Type] == Ring && [Quality] == Rare # [Dexterity]+[Strength] >= 30 && [Mana] >= 50
+[Type] == Ring && [Quality] == Rare # [Strength]+[Dexterity] >= 30 && [ManaLeech]+[LifeLeech] >= 6
+[Type] == Ring && [Quality] == Rare # ([Dexterity] >= 15 || [Strength] >= 20) && [MaxHP] >= 35
+[Type] == Ring && [Quality] == Rare # ([Dexterity] >= 15 || [Strength] >= 20) && [HPRegen] >= 7
+[Type] == Ring && [Quality] == Rare # ([Dexterity] >= 15 || [Strength] >= 17) && [ManaLeech]+[LifeLeech] >= 10
+[Type] == Ring && [Quality] == Rare # [ManaLeech]+[LifeLeech] >= 10 && (([ColdResist]+[FireResist] >= 30) || ([ColdResist]+[LightResist] >= 30) || ([FireResist]+[LightResist] >= 30))
+[Type] == Ring && [Quality] == Rare # [ManaLeech]+[LifeLeech] >= 10 && [MaxHP] >= 35
+
+//RARE MF AMULET 稀有項鍊
+[Type] == Amulet && [Quality] == Rare # [ItemMagicBonus] >= 35
+
+// ##### Runes ######################### 符文
+//[Name] == ElRune
+//[Name] == EldRune
+//[Name] == TirRune
+//[Name] == NefRune
+//[Name] == EthRune
+//[Name] == IthRune
+//[Name] == TalRune # # [MaxQuantity] == 2
+//[Name] == RalRune
+//[Name] == OrtRune
+//[Name] == ThulRune
+//[Name] == AmnRune # # [MaxQuantity] == 3
+//[Name] == SolRune
+//[Name] == ShaelRune # # [MaxQuantity] == 3
+//[Name] == DolRune # # [MaxQuantity] == 3
+//[Name] == HelRune # # [MaxQuantity] == 3
+[Name] == IoRune # # [MaxQuantity] == 3
+[Name] == LumRune # # [MaxQuantity] == 3
+[Name] == KoRune # # [MaxQuantity] == 3
+[Name] == FalRune # # [MaxQuantity] == 3
+[Name] == LemRune # # [MaxQuantity] == 3
+[Name] == PulRune # # [MaxQuantity] == 2
+[Name] == UmRune # # [MaxQuantity] == 3
+[Name] == MalRune # # [MaxQuantity] == 2
+[Name] >= IstRune && [Name] <= ZodRune
+
+// ##### Gems ########################## 寶石
+//[Name] == ChippedAmethyst
+//[Name] == ChippedDiamond # # [MaxQuantity] == 1
+//[Name] == ChippedEmerald # # [MaxQuantity] == 1
+//[Name] == ChippedRuby
+//[Name] == ChippedSapphire
+//[Name] == ChippedSkull
+//[Name] == ChippedTopaz
+//[Name] == FlawedAmethyst # # [MaxQuantity] == 1
+//[Name] == FlawedDiamond # # [MaxQuantity] == 1
+//[Name] == FlawedEmerald # # [MaxQuantity] == 1
+//[Name] == FlawedRuby # # [MaxQuantity] == 1
+//[Name] == FlawedSapphire # # [MaxQuantity] == 1
+//[Name] == FlawedTopaz # # [MaxQuantity] == 1
+//[Name] == FlawedSkull
+//[Name] == Amethyst # # [MaxQuantity] == 1	// 紫
+//[Name] == Diamond	// 鑽
+//[Name] == Emerald	// 綠
+//[Name] == Ruby	// 紅
+//[Name] == Skull	// 骷髏
+//[Name] == Sapphire	// 藍
+//[Name] == Topaz # # [MaxQuantity] == 1	// 黃
+//[Name] == FlawlessAmethyst
+//[Name] == FlawlessDiamond # # [MaxQuantity] == 3
+//[Name] == FlawlessEmerald
+//[Name] == FlawlessRuby
+//[Name] == FlawlessSapphire
+//[Name] == FlawlessSkull
+//[Name] == FlawlessTopaz
+[Name] == PerfectAmethyst
+[Name] == PerfectDiamond
+[Name] == PerfectEmerald
+[Name] == PerfectRuby
+[Name] == PerfectSapphire
+[Name] == PerfectSkull
+[Name] == PerfectTopaz
+
+// ##### Potions ####################### 藥劑
+[Name] == SuperHealingPotion
+//[Name] == GreaterHealingPotion
+//[Name] == HealingPotion
+[Name] == SuperManaPotion
+[Name] == GreaterManaPotion
+//[Name] == ManaPotion
+[Name] == FullRejuvenationPotion
+[Name] == RejuvenationPotion
+
+// ##### Jewels ######################## 珠寶
+[Type] == jewel && [Quality] == unique // Rainbow Facet 彩虹刻面
+[Type] == jewel && [Quality] == magic # [EnhancedDamage] >= 32 && ([IAS] >= 15 || [ItemReqPercent] <= -15 || [Strength] >= 5 || [Dexterity] >= 5 || [MinDamage] >= 6 || [MaxDamage] >= 9)
+[Type] == jewel && [Quality] == magic # [FireResist] >= 11 && [LightResist] >= 11 && ([IAS] >= 15 || [ItemReqPercent] <= -15 || [Strength] >= 5 || [Dexterity] >= 5)
+[Type] == jewel && [Quality] == magic # [MaxDamage] >= 22
+[Type] == jewel && [Quality] == rare # [EnhancedDamage] >= 22 && [MinDamage]+[MaxDamage] >= 15
+[Type] == jewel && [Quality] == rare # [EnhancedDamage] >= 22 && [MinDamage]+[MaxDamage] >= 5 && ([Strength] >= 5 || [Dexterity] >= 5)
+[Type] == jewel && [Quality] == rare # [EnhancedDamage] >= 22 && ([MinDamage] >= 4 || [MaxDamage] >= 4) && [Strength]+[Dexterity] >= 10
+[Type] == jewel && [Quality] == rare # [EnhancedDamage] >= 22 && [FHR] >= 7 && ([MinDamage] >= 4 || [MaxDamage] >= 4) && ([Strength] >= 5 || [Dexterity] >= 5)
+[Type] == jewel && [Quality] == rare # ([FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 20 || [ItemDamageToMana] >= 7) && [FHR] >= 7 && [ItemReqPercent] <= -15
+//[type] == jewel # [itemreqpercent] >= 15
+
+// ##### Small Charms ################## 小護身符
+[Name] == SmallCharm && [Quality] == magic # (([MaxDamage] >= 3 && [ToHit] >= 8) || [MaxMana] >= 8 || ([FireResist] >= 3 && [LightResist] >= 3)) && ([MaxHP] >= 8 || [FHR] >= 5 || [FRW] >= 3 || [Strength] >= 1 || [Dexterity] >= 1)
+[Name] == SmallCharm && [Quality] == magic # ([FireMaxDam] >= 20 || [LightMaxDam] >= 45 || [ColdMaxDam] >= 15) && ([MaxHP] >= 8 || [FHR] >= 5 || [FRW] >= 3 || [Strength] >= 1 || [Dexterity] >= 1)
+[Name] == SmallCharm && [Quality] == magic # [MaxHP]+[MaxMana] >= 15
+//[Name] == SmallCharm && [Quality] == magic # [Strength] >= 2
+[Name] == SmallCharm && [Quality] == magic # [MaxHP] >= 15 || [MaxMana] >= 15
+[Name] == SmallCharm && [Quality] == magic # [FireMaxDam] >= 30 || [LightMaxDam] >= 75 || [ColdMaxDam] >= 22
+[Name] == SmallCharm && [Quality] == magic && [Prefix] == 1407 && [Suffix] > 0
+[Name] == SmallCharm && [Quality] == magic # [ItemMagicBonus] >= 5
+[Name] == SmallCharm && [Quality] == unique
+[Name] == SmallCharm && [Quality] == magic # ([ColdResist] >= 10 || [FireResist] >= 10 || [LightResist] >= 10 || [PoisonResist] >= 10)
+[Name] == SmallCharm && [Quality] == magic # [ColdResist]+[FireResist]+[LightResist]+[PoisonResist] >= 7
+[Name] == SmallCharm && [Quality] == Magic # [ColdResist]+[FireResist]+[LightResist]+[PoisonResist] >= 7 && ([MaxHP] >= 10 || [FRW] == 3 || [FHR] == 5 || [ItemMagicBonus] >= 5 || [MaxMana] >= 10)
+[Name] == SmallCharm && [Quality] == Magic # [PoisonMaxDam] >= 50
+[Name] == SmallCharm && [Quality] ==magic # [ColdResist] >= 5 && [FireResist] >=5  && [LightResist] >= 5 &&[PoisonResist] >= 5
+[Name] == SmallCharm&&[Quality] == unique
+
+// ##### Large Charms ################## 大護身符
+[Name] == LargeCharm && [Quality] == magic # [MaxHP] >= 35 || [MaxMana] >= 35
+[Name] == LargeCharm && [Quality] == magic # [ItemAddSkillTab] >= 1
+[Name] == LargeCharm && [Quality] == magic # [ItemAddClassSkills] >= 1
+[Name] == LargeCharm && [Quality] == magic # [ColdResist] >= 13 && [FireResist] >=13  && [LightResist] >= 13 &&[PoisonResist] >= 13
+[Name] == LargeCharm&&[Quality] == unique
+[Name] == GrandCharm && [Quality] == magic # [MaxHP] >= 35 || [MaxMana] >= 35
+[Name] == GrandCharm && [Quality] == magic # [ItemAddSkillTab] >= 1
+[Name] == GrandCharm && [Quality] == magic # [ItemAddClassSkills] >= 1
+[Name] == GrandCharm && [Quality] == magic # [ColdResist] >= 13 && [FireResist] >=13  && [LightResist] >= 13 &&[PoisonResist] >= 13
+[Name] == GrandCharm&&[Quality] == unique
+
+// ##### Medium Charms ################## 超大護身符
+[Name] == MediumCharm  && [Quality] == magic # (([MaxDamage] >= 8 && [ToHit] >= 50) || [ItemAddSkillTab] >= 1) && ([MaxHP] >= 10 || [Strength] >= 4 || [Dexterity] >= 4 || [FHR] >= 12)
+[Name] == MediumCharm && [Quality] == magic # [MaxDamage] >= 12 && [ToHit] >= 50
+[Name] == MediumCharm && [Quality] == magic # [MaxHP] >= 30 || [MaxMana] >= 35
+[Name] == MediumCharm && [Quality] == magic # [MaxHP]+[MaxMana] >= 30
+//[Name] == MediumCharm && [Quality] == magic # [Strength] == 6
+[Name] == MediumCharm && [Quality] == Magic # [LightningSkillTab] >= 1
+[Name] == MediumCharm && [Quality] == Magic # [FireSkillTab] >= 1
+[Name] == MediumCharm && [Quality] == Magic # [ColdSkillTab] >= 1
+[Name] == MediumCharm && [Quality] == magic # [ColdResist] >= 8 && [FireResist] >=8  && [LightResist] >= 8 &&[PoisonResist] >= 8
+[Name] == MediumCharm && [Quality] == unique
+
+//MAGIC CHARMS FOR CUBING 合成用護身符
+[Name] == GrandCharm && [Quality] == Magic && [Level] >= 94 //DIABLO or BAAL GC
+[Name] == SmallCharm && [Quality] == Magic && [Level] >= 94 //DIABLO or BAAL SC
+
+
+// ##### 赦免勳章材料 ########################
+[Name] == TwistedEssenceOfSuffering # # [MaxQuantity] == 2	// 扭曲的苦痛精華
+[Name] == ChargedEssenceOfHatred # # [MaxQuantity] == 2 	// 充盈的憎恨精華
+[Name] == BurningEssenceOfTerror # # [MaxQuantity] == 2 	// 燃燒的恐懼精華
+[Name] == FesteringEssenceOfDestruction # # [MaxQuantity] == 2 // 潰爛的毀滅精華
+
+// ##### Keys ########################## 鑰匙
+[Name] == KeyOfTerror				// 恐懼之鑰
+[Name] == KeyOfHate					// 憎恨之鑰
+[Name] == KeyOfDestruction		// 毀滅之鑰
+
+//##### RuneWord ###################### 符文組合材料
+//[Type] == Weapon && [Flag] == Runeword
+
+// ##### Gold ########################## 黃金
+[Type] == gold # [Gold] >= 500

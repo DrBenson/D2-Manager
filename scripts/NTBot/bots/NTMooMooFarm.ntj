@@ -1,0 +1,754 @@
+/* =====================================================
+ *
+ * NTBarracks.ntj , a BOT run for MooMooFarm script, based on ETal 1.43WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTBarracks.ntj, 一個秘密乳牛關卡的BOT程式腳本, 根據 ETal 1.43WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+var _got_leg = false;
+function NTMain()
+{
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NT_LoadConfig();
+	NTSI_LoadNIPFiles("NTBot/item_configs");
+
+	NTA_Initialize();
+
+	if(!NTTM_CheckAct(1)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+		return;
+	}
+	NTTMGR_TownManager();
+	if(!me.GetQuest(4, 10)){
+		if(!NT_CheckCowPortal()){
+			var _wirtbody, _cube, _leg, _portal, _stash, _items, i, _npc, prearea;
+			for (i = 0; i < 10; i++){
+				_leg = NTC_FindUnit(NTC_UNIT_ITEM, 88);
+				if (_leg)
+				break;
+			}
+			_items = me.GetItems();
+			for (i = 0; i < _items.length;i++){
+				if (_items[i].classid == 88) {
+					Print (COLOR_4 + "\u5DF2\u7D93\u6709\u7DAD\u7279\u4E4B\u8173");
+					_leg = _items[i];
+					_got_leg=true;
+				}
+			}
+			if (!_leg){
+				if(!NTTM_TownMove("waypoint")){
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+					return;
+				}
+				if(!NTM_TakeWaypoint(4)){
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+					return;
+				}
+				NTP_DoPrecast();
+				if(!NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_MONSTER, 737, 10, 10)){
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToPresetUnit()");
+					return;
+				}
+				if(!NTM_UsePortal("Portal", 38)){
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTM_UsePortal()");
+					return;
+				}
+				NTM_MoveTo(me.areaid, 25047, 5178);
+				if(NTA_ClearPosition(10)){
+					if(NTConfig_IdInField){
+						if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+							NT_FieldID();
+						}
+					}
+					NTSI_PickItems();
+					if(NTConfig_IdInField){
+						if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+							NT_FieldID();
+						}
+					}
+				}
+				_wirtbody = NTC_FindUnit(NTC_UNIT_OBJECT, 268);
+				if(!_wirtbody){
+					NTC_SendMsgToScript("NTBotGame.ntj", "\u627E\u4E0D\u5230\u7DAD\u7279\u7684\u5C4D\u9AD4.");
+					return;
+				}
+				if(NTM_MoveTo(_wirtbody.areaid, _wirtbody.x+3, _wirtbody.y)){
+					if(NTC_OpenChest(_wirtbody)){
+						NTC_PingDelay(500);
+						for (i = 0; i < 10; i++){
+							_leg = NTC_FindUnit(NTC_UNIT_ITEM, 88);
+							if (_leg)
+							break;
+						}
+						if(!NTT_CheckSpace(_leg.xsize, _leg.ysize)){
+							_prearea = me.areaid
+							if(NTTM_CheckAct()){
+								NTTMGR_TownManager(true);
+								NTTM_TownMove("portalspot")
+								NTM_UsePortal("BluePortal", _prearea)
+							}
+						}
+						for (i = 0; i < 20; i++){
+							if ((i % 5) == 0){
+								if (_leg.mode == 3 || _leg.mode == 5){
+									if (NTC_ClearCursor())
+									NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _leg);
+								}
+							}
+							NTC_PingDelay(100);
+							if (_leg.mode != 3 && _leg.mode != 5){
+								Print(COLOR_4 + "\u53D6\u5F97\u7DAD\u7279\u4E4B\u8173");
+								NTC_PingDelay(200);
+								_got_leg=true;
+								break;
+							}
+						}
+					}
+				}
+				if(!_leg){
+					NTC_SendMsgToScript("NTBotGame.ntj", "\u627E\u4E0D\u5230\u7DAD\u7279\u4E4B\u8173.");
+					return;
+				}
+				NTM_MakeTP(1);
+			}
+			else{
+				if(!NTT_CheckSpace(_leg.xsize, _leg.ysize)){
+					_prearea = me.areaid;
+					if(NTTM_CheckAct()){
+						NTTMGR_TownManager(true);
+						NTTM_TownMove("portalspot")
+						NTM_UsePortal("BluePortal", _prearea)
+					}
+				}
+				for (i = 0; i < 20; i++){
+					if ((i % 5) == 0){
+						if (_leg.mode == 3 || _leg.mode == 5){
+							if (NTC_ClearCursor())
+							NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _leg);
+						}
+					}
+					NTC_PingDelay(100);
+					if (_leg.mode != 3 && _leg.mode != 5 && !_got_leg){
+						Print(COLOR_4 + "\u8AB0\u62FF\u4E86\u7DAD\u7279\u4E4B\u8173?");
+						NTC_PingDelay(200);
+						//Print(COLOR_4 + "Dude, thats sick.");
+						break;
+					}
+				}
+			}
+			if(NTCW_AlreadyTombs()){
+				if(!NTTM_CheckAct()){
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+					return;
+				}
+				NTTM_TownMove("akara");
+				for(var i = 0 ; i < 10 ; i++){
+					_npc = NTC_FindUnit(NTC_UNIT_NPC, NTC_NPC_ID_AKARA);
+					if(_npc)
+					break;
+				}
+				if(_npc){
+					if(NTT_DoInteract(_npc)){
+						if(NTT_DoTrade(_npc)){
+							_NTR_DoID = NTT_CheckUnids();
+							if(_NTR_DoID)
+							NTTMGR_IDItems(_npc);
+							NTT_FillTome(_npc, 1);
+							NTT_FillTome(_npc, 0);
+							NTT_SecondTomeTP(_npc, "tbk", 1);
+							Delay(200);
+							X_portal = me.GetItems("tbk");
+							Delay(300);
+							if(X_portal.length < 2){
+								NTC_SendMsgToScript("NTBotGame.ntj", "\u6C92\u6709\u591A\u9918\u7684\u57CE\u93AE\u4E4B\u66F8\u53EF\u7528.");
+								return;
+							}
+						}
+					}
+					me.Cancel(1);
+				}
+			}
+			else
+			_portal = NTR_GetTP();
+			NTTM_TownMove("stash");
+			for(var i = 0 ; i < 10 ; i++){
+				_stash = NTC_FindUnit(NTC_UNIT_OBJECT, NTC_UNIT_STASH);
+				if(_stash)
+				break;
+			}
+			if(_stash){
+				if(NTM_GetCloserInt(_stash)){
+					if(NTT_DoInteract(_stash)){
+						_items = me.GetItems(NTC_UNIT_CUBE);
+						_cube = _items[0];
+						if(!_cube){
+							NTC_SendMsgToScript("NTBotGame.ntj", "\u6C92\u6709\u65B9\u584A.");
+							return;
+						}
+						if(NTCU_CheckCubeInventoryInt() > 0){
+							NTCU_OpenCubeInt(_cube)
+							if(NTCU_ClearCubeInt() < 1){
+								NTC_SendMsgToScript("NTBotGame.ntj", "\u65B9\u584A\u5DF2\u7D93\u6709\u5B58\u653E\u7269\u54C1.");
+								return;
+							}
+							NTCU_CloseCubeInt();
+						}
+						
+						var __portals = me.GetItems("tbk");
+						if (__portals){
+							var N_portals = __portals[0];
+							if(__portals.length >0)
+								N_portals = __portals[1];
+						}
+						NTCU_MoveItemToCubeInt(_cube,_leg);
+						NTCU_MoveItemToCubeInt(_cube,N_portals);
+						NTCU_OpenCubeInt(_cube);
+						if(!Transmute()){
+							NTC_PingDelay(1000);
+							NTCU_CloseCubeInt();
+							NTC_PingDelay(1000);
+							NTC_CancelMenus();// added this for testing
+							NTC_PingDelay(parseInt((1000 / 2), 10));
+							Transmute();
+						}
+						else{
+							NTC_PingDelay(1000);
+							NTCU_CloseCubeInt();
+							NTC_PingDelay(1000);
+							NTC_CancelMenus();// added this for testing
+							NTC_PingDelay(parseInt((1000 / 2), 10));
+						}
+					}
+				}
+			}
+			NTC_PingDelay(1000);
+		}
+		if(NT_CheckCowPortal()){
+			Delay(Random(1000,2000));
+
+			Print(COLOR_4 + "\u725B\u9580\u5DF2\u958B, \u662F\u6642\u5019\u9032\u53BB\u5EDD\u6BBA\u4E86!");
+			Delay(Random(1000,2000));
+		}
+		if(!NT_TakeCowPortal()){
+			NTC_SendMsgToScript("NTBotGame.ntj", "\u7121\u6CD5\u4F7F\u7528\u725B\u95DC\u7D05\u9580.");
+			return;
+		}
+		if(NTConfig_CowKingChicken > 0) {
+			Load("NTBot/tools/NTKingLifeWatch-v2.ntj");
+		}
+		NTP_DoPrecast();
+		NTR_ClearRooms();
+		NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+	}
+	else{
+		me.maxgametime = 0;
+		var AntiIdleMoo = ["waypoint", "portalspot", "exit", "stash", "gheed", "charsi", "akara", "kashya", "cain", "warriv"];
+
+
+
+		Print(COLOR_4 + "\u6BCD\u725B\u4E4B\u738B\u5DF2\u7D93\u88AB\u6BBA, \u4F60\u7121\u6CD5\u958B\u555F\u725B\u95DC?");		SetStatusText(COLOR_8 + "Cow King Dead ~ Anti-Idle ON");
+		while(1){
+			t = Random(0,9);
+			Say("!\u6211\u6E96\u5099\u8F49\u5230 " + AntiIdleMoo[t] + "!");
+			Delay(Random(1000,2000));
+				if(!NTTM_TownMove(AntiIdleMoo[t])) {
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+					return;
+				}
+			Delay(Random(3000,8000));
+		}
+	}
+}
+
+// Internal functions
+function NT_CheckCowPortal()
+{
+	var _portal = NTC_GetUnit(NTC_UNIT_OBJECT, GetLocaleString(3226));
+	if(_portal){
+		if(_portal.subareaid == 295 || _portal.subareaid == 39){
+			return true;
+		}
+	}
+	else
+		return false;
+}
+
+
+function NTR_GetTP(){
+	var _portals = me.GetItems("tbk");
+	if (_portals){
+		for (var i = 0; i < _portals.length; i++){
+			if (_portals[i].mode == 0 && (_portals[i].itemloc != 0 || NTConfig_Columns[_portals[i].y][_portals[i].x] > 0)){
+				return _portals[i];
+			}
+		}
+	}
+	return false;
+}
+
+function abs(integer){
+	if(integer < 0){
+		integer = -integer;
+	}
+	return integer;
+}
+function NTR_TakeCowPortal(range){
+	var _portal = NTC_FindUnit(NTC_UNIT_OBJECT, GetLocaleString(3226));
+	if (_portal){
+		var _isClick;
+		var _preAreaId = me.areaid;
+		do{
+			if (GetDistance(me, _portal) < range && _portal.mode == 2){
+				for (var i = 0; i < 40; i++){
+					if ((i % 10) == 0){
+						if(NTM_GetCloserInt(_portal))
+						_isClick = NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _portal);
+					}
+					if (_isClick){
+						NTC_Delay(200);
+						break;
+					}
+				}
+				NTC_PingDelay(1000);
+				var j = 0;
+				var check = true;
+				do{
+					if (me.areaid != _preAreaId){
+						NTC_PingDelay(500);
+						return true;
+						check = false;
+					}
+					j++;
+				} while(j < 40 && check == true);
+			}
+		} while (_portal.GetNext());
+	}
+	return false;
+}
+
+function NTR_ClearPosition(range, pickitem, safelevel, failed){
+	var _orgx, _orgy;
+	var _spectype = [0x0A, 0x01, 0x01];
+	//var _spectype = [0x0A, 0x01];
+	var _skiplist;
+	var _attackcount = 0;
+	var _target;
+	var _distance, _mingid, _mindistance;
+	var _result;
+	var _cowKing;
+	var _test;
+
+    if (NTConfig_PrioritizeWeakerFoes && NTConfig_PrioritizeWeakerFoesAreaDisable.indexOf(me.areaid) < 0) {
+        _spectype = [0x10, 0x01, 0x04, 0x0A];
+    }
+
+	if(NTConfig_AttackSkill[1] < 0 || NTConfig_AttackSkill[3] < 0)
+		return false;
+
+	switch(arguments.length){
+		case 0:
+			range = 20;
+		case 1:
+			pickitem = false;
+		case 2:
+			safelevel = 0;
+		default:
+			if ((NTConfig_CheckSelfSafe.length < 1) && (NTConfig_CheckMercSafe.length < 1)) { safelevel = 0; }
+			break;
+	}
+
+	_orgx = me.x;
+	_orgy = me.y;
+
+	for(var i = 0 ; i < _spectype.length ; i++){
+		_skiplist = new Array();
+
+		while(_attackcount < (i+1)*100){
+			_mindistance = 100000;
+
+			_target = NTC_FindUnit(NTC_UNIT_MONSTER);
+
+			if(_target){
+				do{
+					if(_skiplist.indexOf(_target.gid) < 0){
+						if(_target.IsAttackable() && (_target.spectype&_spectype[i])){
+							if(GetDistance(_orgx, _orgy, _target.x, _target.y) <= range && NTA_IsValidMonster(_target)){
+								_distance = GetDistance(me, _target);
+								if(_distance < _mindistance){
+									_mingid = _target.gid;
+									_mindistance = _distance;
+								}
+								if ((MonstersToAttackFirst.indexOf(_target.classid) > -1) && _distance < _minshamandistance) {
+									_minshamangid = _target.gid;
+									_minshamandistance = _distance;
+								}
+							}
+						} else { _skiplist.push(_target.gid); }
+					}
+				} while(_target.GetNext());
+			}
+
+			if(_mindistance < 100000){
+				_target = NTC_FindUnit(NTC_UNIT_MONSTER, _mingid);
+				if(_target){
+					_cowKing = GetUnit(NTC_UNIT_MONSTER, GetLocaleString(2850));
+					if(_cowKing){
+						return true;
+					}
+
+					_result = NTA_Attack(_target, (_attackcount % 30) === 0);
+
+					switch(_result){
+						case 1: _skiplist.push(_mingid); break;
+						case 2:
+						case 3:
+							if (_target.mode === 0 || _target.mode === 12) {
+								NTSI_FastPick();
+							}
+							_attackcount++;
+							_sorcattack++;
+							break;
+						default: return false;
+					}
+				}
+			}
+			else { break; }
+		}
+	}
+	if (me.classid == NTC_CHAR_CLASS_PALADIN) {
+		if (_attackcount > 2 && ((parseFloat(me.hp * 100 / me.hpmax) < NTConfig_UseRedemptionHP) || (parseInt(me.mp * 100 / me.mpmax, 10) < NTConfig_UseRedemptionMP))) {
+			if (NTC_PutSkill(124, NTC_HAND_RIGHT)) { NTC_PingDelay(1000); }
+		}
+	} else if (me.classid == NTC_CHAR_CLASS_NECROMANCER) {
+		NTA_SkeletonArmy(NTConfig_SkeletonArmy);
+		NTA_MageArmy(NTConfig_MageArmy);
+		NTA_ReviveArmy(NTConfig_ReviveArmy);
+	} else if (me.classid == NTC_CHAR_CLASS_BARBARIAN) {
+		if (NTConfig_UseFindItem && _attackcount > 2) {
+			if (!NTA_CheckForCloseMonsters(10)) {
+				//Print(COLOR_25 + "No Monsters close - looting");
+				NTA_FindItem(NTConfig_FindItemRange);
+			}
+		}
+	}
+	_cowKing = GetUnit(NTC_UNIT_MONSTER, GetLocaleString(2850));
+	if(_cowKing){
+		return true;
+	}
+	if(failed == false){
+		if (NTConfig_OpenChest) {
+			_target = NTC_GetSpecialChest();
+			if (_target && GetDistance(_orgx, _orgy, _target.x, _target.y) <= range && NTC_OpenChest(_target)) { _attackcount++; _sorcattack++; }
+		}
+		if (NTConfig_OpenChestsInAreaClearing && NTConfig_AreasToOpenChestClearing.indexOf(me.areaid) != -1) {
+			NTC_OpenChestsInAreaNear(_orgx, _orgy, range);
+		}
+
+		if(NTConfig_IdInField){
+			if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+				NT_FieldID();
+			} // id in field add
+		}
+		if (pickitem && _attackcount > 0) { NTSI_PickItems(); }
+		if(NTConfig_IdInField){
+			if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+				NT_FieldID();
+			} // id in field add
+		}
+	}
+	if(NTConfig_OpenCowChest && failed == false){
+		_target = NTR_GetChest();
+		if(_target){
+			do{
+				if(_target && GetDistance(_orgx, _orgy, _target.x, _target.y) <= range){
+					if(NTC_OpenChest(_target)){
+						if(NTConfig_IdInField){
+							if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+								NT_FieldID();
+							} // id in field add
+						}
+						NTSI_PickItems();
+						if(NTConfig_IdInField){
+							if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+								NT_FieldID();
+							} // id in field add
+						}
+					}
+				}
+			}while(_target.GetNext());
+		}
+		_target = NTR_GetObj(174);
+		if(_target){
+			do{
+				if(_target && GetDistance(_orgx, _orgy, _target.x, _target.y) <= range){
+					if(NTM_MoveTo(me.areaid, _target.x, _target.y)){
+						if(NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _target)){
+							Delay(200);
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+							NTSI_PickItems();
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+						}
+					}
+				}
+			}while(_target.GetNext());
+		}
+		_target = NTR_GetObj(175);
+		if(_target){
+			do{
+				if(_target && GetDistance(_orgx, _orgy, _target.x, _target.y) <= range){
+					if(NTM_MoveTo(me.areaid, _target.x, _target.y)){
+						if(NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _target)){
+							Delay(200);
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+							NTSI_PickItems();
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+						}
+					}
+				}
+			}while(_target.GetNext());
+		}
+		_target = NTR_GetObj(159);
+		if(_target){
+			do{
+				if(_target && GetDistance(_orgx, _orgy, _target.x, _target.y) <= range){
+					if(NTM_MoveTo(me.areaid, _target.x, _target.y)){
+						if(NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _target)){
+							Delay(200);
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+							NTSI_PickItems();
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+						}
+					}
+				}
+			}while(_target.GetNext());
+		}
+		_target = NTR_GetObj(155);
+		if(_target){
+			do{
+				if(_target && GetDistance(_orgx, _orgy, _target.x, _target.y) <= range){
+					if(NTM_MoveTo(me.areaid, _target.x, _target.y)){
+						if(NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _target)){
+							Delay(200);
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+							NTSI_PickItems();
+							if(NTConfig_IdInField){
+								if (!NTT_CheckSpace(NTConfig_FreeSpaceXY[0], NTConfig_FreeSpaceXY[1])) {
+									NT_FieldID();
+								} // id in field add
+							}
+						}
+					}
+				}
+			}while(_target.GetNext());
+		}
+	}
+	return true;
+}
+
+function NTR_GetChest(){
+	var _chest;
+	_chest = NTC_FindUnit(NTC_UNIT_OBJECT, "chest");
+	if(_chest){
+		return _chest;
+	}
+	return null;
+}
+
+function NTR_GetObj(num){
+	var _chest;
+	_chest = NTC_FindUnit(NTC_UNIT_OBJECT, num);
+	if(_chest){
+		return _chest;
+	}
+	return null;
+}
+
+function NTR_ClearRooms(){
+	var failcount = 0, precount = 0, x, y, offx = 0, offy = 0, goalx = 0, goaly = 0, cowoffx = 0, cowoffy = 0;
+	var toggle = true;
+	var _cowKing;
+	var _faillast;
+	x = me.x;
+	y = me.y;
+	//NTC_PingDelay(5000);
+	while (failcount <= 25){
+		if(toggle == true && offx == goalx){
+			if(goaly < 0){
+				goaly=(0-(goaly-20));
+			}else{
+				goaly=(0-(goaly+20));
+			}
+			toggle = false;
+		}
+		if(toggle == false && offy == goaly){
+			if(goaly < 0){
+				goalx=(0-(goalx-20));
+			}else{
+				goalx=(0-(goalx+20));
+			}
+			toggle = true;
+		}
+		if(offy > goaly){
+			offy-=20;
+			y-=20;
+		}
+		if(offy < goaly){
+			offy+=20;
+			y+=20;
+		}
+		if(offx < goalx){
+			offx+=20;
+			x+=20;
+		}
+		if(offx > goalx){
+			offx-=20;
+			x-=20;
+		}
+		_cowKing = GetUnit(NTC_UNIT_MONSTER, GetLocaleString(2850));
+		if(!_cowKing){
+			NTR_ClearPosition(20, true, 0, _faillast);
+			if(((GetTickCount()-precount)/1000) >= 30 && 30 >= 0){
+				NTP_DoPrecast();
+				precount = GetTickCount();
+			}
+		}
+		if(!NTM_MoveTo(me.areaid, x, y)){
+			failcount++;
+			_faillast = true;
+		}else{
+			_faillast = false;
+		}
+	}
+	return true;
+}
+
+function NTT_SecondTomeTP(npc, type, amount){
+	var _items;
+	var _counter = 0;
+	if(arguments.length < 1)
+	return false;
+	if(arguments.length < 2)
+	type = 0;
+	if(arguments.length < 0)
+	amount = 1;
+	if(amount == 0)
+	return false;
+	if(type)
+	_items = npc.GetItems("tbk");
+	if(_items){
+		if(_items.length > 0){
+			for(var i = 0 ; i < amount ; i++){
+				if(NTT_ShopItem(_items[0], npc, 2))
+				_counter++;
+			}
+		}
+	}
+	return (_counter > 0);
+}
+
+function NTCW_AlreadyTombs()
+{
+	var portalbook = me.GetItems("tbk");
+	if(portalbook && portalbook.length <= 1)
+		return true;
+	else
+		return false;
+}
+
+function NT_TakeCowPortal()
+{
+	var _prearea = me.areaid
+	var _portal = NTC_GetUnit(NTC_UNIT_OBJECT, GetLocaleString(3226));
+
+	if(_portal){
+		do{
+			if(_portal.subareaid == 295 || _portal.subareaid == 39){
+				while(_portal.mode != 2){
+					Delay(500)
+				}
+				break;
+			}
+		} while(_portal.GetNext());
+		for(var i = 0 ; i < 40 ; i++){
+			if(NTM_GetCloserIntS(_portal)){
+				NTC_DoClick(NTC_CLICK_LDOWN, NTC_SHIFT_NONE, _portal);
+			}
+			if(me.areaid != _prearea){
+				break;
+			}
+		}
+	}
+	return (me.areaid == 39);
+}

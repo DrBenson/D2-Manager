@@ -1,0 +1,1 @@
+<Mon, Jul 07, 23:45> - <D2NT Error> D:\My Documents\D2-Manager\D2ETal.New\scripts\NTBot\bots\NTCatacombs.ntj (7) :ReferenceError: NT_LoadConfig is not defined

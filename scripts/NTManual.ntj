@@ -1,0 +1,131 @@
+/* =====================================================
+ *
+ * NTManual.ntj , a Manual bot loader base script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTManual.ntj, 一個手動模式BOT的導引基礎腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。 *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+var lastGameStatus;
+Include("libs/controlInfo.ntl");
+Include("libs/common/NTColorConverter.ntl");
+var controlData = new controlInfo();
+
+function NTMain()
+{
+	Delay(500);
+	var _ingame = false;
+	sendEventToOOG(2, "", 0);
+
+	while(1){
+		if(me.ingame){
+			if(!_ingame){
+				RunGC();
+				if(Load("NTManual/NTManualGame.ntj"))
+					_ingame = true;
+					if(me.gameserverip) { sendEventToOOG(5, "\u904A\u6232\u9032\u884C\u4E2D[IP:" + me.gameserverip.split(".")[3], 0); }
+					else { sendEventToOOG(5, "\u904A\u6232\u9032\u884C\u4E2D[\u55AE\u6A5F\u904A\u6232]", 0); }
+			}Delay(100);
+		}
+		else{
+			if(_ingame) {
+				_ingame = false;
+				sendEventToOOG(2, "", 0);
+			}
+			locationAction(controlData.getLocation());
+			Delay(100);
+		}
+	}
+}
+
+function locationAction(location) // Prints location information in Manager
+{
+	switch(location.id)
+	{
+		case 1: // Lobby
+		case 2: // Waiting In Line
+		case 3: // Lobby Chat
+		case 4: // Create Game
+		case 5: // Join Game
+		case 6: // Ladder
+		case 7: // Channel List
+		case 8: // Main Menu
+		case 9: // Login
+		case 10: // Login Error (this is a fatal error, so stop)
+		case 11: // Unable To Connect
+		case 12: // Character Select
+		case 13: // Realm Down - Character Select screen
+		case 14: // Character Select - Disconnected
+		case 15: // New Character
+		case 16: // Character Select - Please Wait popup
+		case 17: // Lobby - Lost Connection - just click okay, since we're toast anyway
+		case 18: // D2 Splash
+		case 19: // Login - Cdkey In Use
+		case 20: // Single Player - Select Difficulty
+		case 21: // Main Menu - Connecting
+		case 22: // Login - Invalid Cdkey (classic or xpac)
+		case 23: // Character Select - Connecting
+		case 24: // Server Down - not much to do but wait..
+		case 25: // Lobby - Please Wait
+		case 26: // Lobby - Game Name Exists
+		case 27: // Gateway Select
+		case 28: // Lobby - Game Does Not Exist
+			sendEventToOOG(8, location.name, 0);
+			break;
+		default:
+			//sendEventToOOG(8, "Chillin...", 0);
+			if (lastGameStatus == 1) {
+				sendEventToOOG(D2NT_MGR_PRINT_STATUS, "\u8ACB\u7A0D\u5F8C...", 0);
+				for (ftjcount=0; ftjcount<=10 && !me.ingame; ftjcount++) {
+					Delay(100)
+				}
+			}
+			if(me.playtype > 0)
+				sendEventToOOG(8, "\u904A\u6232\u9032\u884C\u4E2D[IP:" + me.gameserverip.split(".")[3] + "]", 0);
+			else
+				sendEventToOOG(8, "\u904A\u6232\u9032\u884C\u4E2D", 0);
+			break;
+	}
+}
+
+function sendEventToOOG(locationId, statusString, pendingTime)
+{ return SendCopyData("D2NT Manager", null, (locationId<<16)|pendingTime, statusString); }

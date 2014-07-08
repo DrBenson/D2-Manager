@@ -1,0 +1,314 @@
+/* =====================================================
+ *
+ * NTToolsThread.ntj , a Tools Thread script, based on ETal 1.33WW
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * NTToolsThread.ntj, 一個工具程式庫腳本, 根據 ETal 1.33WW 相容版本修訂
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+var _NTLW_timerLastDrink = new Array(5);
+var Start_Count = 0;
+var s_timeString = 0;
+var e_timeString = 0;
+
+function NTMain(){
+	Include("libs/common/NTCommon.ntl");
+	Include("libs/common/NTCubing.ntl");
+	Include("libs/common/NTUtilities.ntl");
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	var _count = 0;
+	var _LifeMax, _ManaMax;
+	var _merc;
+	var _player, _mypartyid;
+	var _time;
+	var _threshold;
+	var _ping = 0;
+
+	NT_LoadConfig();
+
+
+	_LifeMax = me.hpmax;
+	_ManaMax = me.mpmax;
+
+	if(NTConfig_LifeChicken > 0) {
+		me.chickenhp = parseInt((_LifeMax*NTConfig_LifeChicken)/100);
+	} else {
+		me.chickenhp = 0;}
+
+	if(NTConfig_ManaChicken > 0) {
+		me.chickenmp = parseInt((_ManaMax*NTConfig_ManaChicken)/100);
+	} else {
+		me.chickenmp = 0;}
+
+	for(var i = 0 ; i < 5 ; i++)
+		_NTLW_timerLastDrink[i] = 0;
+
+	while(1){
+		if(!NTC_InTown()){
+			if(_LifeMax != me.hpmax){
+				_LifeMax = me.hpmax;
+
+				if(NTConfig_LifeChicken > 0) {
+					me.chickenhp = parseInt((_LifeMax*NTConfig_LifeChicken)/100);
+				} else {
+					me.chickenhp = 0;}
+			}
+			if(_ManaMax != me.mpmax){
+				_ManaMax = me.mpmax;
+
+				if(NTConfig_ManaChicken > 0) {
+					me.chickenmp = parseInt((_ManaMax*NTConfig_ManaChicken)/100);
+				} else {
+					me.chickenmp = 0;}
+			}
+
+			// ** start etal chicken code
+			if (me.hp < parseInt(me.hpmax * NTConfig_EtalLifeChicken,10) / 100) {
+				NTU_ChickenLog("EtalLifeChicken");
+				ExitGame();
+
+				break;
+			}
+			if (me.mp < parseInt(me.mpmax * NTConfig_EtalManaChicken,10) / 100) {
+				NTU_ChickenLog("EtalManaChicken");
+				ExitGame();
+
+				break;
+			}
+			// ** end etal chicken code
+
+			if(parseInt(me.mp*100/_ManaMax) < NTConfig_ManaRejuvThresh) {
+				NTLW_DrinkPotInt(2);
+			}
+			if(parseInt(me.hp*100/_LifeMax) < NTConfig_LifeRejuvThresh) {
+				NTLW_DrinkPotInt(2);
+			}
+
+			else{
+				if(parseInt(me.hp*100/_LifeMax) < NTConfig_LifeThresh) {
+					NTLW_DrinkPotInt(0);
+				}
+				if(parseInt(me.mp*100/_ManaMax) < NTConfig_ManaThresh) {
+					NTLW_DrinkPotInt(1);
+				}
+			}
+
+			_merc = NTC_GetMerc();
+
+			if(_merc){
+				if(parseInt(_merc.hp*100/_merc.hpmax) < NTConfig_MercChicken){
+					var _area;
+					_area = GetArea();
+
+					if(_area)
+						SendCopyData("D2NT Manager", null, 7 << 16, COLOR_1 + "2\u50AD\u5175\u9003\u547D\u89F8\u767C\u767C\u751F\u65BC (" + _area.name + ")");
+
+					else
+						SendCopyData("D2NT Manager", null, 7 << 16, COLOR_1 + "2\u50AD\u5175\u9003\u547D\u89F8\u767C\u767C\u751F\u65BC (\u672A\u77E5\u5730\u5340)");
+
+					ExitGame();
+					NTU_ChickenLog("MercChicken");
+					break;
+				}
+
+				if(parseInt(_merc.hp*100/_merc.hpmax) < NTConfig_MercRejuvThresh) {
+					NTLW_DrinkPotInt(4);
+				}
+					else if(parseInt(_merc.hp*100/_merc.hpmax) < NTConfig_MercLifeThresh) {
+					NTLW_DrinkPotInt(3);
+				}
+			}
+		}
+
+		if(_count++ > 10){
+			if(NTConfig_PublicMode){
+				_player = GetPlayerUnit();
+
+				if(_player){
+					_mypartyid = _player.partyid;
+
+					while(_player.GetNext()){
+						if(me.quitonhostile){
+							if(GetPlayerFlag(me.gid, _player.gid, 9)){
+								NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_2 + "\u6AA2\u6E2C\u5230\u6575\u5C0D\u73A9\u5BB6.");
+								NTC_Delay(250);
+								ExitGame();
+							}
+						}
+						if(_player.partyid == 65535 || _player.partyid != _mypartyid){
+							if(_player.partyflag == 2){
+								me.ClickParty(_player, 2);
+								break;
+							}
+							if(_player.partyid == 65535){
+								if(_player.partyflag == 4)
+									continue;
+								me.ClickParty(_player, 2);
+							}
+						}
+					}
+				}
+			}
+
+			if(NTConfig_PartyOnlyLeader){
+				_player = GetPlayerUnit();
+				var NTLeader_LoggedFromFile = NT_File("logs/" + me.account + ".leaderName.txt", 0);
+
+				if(_player){
+					_mypartyid = _player.partyid;
+					while(_player.GetNext()){
+						if(me.quitonhostile){
+							if(GetPlayerFlag(me.gid, _player.gid, 9)){
+								NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_2 + "\u6AA2\u6E2C\u5230\u6575\u5C0D\u73A9\u5BB6.");
+								NTC_Delay(250);
+								ExitGame();
+							}
+						}
+						if((_player.name == NTConfig_Leader || _player.name == NTLeader_LoggedFromFile) && _player.partyflag == 2
+						&& (_player.partyid == 65535 || _player.partyid != _mypartyid)){
+
+						me.ClickParty(_player, 2);
+						break;
+						}
+					}
+				}
+			}
+			_count = 0;
+		}
+
+		if(NTConfig_QuitOnPing && NTConfig_PingInterval)
+		{
+			if(me.ping >= NTConfig_QuitOnPing)
+			{
+				if (Start_Count == 0) {
+					var s_now = new Date();
+					var shour = s_now.getHours();
+					var sminute = s_now.getMinutes();
+					var ssecond = s_now.getSeconds();
+					var smillisecond = s_now.getMilliseconds();
+					s_timeString = (shour * 60 * 60 * 1000) + (sminute * 60 * 1000) + (ssecond * 1000) + smillisecond;
+					Start_Count++;
+				} else {
+					var e_now = new Date();
+					var ehour = e_now.getHours();
+					var eminute = e_now.getMinutes();
+					var esecond = e_now.getSeconds();
+					var emillisecond = e_now.getMilliseconds();
+					e_timeString = (ehour * 60 * 60 * 1000) + (eminute * 60 * 1000) + (esecond * 1000) + emillisecond;
+				}
+				if ((e_timeString - s_timeString) >= (NTConfig_PingInterval * 1000)) {
+					NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_3 + "Ping\u503C\u904E\u9AD8. \u7D50\u675F\u904A\u6232.  " + COLOR_1 + "Ping:" + COLOR_4 + me.ping);
+					//NTC_Delay(250);
+					Start_Count = 0;
+					//Print("Ping:" + me.ping + "  Time:  " + (e_timeString - s_timeString));
+					ExitGame();
+					break;
+				}
+				_ping++;
+
+				if(_ping % 5 == 0)
+					Print(COLOR_1 + "Ping\u503C\u904E\u9AD8:" + COLOR_4 + me.ping + "\n");
+
+				if(_ping >= NTConfig_PingInterval*5)
+				{
+					Start_Count = 0;
+					//NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_3 + "High ping. Exiting game.");
+					//NTC_Delay(250);
+					//ExitGame();
+					//break;
+				}
+			} else
+				_ping = 0;
+				Start_Count = 0;
+		}
+		NTC_Delay(200);
+	}
+}
+
+// Internal function
+function NTLW_DrinkPotInt(type){
+	var _pottype;
+	var _result;
+	var _tNow = new Date();
+
+	if(type == 2 || type == 4){
+		if(_NTLW_timerLastDrink[type] && (_tNow-_NTLW_timerLastDrink[type] < 1000))
+			return false;
+	}
+	else{
+		if(_NTLW_timerLastDrink[type] && (_tNow-_NTLW_timerLastDrink[type] < 3000))
+			return false;
+	}
+
+	if(me.mode == 0 || me.mode == 17)
+		return false;
+
+	switch(type){
+		case 0:
+		case 3:
+			_pottype = "hp";
+			break;
+		case 1:
+			_pottype = "mp";
+			break;
+		default:
+			_pottype = "rv";
+			break;
+	}
+
+	for(var i = 0 ; i < 4 ; i++){
+		if(NTConfig_BeltColType[i] == _pottype){
+			if(type < 3)
+				_result = me.UseBelt(i);
+			else
+				_result = me.UseBelt(i, true);
+			if(_result){
+				_NTLW_timerLastDrink[type] = new Date();
+
+				return true;
+			}
+		}
+	}
+	return false;
+}
