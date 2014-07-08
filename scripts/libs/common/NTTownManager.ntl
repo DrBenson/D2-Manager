@@ -47,6 +47,7 @@
 ===================================================== */
 
 var _NTTMGR_BuyPots;
+var _NTTMGR_BuyPotsInt;
 var _NTTMGR_BuyTP;
 var _NTTMGR_BuyID;// id in field add
 var _NTTMGR_BuyKey;

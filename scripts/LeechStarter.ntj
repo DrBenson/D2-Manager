@@ -258,7 +258,10 @@ function NTMain()
 
                 if(Load("NTBot/NTBotGame.ntj"))
                 {
-                    if(!reEnterSameGame) { NT_File("logs/messagecomands/"+me.charname+"-lastgame.txt", 1, me.gamename); NT_File("logs/messagecomands/"+me.charname+"-teambo.txt", 1, " ") }	// writes current game for comparing to new game to join next time in lobby	
+                    if(!reEnterSameGame) {
+						NT_File("logs/messagecomands/"+me.charname+"-lastgame.txt", 1, me.gamename);
+						NT_File("logs/messagecomands/"+me.charname+"-teambo.txt", 1, " ")
+					}	// writes current game for comparing to new game to join next time in lobby	
 									
 					retryFL = 0; // sets the counter back to 0 upon game entry.
 					_ingame = true;
@@ -434,7 +437,7 @@ function locationAction(location)
 						found_leader = true;
 						var regOffline=/^.*(offline|desconectado|\u96E2\u7DDA).*$/gi;
 						var regInChat=/^.*(\u983B\u9053|channel|canale?)\s*(\u3014|[\w\s-]|\u3015*\w)\.?\s*$/gi;
-						var regGameName=/^.*(game|partie|spiel|partita|partida|Next_game)\s*([\w\s-]*\w)\s*\(\s[^\)]*\)\.\s*$/gi;
+						var regGameName=/^.*(game|partie|spiel|partita|partida|Next_game|new-game)\s*([\w\s-]*\w)\s*\(\s[^\)]*\)\.\s*$/gi;
 
 						if (msg.match(regOffline)
 							&& (_leaderOfflineTick < 0 || (_leaderOfflineTick + LeaderOfflineDelay) < _tick))

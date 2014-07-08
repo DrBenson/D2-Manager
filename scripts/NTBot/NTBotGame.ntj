@@ -677,6 +677,7 @@ var LeaderInGame = false;
 var return_town = me.areaid;
 var _BO = false;
 var _HP = me.hp;
+SetStatusText(COLOR_0 + Rev + COLOR_3 + "\u9032\u884C\u4E2D " + COLOR_2 + "\u5718\u6230\u5436\u558A");
 	if(LeechMode = true) {
 		//MG_PartyUp();
 		var __Player = GetPlayerUnit();
@@ -685,7 +686,7 @@ var _HP = me.hp;
 		var _player;
 		if(__Player) {
 			var _NTTMGR_DoHeal = NTT_CheckHeal();
-			if(_NTTMGR_DoHeal ) {
+			if(_NTTMGR_DoHeal) {
 				switch(me.act) {
 					case 1:
 						NTTMGR_VisitAkara();
@@ -704,10 +705,8 @@ var _HP = me.hp;
 						break;
 				}
 			}
-
 			var _msg = NT_File("logs/messagecomands/teambo.txt", 0);
 			if(_msg.indexOf(me.charname) != -1) {	// Lerder
-				SetStatusText(COLOR_0 + Rev + COLOR_3 + "\u9032\u884C\u4E2D " + COLOR_2 + "\u5718\u6230\u5436\u558A");
 				if(_msg.indexOf(me.charname) != -1) {
 					Delay(500);
 					if(!NTM_TakeWaypoint(35)){
@@ -794,44 +793,35 @@ var _HP = me.hp;
 									}
 								// } while (_player.GetNext());
 								Delay(500);
+							} else {
+								Delay(500);
+								next++;
 							}
-							next++;
 						} while (next <20);
 					}
-					NT_File("logs/messagecomands/teambo.txt", 1, me.charname);
 				}
+				NT_File("logs/messagecomands/teambo.txt", 1, me.charname);
 			} else {	// Team Member
-				//_Msg = NT_File("logs/messagecomands/"+me.charname+"-teambo.txt", 0);
-				//if(_Msg.indexOf("waipoint") != -1){
-					if(!NTM_TakeWaypoint(35)){
-						NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
-						Say("\u6211\u597D\u50CF\u6C92\u6709 \"\u5893\u7A74\u5730\u4E0B\u7B2C\u4E8C\u5C64\"\u7684\u50B3\u9001\u9EDE.");
-						NTTM_CheckAct(1);
-						NTTM_TownMove("portalspot")
-						if(!NTM_UsePortal("BluePortal", 35, NTConfig_Leader))
-							return;
-					}
-					var __x=me.x-5;
-					var __y=me.y;
-				/*
-				} else {
+				_Msg = NT_File("logs/messagecomands/"+me.charname+"-teambo.txt", 0);
+				if(!NTM_TakeWaypoint(35)){
+					NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+					Say("\u6211\u597D\u50CF\u6C92\u6709 \"\u5893\u7A74\u5730\u4E0B\u7B2C\u4E8C\u5C64\"\u7684\u50B3\u9001\u9EDE.");
 					NTTM_CheckAct(1);
 					NTTM_TownMove("portalspot")
 					if(!NTM_UsePortal("BluePortal", 35, NTConfig_Leader))
-						NTM_TakeWaypoint(35);
-					var __x=me.x;
-					var __y=me.y;
+						return;
 				}
-				*/
-				Say("! "+me.charname+ " <==== \u5831\u5230");
-				if((me.classid == NTC_CHAR_CLASS_BARBARIAN) && (me.GetSkill(149).level >= 1))	{
+				var __x=me.x-5;
+				var __y=me.y;
+				Say(me.charname +" <== \u5831\u5230" );
+				if(me.classid == NTC_CHAR_CLASS_BARBARIAN)	{
 					Say("\u5925\u4F34\u5011!! \u6211\u9592\u8457\u6C92\u4E8B\u60F3\u9B3C\u543C\u4E00\u756A. \u8981\u4F86\u53C3\u52A0\u55CE?");
 					// Say("ACT-1: Team-BO!!");
 					NT_BoPrecast(500,20);
 				} else if((me.classid == NTC_CHAR_CLASS_SORCERESS) && (me.GetSkill(52).level >= 1)) {
 					var _unit;
 					var _count = 0;
-					NTM_MoveTo(me.areaid, __x+1, __y);
+					NTM_MoveTo(me.areaid, __x, __y);
 					do {
 						_player = NTC_FindUnit(NTC_UNIT_PLAYER);
 						_unit = NTC_FindUnit(NTC_UNIT_MERC);
@@ -896,24 +886,25 @@ function NT_BoPrecast(delay, times) {
 		for(var i=0; i<times; i++) {
 			var _player = NTC_FindUnit(NTC_UNIT_PLAYER);
 			if (_player) {
-				if (GetDistance(me,_player) > 10)
-					NTM_MoveTo(me.areaid, _player.x-1, _player.y-1);
+				if(_player.name == me.charname)
+					_player.GetNext();
+				NTM_MoveTo(me.areaid, _player.x-1, _player.y-1);
 				NTP_DoPrecast();
-				Say("! \u641E\u5B9A =====> " + _player.name);
+				Say("! \u641E\u5B9A ==> " + _player.name);
 			}
 			if(delay)
 				Delay(delay);
 			else
 				Delay(500);
+			_player = null;
 		}
 	} else {
 		var _player = NTC_FindUnit(NTC_UNIT_PLAYER);
 		if (_player) {
 			//do {
-				if (GetDistance(me,_player) > 10)
-					NTM_MoveTo(me.areaid, _player.x-1, _player.y-1);
+				NTM_MoveTo(me.areaid, _player.x-1, _player.y-1);
 				NTP_DoPrecast();
-				Say("! \u641E\u5B9A =====> " + _player.name);
+				Say("! \u641E\u5B9A ==> " + _player.name);
 			//} while (_player.GetNext());
 		}
 	}

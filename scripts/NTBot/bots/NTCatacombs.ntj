@@ -121,7 +121,8 @@ function NTMain(){
 		} else {
 			if(NTConfig_PublicMode && (me.areaid == 37)) {
 				NTP_DoPrecast(true);
-				NTM_MoveTo(me.areaid, 22595, 9628);				
+				NTM_MoveTo(me.areaid, 22595, 9632);	
+				Delay(100);
 				NTA_ClearPosition(15);
 				Say("\u958B\u555F\u5B89\u5168\u50B3\u9001\u9580,\u904E\u4EFB\u52D9\u7684\u8ACB\u9032\u5834.");
 				NTC_PingDelay(200);
@@ -195,14 +196,14 @@ function NTMain(){
 			}
 		}
 		if(NTConfig_PublicMode && (me.areaid == 37)) {
-				NTP_DoPrecast(true);
-				var __x=me.x;
-				var __y=me.y;
-				NTA_ClearPosition(35);
-				Say("\u958B\u555F\u5B89\u5168\u50B3\u9001\u9580,\u904E\u4EFB\u52D9\u7684\u8ACB\u9032\u5834.");
-				NTC_PingDelay(200);
-				NTM_MoveTo(me.areaid, __x, __y);
-				NTM_MakeTP();
+			NTP_DoPrecast(true);
+			NTM_MoveTo(me.areaid, 22595, 9632);	
+			Delay(100);
+			NTA_ClearPosition(15);
+			Say("\u958B\u555F\u5B89\u5168\u50B3\u9001\u9580,\u904E\u4EFB\u52D9\u7684\u8ACB\u9032\u5834.");
+			NTC_PingDelay(200);
+			NTM_MoveTo(me.areaid, 22582, 9612);
+			NTM_MakeTP();
 		}
 		NTP_DoPrecast(true);
 		if(me.classid == NTC_CHAR_CLASS_SORCERESS){
