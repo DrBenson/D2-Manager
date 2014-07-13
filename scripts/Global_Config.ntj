@@ -1,0 +1,151 @@
+/* =====================================================
+ *
+ * Global_Config.ntj, Definition for global variable.
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Global_Config.ntj, 通用變數定義檔
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+const Lang = 'zh_TW';				// Define string language.
+Include("libs/Lang/en_US.lng");		// Load default language (Just to make sure if there are not translate for other)
+Include("libs/Lang/"+Lang+".lng");
+///////////////////////////////////////////////////
+//        characters in your game setting: 		 //
+///////////////////////////////////////////////////
+var characterdiff        =  "99"; 	//use this to keep those pesky spam bots out of the f'ing game
+									//note you must manually hit the check box the first time for this to work
+var maxNumberOfPlayersss = "8";		//use this to set the maximum number of players allowed in your game
+
+///////////////////////////////////////
+//        Channel Settings: 		 //		/ /These controll what if any channel you join
+///////////////////////////////////////
+var joinChatAfterGame			= true;			 // join chat after leaving a game
+var joinRandomChannel			= false;		 // if this is true, will join a random channel, otherwise it will use the channel below..
+var joinChannelInChat			= "Diablo II Asia-TWN-2";		 // Channel you want your bot to join, leave blank to not join a private channel
+
+///////////////////////////////////////
+//        Message Settings: 		 //		// These controll what your bot sais to the leechers will also send a log incommand to a channel bot
+///////////////////////////////////////
+var chatMessageOnJoin			= "/f l";	// Chat Message to say Login command for channel bot will only be sent once
+var chatMessageAfterGame = "";				// Message said after each game
+var chatMessageAfterGame1		= "";		// Optional chat message Line #1 to say after each game on Channel
+var chatMessageAfterGame2		= "";		// Optional chat message Line #2 to say after each game on Channel
+var chatMessageAfterGame3		= "";		// Optional chat message Line #3 to say after each game on Channel
+var chatMessageAfterGame4		= "";		// Optional chat message Line #4 to say after each game on Channel
+var chatMessageAfterGame5		= "";	// Optional chat message Line #5 to say after each game on Channel
+
+///////////////////////////////////////		// These will let you send a message with a game name password and time to your leechers
+//      Game Message Settings:       //		// var saygamename must be true for any of these to work
+///////////////////////////////////////		// You cant NOT have a - in you game name it will bug it out
+var saygamename 			= false;						// Must be true for any of the game message settings to work
+var nextgamemessage			= "Next_game";	// This will come befor your next game name eg "New game is"
+var saypassword 			= false;						// This will togle if the bot says your game pw
+var saytime 				= false;						// This will togle if the bot says how much time till creation
+var timemessage 			= "in_about";				// This will come after your pw and befor the time eg. "in about" xx seconds say time MUST be true for this to be used
+
+//////////////////////////////////////
+//       Minimum Game Length:       //
+//////////////////////////////////////
+
+var gameMinLength		= 360000;	// time in milliseconds, minimum game length, 360 seconds default (1 game/6 minutes)
+
+////////////////////////////////////////
+//        Connection Settings:        //
+////////////////////////////////////////
+
+var unableToConnectRetry	= 5;		// time in minutes to retry connecting on connection fail (real value is +/- 1 min)
+var realmDownRetry		= 6;		// time in minutes to retry connecting on a realm down (default is 300 minutes)
+var disconnectedRetry		= 5;		// time in minutes to retry on a disconnection (usually ip ban related)
+var cdkeyInUseRetry		= 5;		// time in minutes to retry on a cdkey in use error message (set to 0 to stop)
+var connectingToBnetTimeout	= 20000;	// time in milliseconds to wait for a login to time out and click cancel and retry
+var characterScreenTimeout	= 10000;	// time in milliseconds to wait for character screen to appear
+var pleaseWaitTimeout		= 10000;	// time in milliseconds to wait for a please wait popup
+var createGameThreshold		= 5000;		// time in milliseconds to wait between making games
+var createGameThresholdRandom	= 1000;		// time in milliseconds to randomly add +/- to the game create time
+var createGameTimeout		= 45000;	// time in milliseconds to register a failed to create game
+var waitInLineTimeout		= 60000;	// time in milliseconds to wait in lines for a create game (60 second default)
+var characterSelectDelay	= 1000;		// time in milliseconds to wait before selecting a character on the char screen
+var loginDelay			= 1000;		// time in milliseconds to wait before submitting login information
+var clickDelay			= 500;		// wait X milliseconds before next action after a click event
+var textDelay			= 500;		// wait X milliseconds before next action after inserting text into a textbox
+var clickDelayRandom		= 500;		// random amount of time to add to a click
+var textDelayRandom		= 500;		// random amount of time to add to a text set
+var gameDoesNotExistDelayMin	= 600000;	// how long to wait when a Game Does Not Exist occurs - minimum - default 10 minutes
+var gameDoesNotExistDelayMax	= 900000;	// how long to wait when a Game Does Not Exist occurs - maximum - default 15 minutes
+var gameDoesNotExistTimeout	= 30000;	// how long to wait for the dialog to disappear (default 30 seconds, don't change this)
+var waitBeforeEnterChatMin	= 1000;		// min how long to wait before entering chat
+var waitBeforeEnterChatMax	= 2000;		// max how long to wait before entering chat
+var waitInChatBeforeActionsMin	= 2000;		// min how long to wait before joining channel
+var waitInChatBeforeActionsMax	= 3000;		// max how long to wait before joining channel
+var waitBeforeNextLineChatMin	= 500;		// Minimum ammount of time to add after each text line
+var waitBeforeNextLineChatMax	= 1500;		// Maximum ammount of time to add after each text line
+var ftjDelay = 180;							// time to idle before trying if bot failed to join.  In seconds.
+
+// DONT EDIT ANYTHING BELOW THIS
+// =============================================================================
+// Debug : set to true if you are experiencing problems with your JoinBot
+// it will log in your OOG the lobby chat actions
+// =============================================================================
+var Debug = false;
+// D2NT Manager Command
+const D2NT_MGR_LOADING = 1;
+const D2NT_MGR_READY = 2;
+const D2NT_MGR_LOGIN = 3;
+const D2NT_MGR_CREATE_GAME = 4;
+const D2NT_MGR_INGAME = 5;
+const D2NT_MGR_RESTART = 6;
+const D2NT_MGR_CHICKEN = 7;
+const D2NT_MGR_PRINT_STATUS = 8;
+const D2NT_MGR_PRINT_LOG = 9;
+var alreadyLoggedIn = false; // will only send the login command once leave as unless you want to login everytime you join a channel
+var lastGameMade = GetTickCount();
+var lastGameStatus = 0;
+var nextGameMake = 0;
+var inGameAt = 0;
+var chatActionsDone = false;
+var lastGameFailed = false;
+var tempDelay = Random(waitBeforeNextLineChatMin, waitBeforeNextLineChatMax);
+var gameInfo = "";
+var bugignor = true;
+var ftjcount = 0;
+
