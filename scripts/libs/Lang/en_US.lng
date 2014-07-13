@@ -1,0 +1,164 @@
+/* =====================================================
+ *
+ * en_US.lng, Definition of English language
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * en_US.lng, 英文語系定義參數檔
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+
+// controlInfo.ntl
+var Lang_lobby = "Lobby";	// Game Lobby
+var Lang_lobby_WaitinginLine = "Waiting In Line";
+var Lang_lobby_serverDown = "Server Down";
+var Lang_lobby_PleaseWait = "Please Wait.."; // "Lost Connection";
+var Lang_lobby_LostConnection = "Lost Connection";
+var Lang_lobby_GameExists = "Game Already Exists";
+var Lang_lobby_GameDoesNotExist = "Game Does Not Exist";
+var Lang_lobby_Chat = "Lobby Chat";
+var Lang_lobby_Create = "Create Game";
+var Lang_lobby_Join = "Join Game";
+var Lang_lobby_Ladder = "Ladder";
+var Lang_lobby_Channel = "Channel List";
+var Lang_MainMenu = "Main Menu";
+var Lang_MainMenu_connecting = "Connecting to Battle.net";
+var Lang_D2Splash = "D2 Splash";
+var Lang_Login = "Login";
+var Lang_Login_LginError = "Login Error";
+var Lang_Login_UnableToConnect = "Unable To Connect";
+var Lang_Login_cdkeyInUse = "Cdkey In Use";
+var Lang_Login_InvalidCdkey = "Invalid Cdkey";
+var Lang_CharacterSelect = "Character Select";
+var Lang_CharacterCreate = "Character Create";
+var Lang_CharacterCreate_NameExists = "Name Exists";
+var Lang_CharacterSelect_RealmDown = "Realm Down";
+var Lang_CharacterSelect_Connecting = "Connecting..";
+var Lang_CharacterSelect_Disconnected = "Disconnected";
+var Lang_CharacterSelect_Difficulty = "Select Difficulty";
+var Lang_NewCharacter = "New Character";
+var Lang_CharacterSelect_PleaseWait = "Please Wait";
+var Lang_Gateway = "Select Gateway";
+var Lang_TermsOfUse = "Terms Of Use";
+var Lang_NewAccount = "Create New Account";
+var Lang_EMail = "Register Email";
+var Lang_EMail_Confirm = "Confirm No Email";
+
+// NTBot.ntj
+var Lang_InGame = "In Game";
+var Lang_SinglePlayer = "[Single]";
+var Lang_FJTdetected_Idling = "FJT detected .. Idling";
+var Lang_Seconds = " seconds";
+var Lang_Day = "Day ";
+var Lang_Hour = "Hour ";
+var Lang_Minute = "Minute ";
+var Lang_Second = "s\"";
+
+// LeaderStarter.ntj
+var Lang_Bad_AccountOrPass = "Bad Account or PW Entered .. Idling";
+var Lang_PleaseWait = "Please wait ..";
+var Lang_UnknowLocation = "Unhandle location";
+var Lang_Location = "Location";
+
+// LeechStarter.ntj
+var Lang_Locating_Leader = "Locating the leader : ";
+var Lang_Found_Leader = "Found Leader: ;";
+var Lang_Game_Name = "Game Name: ;";
+var Lang_Leader = "Leader";
+var Lang_Delay = "delay ";
+var Lang_ToNextGame = "to next game";
+var Lang_In = " in ";
+var Lang_NotIn = " not in ";
+var Lang_MyFriendList = "my friend list";
+var Lang_CanNotRead = "Can not read ";
+var Lang_ChatMessage = "CHAT message";
+var Lang_Game = "game";
+var Lang_NoGameToJoin = "No game to join";
+var Lang_Cancelling = "Cancelling..";
+var Lang_Idling = "Idling";
+var Lang_Status = "Status ";
+var Lang_Error = "Error";
+var Lang_LoggerInitFail = "Logger failed to initialize";
+var Lang_NTConfig_FreeSpace_0 = "Please don't forget to set NTConfig_FreeSpace in your character config to avoid your inv filling";
+var Lang_ItemConfig_Error = "Exiting Game- Either no inventory on character or invalid NIP filename/path in character configuration";
+var Lang_NoPassword = "No password found exiting game";
+var Lang_Running = "Running ";
+var Lang_CanNotFind_Leader = "Could not find Leader!";
+var Lang_WrongSpell = "You might have wrong spelled or case sensitive.";
+var Lang_OrLeaderNotInGame = "Or leader is not in game.";
+var Lang_CheckOut = "Check out ";
+var Lang_ThisGameShouldBeHaveLeader = "for possible leader names from this game.";
+var Lang_WaitForSOJ = "Waiting for SoJ sales.. ";
+var Lang_GameNotInHell_NotWaitCD = "Not waiting for DClone - not in a hell game";
+var Lang_Pause = "Pause ";
+var Lang_Stop = "Stop ";
+var Lang_BackTo = "Back To ";
+var Lang_Stoped = "Stoped ";
+var Lang_SkipTo = "Skip to ";
+var Lang_NewCoord = "New Coord ";
+var Lang_CalcGameResult = "Calculating stats for game!";
+var Lang_SendGameResultToMGR = "Send the game result to manager!";
+var Lang_CheckenRun_Tirgger = "Checnek run ";
+var Lang_HealthValue = "Health value";
+var Lang_ManaValue = "Mana value";
+var Lang_Enable = "Enable";
+var Lang_NotEnable = "Not Enable";
+var Lang_UnknowArea = "Unknow area";
+var Lang_NIPConfig_Error = "You have an error in your character configuration file";
+var Lang_FixBeforeRunBOT = "You MUST fix it before the bot will run";
+var Lang_NIPConfigError_2 = "Go to http://d2-manager.bensontech.net/";
+var Lang_NIPConfigError_3 = "Then find the First Time Configuration Guide";
+var Lang_NIPConfigError_4 = "READ THE GUIDE VERY CLOSELY BEFORE POSTING ON THE FORUMS";
+var Lang_Lang_TeamBo = "Leech Battle-Order";
+
+
+
+
+
+
+
+
+
+
+
+
+

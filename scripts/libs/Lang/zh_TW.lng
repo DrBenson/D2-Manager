@@ -1,0 +1,165 @@
+/* =====================================================
+ *
+ * zh_TW.lng, Definition of Tradition Chinese language
+ *
+ * Any original code is licensed under the BSD license
+ * All code written since the fork of this is licensed under the GPL
+ * Please see COPYING for details
+ *
+ * Copyright (c) 2014, Benson's Network Technolygy Company.
+ * Copyright (c) 1976-2014 Benson's Network Technolygy Company.
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * zh_TW.lng, 繁體中文語系定義參數檔
+ *
+ * 任何原代碼在BSD許可證下授權
+ * 自本次寫的所有代碼以GPL許可
+ * 請參閱COPYING的詳細信息
+ *
+ * 版權所有(c) 2014年, Benson's Network Technolygy Company.
+ * 版權所有(c) 1976至2014 Benson's Network Technolygy Company.
+ * 保留所有權利。
+ *
+ * 本程序是自由軟件：您可以重新分配和/或修改
+ * 它根據GNU通用公共許可證的條款發表
+ * 自由軟件基金會，無論是版本3的使用授權，或
+ * (由你選擇) 任何更新的版本。
+ *
+ * 本程序分發的目的是希望它有用，
+ * 但"沒有任何擔保"; 甚至沒有暗示的保證
+ * 適銷性或針對特定用途。請參閱
+ * GNU通用公共許可證以獲得更多細節。
+ * 你應該已經收到一份GNU通用公共許可證的副本
+ * 隨著這一計劃。如果不是，請參閱<http://www.gnu.org/licenses/>。
+ *
+===================================================== */
+
+// controlInfo.ntl
+var Lang_lobby = "\u904A\u6232\u5927\u5EF3";								// 遊戲大廳
+var Lang_lobby_WaitinginLine = "\u7B49\u5F85\u5E8F\u5217\u4E2D";			// 等待序列中
+var Lang_lobby_serverDown = "\u4F3A\u670D\u5668\u95DC\u6A5F";				// 伺服器關機
+var Lang_lobby_PleaseWait = "\u8ACB\u7A0D\u5F85.."; 						// 請稍待.."Lost Connection";
+var Lang_lobby_LostConnection = "\u5931\u53BB\u9023\u7DDA";					// 失去連線
+var Lang_lobby_GameExists = "\u5DF2\u6709\u6B64\u904A\u6232\u540D\u7A31";	// 已有此遊戲名稱
+var Lang_lobby_GameDoesNotExist = "\u904A\u6232\u4E0D\u5B58\u5728";			// 遊戲不存在
+var Lang_lobby_Chat = "\u804A\u5929\u983B\u9053";							// 聊天頻道
+var Lang_lobby_Create = "\u5EFA\u7ACB\u904A\u6232";							// 建立遊戲
+var Lang_lobby_Join = "\u52A0\u5165\u904A\u6232";							// 加入遊戲
+var Lang_lobby_Ladder = "\u5929\u68AF";										// 天梯
+var Lang_lobby_Channel = "\u804A\u5929\u983B\u9053\u5217\u8868";			// 聊天頻道列表
+var Lang_MainMenu = "\u4E3B\u9078\u55AE";									// 主選單
+var Lang_MainMenu_connecting = "\u9023\u7DDA\u5230 Battle.net \u6230\u7DB2";// 連線到 Battle.net 戰網
+var Lang_D2Splash = "\u6697\u9ED1\u7834\u58DE\u795E\u8D77\u59CB\u52D5\u756B";// 暗黑破壞神起始動畫
+var Lang_Login = "\u767B\u5165";											// 登入
+var Lang_Login_LginError = "\u767B\u5165\u932F\u8AA4";						// 登入錯誤
+var Lang_Login_UnableToConnect = "\u7121\u6CD5\u9023\u7DDA";				// 無法連線
+var Lang_Login_cdkeyInUse = "Cdkey \u4F7F\u7528\u4E2D";						// Cdkey 使用中
+var Lang_Login_InvalidCdkey = "Cdkey \u932F\u8AA4";							// Cdkey 錯誤
+var Lang_CharacterSelect = "\u9078\u64C7\u904A\u6232\u89D2\u8272";			// 選擇遊戲角色
+var Lang_CharacterCreate = "\u5EFA\u7ACB\u904A\u6232\u89D2\u8272";			// 建立遊戲角色
+var Lang_CharacterCreate_NameExists = "\u904A\u6232\u9818\u57DF\u5DF2\u6709\u6B64\u89D2\u8272\u540D\u7A31";	// 遊戲領域已有此角色名稱
+var Lang_CharacterSelect_RealmDown = "\u904A\u6232\u9818\u57DF\u95DC\u6A5F";// 遊戲領域關機
+var Lang_CharacterSelect_Connecting = "\u9023\u7DDA\u4E2D..";				// 連線中..
+var Lang_CharacterSelect_Disconnected = "\u96E2\u7DDA";						// 離線
+var Lang_CharacterSelect_Difficulty = "\u9078\u64C7\u904A\u6232\u96E3\u6613\u5EA6";	// 選擇遊戲難易度
+var Lang_NewCharacter = "\u65B0\u904A\u6232\u89D2\u8272";					// 新遊戲角色
+var Lang_CharacterSelect_PleaseWait = "\u8ACB\u7A0D\u5F85..";				// 請稍待..
+var Lang_Gateway = "\u9078\u64C7\u9598\u9053";								// 選擇閘道
+var Lang_TermsOfUse = "\u4F7F\u7528\u689D\u6B3E";							// 使用條款
+var Lang_NewAccount = "\u5EFA\u7ACB\u65B0\u5E33\u865F";						// 建立新帳號
+var Lang_EMail = "\u8A3B\u518A\u96FB\u5B50\u90F5\u7BB1";					// 註冊電子郵箱
+var Lang_EMail_Confirm = "\u78BA\u8A8D\u4E0D\u8A3B\u518A\u96FB\u5B50\u90F5\u7BB1";	// 確認不註冊電子郵箱
+
+// NTBot.ntj
+var Lang_InGame = "\u904A\u6232\u9032\u884C\u4E2D";							// 遊戲進行中
+var Lang_SinglePlayer = "[\u55AE\u6A5F\u904A\u6232]";						// 單機遊戲
+var Lang_FJTdetected_Idling = "\u5075\u6E2C\u5230\u52A0\u5165\u904A\u6232\u5931\u6557 .. \u9592\u7F6E";	// 偵測到加入遊戲失敗 .. 閒置
+var Lang_Seconds = " \u79D2";												// 秒
+var Lang_Day = "\u5929 ";													// 天 
+var Lang_Hour = "\u5C0F\u6642 ";											// 小時
+var Lang_Minute = "\u5206 ";												// 分
+var Lang_Second = "\u79D2";													// 秒
+
+// LeaderStarter.ntj
+var Lang_Bad_AccountOrPass = "\u5E33\u865F\u6216\u5BC6\u78BC\u8F38\u5165\u932F\u8AA4 .. \u9592\u7F6E";	// 帳號或密碼輸入錯誤 .. 閒置
+var Lang_PleaseWait = "\u8ACB\u7A0D\u5F85 ..";								// 請稍待 ..
+var Lang_UnknowLocation = "\u672A\u77E5\u5340\u57DF";						// 未知區域
+var Lang_Location = "\u5340\u57DF";											// 區域
+
+// LeechStarter.ntj
+var Lang_Locating_Leader = "\u5C0B\u627E\u9818\u968A: ";					// 尋找領隊: 
+var Lang_Found_Leader = "\u767C\u73FE\u9818\u968A: ;";						// 發現領隊 :;
+var Lang_Game_Name = "\u904A\u6232\u540D\u7A31: ;";							// 遊戲名稱 :;
+var Lang_Leader = "\u9818\u968A";											// 領隊
+var Lang_Delay = "\u5EF6\u9072";											// 延遲
+var Lang_ToNextGame = "\u5230\u4E0B\u4E00\u5834";							// 到下一場
+var Lang_In = "\u5728";														// 在
+var Lang_NotIn = "\u4E0D\u5728";											// 不在
+var Lang_MyFriendList = "\u6211\u7684\u670B\u53CB\u6E05\u55AE";				// 我的朋友清單
+var Lang_CanNotRead = "\u7121\u6CD5\u8B80\u53D6";							// 無法讀取
+var Lang_ChatMessage = "\u804A\u5929\u8A0A\u606F";							// 聊天訊息
+var Lang_Game = "\u904A\u6232";												// 遊戲
+var Lang_NoGameToJoin = "\u6C92\u6709\u904A\u6232\u53EF\u53C3\u52A0";		// 沒有遊戲可參加
+var Lang_Cancelling = " \u53D6\u6D88\u4E2D..";								// 取消中..
+var Lang_Idling = "\u9592\u7F6E";											// 閒置
+
+// NTBotGame.ntj
+var Lang_Error = "\u932F\u8AA4";											// 錯誤
+var Lang_LoggerInitFail = "\u7121\u6CD5\u555F\u52D5\u8A18\u9304\u7A0B\u5E8F";	// 無法啟動記錄程序
+var Lang_NTConfig_FreeSpace_0 = "\u8ACB\u4E0D\u8981\u5FD8\u8A18\u8A2D\u7F6E\u5728\u4F60\u7684\u89D2\u8272\u7684\u914D\u7F6E\u53C3\u6578\u6A94\u88E1\u7684 NTConfig_FreeSpace \u53C3\u6578\u503C, \u907F\u514D\u60A8\u7684\u5EAB\u5B58\u6EA2\u6EFF.";	// 請不要忘記設置在你的角色的配置參數檔裡的 NTConfig_FreeSpace 參數值, 避免您的庫存溢滿
+var Lang_ItemConfig_Error = "\u9000\u51FA\u904A\u6232\uFF0C\u5728\u89D2\u8272\u53C3\u6578\u6A94\u6C92\u6709\u8A2D\u5B9A\u5EAB\u5B58\u8A2D\u7F6E \u8A5E\u8A9E,\u6216\u7121\u6548NIP\u6587\u4EF6\u540D/\u8DEF\u5F91.";	// 退出遊戲，在角色參數檔沒有設定庫存設置 詞語,或無效NIP文件名/路徑.
+var Lang_NoPassword = "\u6C92\u8A2D\u5B9A\u5BC6\u78BC- \u96E2\u958B\u904A\u6232";	// 沒設定密碼- 離開遊戲
+var Lang_CanNotFind_Leader = "\u627E\u4E0D\u5230\u9818\u968A!";				// 找不到領隊!
+var Lang_WrongSpell = "\u4F60\u53EF\u80FD\u6709\u62FC\u5BEB\u6216\u5927\u5C0F\u5BEB\u932F\u8AA4";	// 你可能有拼寫或大小寫錯誤
+var Lang_OrLeaderNotInGame = "\u6216\u662F\u9818\u968A\u4E0D\u5728\u904A\u6232\u4E2D.";	//或是領隊不在遊戲中.
+var Lang_CheckOut = "\u6AA2\u67E5";											// 檢查
+var Lang_ThisGameShouldBeHaveLeader = "\u9019\u5834\u904A\u6232\u4E2D\u61C9\u8A72\u6709\u7684\u9818\u968A\u89D2\u8272\u540D\u7A31.";	// 這場遊戲中應該有的領隊角色名稱
+var Lang_WaitForSOJ = "\u7B49\u5F85\u518D\u6B21\u8CE3\u51FA\u55AC\u4E39\u4E4B\u77F3.. ";	// 等待再次賣出喬丹之石..
+var Lang_GameNotInHell_NotWaitCD = "\u4E0D\u6703\u7B49\u5F85\u5730\u8868\u6697\u9ED1\u51FA\u73FE - \u904A\u6232\u4E0D\u5728\u5730\u7344\u6A21\u5F0F";	// 不會等待地表暗黑出現 - 遊戲不在地獄模式
+var Lang_Status = "\u4EFB\u52D9\u72C0\u614B ";								// 任務狀態
+var Lang_Running = "\u9032\u884C\u4E2D ";									// 進行中
+var Lang_Pause = "\u66AB\u505C ";											// 暫停
+var Lang_Stop = "\u505C\u6B62 ";											// 停止
+var Lang_BackTo = "\u56DE\u5230 ";											// 回到
+var Lang_Stoped = "\u5DF2\u505C\u6B62 ";									// 已停止
+var Lang_SkipTo = "\u7565\u904E\u5230 ";									// 略過到
+var Lang_NewCoord = "\u65B0\u5750\u6A19";									// 新坐標
+var Lang_CalcGameResult = "\u7D71\u8A08\u904A\u6232\u7684\u7D50\u679C!";	// 統計遊戲的結果!
+var Lang_SendGameResultToMGR = "\u76EE\u524D\u7684\u904A\u6232\u7D50\u679C\u767C\u9001\u5230\u7BA1\u7406\u5668\u8A18\u9304!";	// 目前的遊戲結果發送到管理器記錄!
+var Lang_CheckenRun_Tirgger = "\u9003\u547D\u89F8\u767C";					// 逃命觸發 
+var Lang_HealthValue = "\u751F\u547D\u503C";								// 生命值
+var Lang_ManaValue = "\u6CD5\u529B\u503C";									// 法力值
+var Lang_Enable = "\u555F\u7528";											// 啟用
+var Lang_NotEnable = "\u672A\u555F\u7528";									// 未啟用
+var Lang_UnknowArea = "\u4E0D\u660E\u5730\u5340";							// 不明地區
+var Lang_NIPConfig_Error = "\u4F60\u7684\u904A\u6232\u89D2\u8272\u53C3\u6578\u8A2D\u5B9A\u6A94\u6709\u932F\u8AA4\u767C\u751F";	// 你的遊戲角色參數設定檔有錯誤發生
+var Lang_FixBeforeRunBOT = "\u5728BOT\u80FD\u9032\u884C\u4E4B\u524D\u4F60\u5FC5\u9808\u4FEE\u5FA9\u5B83";	// 在BOT能進行之前你必須修復它
+var Lang_NIPConfigError_2 = "\u8ACB\u524D\u5F80\u7DB2\u7AD9 http://d2-manager.bensontech.net/";	// 請前往網站 http://d2-manager.bensontech.net/
+var Lang_NIPConfigError_3 = "\u7136\u5F8C\u5C0B\u627E\u89D2\u8272\u9996\u6B21\u914D\u7F6E\u6307\u5357";	//然後尋找角色首次配置指南
+var Lang_NIPConfigError_4 = "\u65BC\u8AD6\u58C7\u767C\u8868\u8A00\u8AD6\u524D\u8ACB\u975E\u5E38\u4ED4\u7D30\u7684\u95B1\u8B80\u7248\u898F";	// 於論壇發表言論前請非常仔細的閱讀版規
+var Lang_TeamBo = "\u5718\u6230\u5436\u558A";								// 團戰吶喊
+
+
+
+
+
+
+
+
+
+
+
+
+
