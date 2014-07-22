@@ -1,6 +1,6 @@
 /* =====================================================
  *
- * NTUtilities.ntl , a utility function call script, based on ETal 1.33WW
+ * NTUtilities.ntl , a utility function call script
  *
  * Any original code is licensed under the BSD license
  * All code written since the fork of this is licensed under the GPL
@@ -22,7 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * NTUtilities.ntl, 一個工具功能呼叫腳本, 根據 ETal 1.33WW 相容版本修訂
+ * NTUtilities.ntl, 一個工具功能呼叫腳本
  *
  * 任何原代碼在BSD許可證下授權
  * 自本次寫的所有代碼以GPL許可
@@ -86,7 +86,7 @@ function NTU_CheckMyStats()
 		if(me.GetStat(146 || 147) > 0) { StatLogMang += COLOR_4 + "\u9B54\u6CD5\u5438\u6536: " + COLOR_8 + me.GetStat(146) + "(" + me.GetStat(147) + ")" + "\n"; }
 		if(me.GetStat(148 || 149) > 0) { StatLogMang += COLOR_4 + "\u51B0\u51B7\u5438\u6536: " + COLOR_3 + me.GetStat(148) + "(" + me.GetStat(149) + ")" + "\n"; }
 		if(me.GetStat(153) == 1) { StatLogMang += COLOR_3 + " \u7121\u6CD5\u51B0\u51CD!" + "\n"; }
-		StatLogMang += COLOR_1 + "--------------------------------" + "\n";
+		StatLogMang += COLOR_1 + "--------------------------------";
 	NTC_SendLogToOOG(NTC_LOG_COMMON, StatLogMang);
 	Print(COLOR_2 + "[" + COLOR_3 + me.name + COLOR_2 + "] \u7684\u5C6C\u6027\u72C0\u614B\u5DF2\u767C\u5230\u7BA1\u7406\u5668\u7D00\u9304!");
 
@@ -125,7 +125,7 @@ function NTU_CheckMyStats()
 			if(Merc.GetStat(146 || 147) > 0) { MercStatMgr += COLOR_4 + "\u9B54\u6CD5\u5438\u6536: " + COLOR_8 + Merc.GetStat(146) + "(" + Merc.GetStat(147) + ")" + "\n"; }
 			if(Merc.GetStat(148 || 149) > 0) { MercStatMgr += COLOR_4 + "\u51B0\u51B7\u5438\u6536: " + COLOR_3 + Merc.GetStat(148) + "(" + Merc.GetStat(149) + ")" + "\n"; }
 			if(Merc.GetStat(153) == 1) { MercStatMgr += COLOR_3 + Merc.name + " \u7121\u6CD5\u51B0\u51CD!" + "\n"; }
-			MercStatMgr += COLOR_1 + "--------------------------------" + "\n";
+			MercStatMgr += COLOR_1 + "--------------------------------";
 		NTC_SendLogToOOG(NTC_LOG_COMMON, MercStatMgr);
 		Print(COLOR_2 + "\u50AD\u5175["+ COLOR_4 + Merc.name + COLOR_2 + "]\u7684\u5C6C\u6027\u72C0\u614B\u5DF2\u767C\u5230\u7BA1\u7406\u5668\u7D00\u9304!");
 	}
@@ -176,7 +176,7 @@ function Key_HotList()
 	HotKeys += COLOR_2 + "[" + WhichHotKey(Do_MyChicken) + "]" + COLOR_4 + " \u986F\u793A\u4F60\u7684\u9003\u547D\u6578\u503C HP/MP" + "\n";
 	HotKeys += COLOR_2 + "[" + WhichHotKey(Do_AntiIdle) + "]" + COLOR_4 + " \u9632\u9592\u7F6E\u529F\u80FD \u958B/\u95DC" + COLOR_1 + "/\u5DF2\u7981\u7528\u65BCBOT\u6A21\u5F0F" +"\n";
 	HotKeys += COLOR_2 + "[" + WhichHotKey(Do_ExitGame) + "]" + COLOR_4 + " \u624B\u52D5\u5F37\u5236\u96E2\u958B\u76EE\u524D\u904A\u6232" + "\n";
-	HotKeys += COLOR_1 + "---------------------------------------------------" + "\n";
+	HotKeys += COLOR_1 + "---------------------------------------------------";
 	NTC_SendLogToOOG(NTC_LOG_COMMON, HotKeys);
 	Print(COLOR_1 + "\u71B1\u9375\u5217\u8868\u5DF2\u50B3\u9001\u5230\u4F60\u7684\u904A\u6232\u7BA1\u7406\u5668!");
 }
@@ -1703,19 +1703,233 @@ function NTU_GetNearbyMonsters(_range) {
 	return _nearbyMonsters;
 }
 
-/*function NTU_LogPrintSimple(filepath, mesg, printareaid){ // will eventually conbine the log print functions, but for now.....
+function LeechBo_First()
+{
+// Leech Bo script
+LeechMode = true;
+var LeaderInGame = false;
+var return_town = me.areaid;
+var _BO = false;
+var _HP = me.hp;
+var next = 0;
+var _MyPartyid;
+var __x;
+var __y;
+SetStatusText(COLOR_0 + Rev + COLOR_3 + Lang_Running + COLOR_2 + Lang_TeamBo);
+	var __Player = GetPlayerUnit();
+	var _BAR = 'none';
+	var j=__Player.length;
+	var _player;
+	if(__Player) {	// Wait for team-member join this game.
+		var _NTTMGR_DoHeal = NTT_CheckHeal();
+		if(_NTTMGR_DoHeal) {
+			switch(me.act) {
+				case 1:
+					NTTMGR_VisitAkara();
+					break;
+				case 2:
+					NTTMGR_VisitFara();
+					break;
+				case 3:
+					NTTMGR_VisitOrmus();
+					break;
+				case 4:
+					NTTMGR_VisitJamella();
+					break;
+				case 5:
+					NTTMGR_VisitMalah();
+					break;
+			}
+		}
+		var _msg = NT_File("logs/messagecomands/teambo.txt", 0);
+		if(_msg && (_msg.indexOf(me.charname) != -1)) {	// Lerder
+			Delay(500);
+			if(!NTM_TakeWaypoint(35)){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+				return;
+			}
+			Delay(3000);
+			// Check if BARBARIAN exist
+			_MyPartyid = __Player.partyid;
+			while(__Player.GetNext()){
+				if(__Player.partyid == _MyPartyid) {
+					// Player already join. check level.
+					if((__Player.classid == NTC_CHAR_CLASS_BARBARIAN) && (__Player.level >= 30))
+						_BAR = __Player.name;
+				}
+				if((__Player.name == NTConfig_Leader) && (__Player.name != me.charname))
+					LeaderInGame = true;
+			}
+			__x=me.x;
+			__y=me.y;
+			if(me.classid == NTC_CHAR_CLASS_BARBARIAN) {
+				Say("\u5925\u4F34\u5011!! \u6211\u9592\u8457\u6C92\u4E8B\u60F3\u9B3C\u543C\u4E00\u756A. \u8981\u4F86\u53C3\u52A0\u55CE?");
+				Say("ACT-1: Team-BO!!");
+				NT_File("logs/messagecomands/teambo.txt", 1, me.charname+"\n"+"waypoint")
+				NTM_MoveTo(me.areaid, __x+5, __y);
+				NTM_MakeTP();
+				Delay(500);
+				NT_BoPrecast(500,20);
+			} else if((me.classid == NTC_CHAR_CLASS_SORCERESS) && (me.GetSkill(52).level >= 1)) {
+				NTM_MoveTo(me.areaid, __x+5, __y);
+				NTM_MakeTP();
+				NT_DoEnchant(20);
+			} else {
+				NTM_MoveTo(me.areaid, __x+5, __y);
+				var _bostr = " \u6C92\u4E8B\u4F86\u9B3C\u53EB\u5E7E\u8072\u5427!!";
+				if(_BAR != 'none') {
+					Say("\u91CE\u4EBA: ["+_BAR + "]"+ _bostr);
+				}
+				else {
+					Say(_bostr);
+				}
+				Delay(100);
+				NT_File("logs/messagecomands/teambo.txt", 1, me.charname+"\n"+"waypoint");
+				NTM_MakeTP();
+				Say("ACT-1: Team-BO!!");
+				next = 0;
+				do {
+					if(me.hp > _HP) {
+						Delay(500);
+						Say("! \u7070\u718A\u809D\u90AA\u7C92\u5566!!");
+						Delay(5000);
+						_BO = true;
+						next = 25;
+					}
+					else {
+						Delay(800);
+						next++;
+					}
+				} while (next <20);
+			}
+			NT_File("logs/messagecomands/teambo.txt", 1, me.charname);
+		} else {	// Team Member
+			_Msg = NT_File("logs/messagecomands/"+me.charname+"-teambo.txt", 0);
+			if(!NTM_TakeWaypoint(35)){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+				Say("\u6211\u597D\u50CF\u6C92\u6709 \"\u5893\u7A74\u5730\u4E0B\u7B2C\u4E8C\u5C64\"\u7684\u50B3\u9001\u9EDE.");
+				NTTM_CheckAct(1);
+				NTTM_TownMove("portalspot")
+				if(!NTM_UsePortal("BluePortal", 35, NTConfig_Leader))
+					return;
+			}
+			__x=me.x;
+			__y=me.y;
+			if(me.classid == NTC_CHAR_CLASS_BARBARIAN)	{
+				Say("\u5925\u4F34\u5011!! \u6211\u9592\u8457\u6C92\u4E8B\u60F3\u9B3C\u543C\u4E00\u756A. \u8981\u4F86\u53C3\u52A0\u55CE?");
+				Say("ACT-1: Team-BO!!");
+				NT_File("logs/messagecomands/teambo.txt", 1, me.charname+"\n"+"waypoint")
+				NTM_MoveTo(me.areaid, __x+5, __y);
+				Delay(500);
+				NT_BoPrecast(500,20);
+				NT_File("logs/messagecomands/teambo.txt", 1, " ")
+			} else if((me.classid == NTC_CHAR_CLASS_SORCERESS) && (me.GetSkill(52).level >= 1)) {
+				NTM_MoveTo(me.areaid, __x+5, __y);
+				NT_DoEnchant(20);
+			} else {
+				NTM_MoveTo(me.areaid, __x+5, __y);
+				Delay(100);
+				next = 0;
+				do {
+					if(me.hp > _HP) {
+						Delay(500);
+						Say("! \u7070\u718A\u809D\u90AA\u7C92\u5566!!");
+						Delay(5000);
+						_BO = true;
+						next = 25;
+					}
+					else {
+						Delay(500);
+						next++;
+					}
+				} while (next <20);
+			}
+			NT_File("logs/messagecomands/"+me.charname+"-teambo.txt", 1, " ");
+		}
+	}
+	if(!NTM_TakeWaypoint(return_town)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+		return;
+	}
+	NTTMGR_TownManager();
+	Delay(2000);
+// END of Leech Bo script
+}
 
-	if(arguments.length < 3 || printareaid)
-		var _Myarea = GetArea();
-	else if(!printareaid)
-		var _Myarea = "";
-	var _filepath = filepath;
-	var _mesg = mesg;
+function NT_BoPrecast(delay, times) {
+	if(times) {
+		for(var i=0; i<times; i++) {
+			var _player = NTC_FindUnit(NTC_UNIT_PLAYER);
+			if (_player) {
+				if(_player.name == me.charname)
+					_player.GetNext();
+				NTM_MoveTo(me.areaid, _player.x-1, _player.y-1);
+				Delay(200);
+				NTP_DoPrecast();
+				if(_player.name != me.charname && _player.name != 'undefined')
+					Say("! \u641E\u5B9A ==> " + _player.name);
+			}
+			if(delay)
+				Delay(delay);
+			else
+				Delay(500);
+			_player = null;
+		}
+	} else {
+		var _player = NTC_FindUnit(NTC_UNIT_PLAYER);
+		if (_player) {
+			//do {
+				NTM_MoveTo(me.areaid, _player.x-1, _player.y-1);
+				NTP_DoPrecast();
+				if(_player.name != me.charname && _player.name != 'undefined')
+					Say("! \u641E\u5B9A ==> " + _player.name);
+			//} while (_player.GetNext());
+		}
+	}
+}
 
-	var date = new Date().toLocaleFormat("<%a, %b %d, %H:%M>");
-	var logfile = FileOpen(_filepath, 2); // opens file
-	if(!logfile)
-		var logfile = FileOpen(_filepath, 1); // if file not there then creates it
-	logfile.WriteLine(date + " " + _mesg + "\u5730\u5340[" + _Myarea.name + "]");
-	logfile.Close();
-}*/
+function NT_DoEnchant(count)
+{
+	var _player;
+	var _EN = false;
+	var _count = 0;
+	var _CountEnd = 20;
+	if(count) _CountEnd = count;
+	do {
+		_player = NTC_FindUnit(NTC_UNIT_PLAYER);
+		_unit = NTC_FindUnit(NTC_UNIT_MERC);
+		if (_player) {
+			do {
+				if (GetDistance(me, _player) < 35) {
+					NTC_CastSkill(52, NTC_HAND_RIGHT, _player);
+				}
+				if (_unit) {
+					if (GetDistance(me, _unit) < 35) {
+						NTC_CastSkill(52, NTC_HAND_RIGHT, _unit);
+					}
+				}
+				_count++;
+				if(_count >= _CountEnd) {
+					_EN = true;
+				}
+			} while (_player.GetNext());
+			Delay(500);
+		}
+	} while (!_EN);
+}
+
+function NT_DoEnchantMerc()
+{
+	var _unit;
+		_unit = NTC_FindUnit(NTC_UNIT_MERC);
+	if (_unit)
+	{
+		do
+		{
+			if (GetDistance(me, _unit) < 35)
+			{
+				NTC_CastSkill(52, NTC_HAND_RIGHT, _unit);
+			}
+		} while (_unit.GetNext());
+	}
+}
